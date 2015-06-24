@@ -24,15 +24,11 @@ DROP TABLE IF EXISTS `book`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `book` (
   `book_Id` int(9) NOT NULL AUTO_INCREMENT,
-  `book_Title` varchar(32) NOT NULL,
-  `book_Subtitle` varchar(32) NOT NULL,
+  `book_Name` varchar(32) NOT NULL,
   `book_Isbn` varchar(20) NOT NULL,
+  `book_Author` varchar(64) NOT NULL,
   `book_Publisher` varchar(64) NOT NULL,
-  `book_ImageUrl` varchar(128) NOT NULL,
-  `book_Summary` text NOT NULL,
-  `book_Amount_Available` int(2) NOT NULL,
-  `book_Amount_Total` int(2) NOT NULL,
-  `book_PublishDate` date NOT NULL,
+  `book_Count` int(2) NOT NULL,
   PRIMARY KEY (`book_Id`),
   UNIQUE KEY `book_Id_UNIQUE` (`book_Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='	';
@@ -45,33 +41,6 @@ CREATE TABLE `book` (
 LOCK TABLES `book` WRITE;
 /*!40000 ALTER TABLE `book` DISABLE KEYS */;
 /*!40000 ALTER TABLE `book` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `book_author`
---
-
-DROP TABLE IF EXISTS `book_author`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `book_author` (
-  `book_Author_Id` int(9) NOT NULL AUTO_INCREMENT,
-  `book_Id` int(9) NOT NULL,
-  `author` varchar(64) NOT NULL,
-  PRIMARY KEY (`book_Author_Id`),
-  UNIQUE KEY `book_Author_Id_UNIQUE` (`book_Author_Id`),
-  KEY `book_Id_idx` (`book_Id`),
-  CONSTRAINT `book_Id` FOREIGN KEY (`book_Id`) REFERENCES `book` (`book_Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `book_author`
---
-
-LOCK TABLES `book_author` WRITE;
-/*!40000 ALTER TABLE `book_author` DISABLE KEYS */;
-/*!40000 ALTER TABLE `book_author` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -279,13 +248,10 @@ DROP TABLE IF EXISTS `wish`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `wish` (
   `wish_Id` int(9) NOT NULL AUTO_INCREMENT,
-  `wish_Title` varchar(32) NOT NULL,
-  `wish_Subtitle` varchar(32) NOT NULL,
+  `wish_Name` varchar(32) NOT NULL,
   `wish_Isbn` varchar(20) NOT NULL,
+  `wish_Author` varchar(64) NOT NULL,
   `wish_Publisher` varchar(64) NOT NULL,
-  `wish_PublishDate` date NOT NULL,
-  `wish_ImageUrl` varchar(128) NOT NULL,
-  `wish_Summary` text NOT NULL,
   `wish_heat` int(8) NOT NULL DEFAULT '1',
   PRIMARY KEY (`wish_Id`),
   UNIQUE KEY `wish_Id_UNIQUE` (`wish_Id`)
@@ -300,32 +266,6 @@ LOCK TABLES `wish` WRITE;
 /*!40000 ALTER TABLE `wish` DISABLE KEYS */;
 /*!40000 ALTER TABLE `wish` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `wish_author`
---
-
-DROP TABLE IF EXISTS `wish_author`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `wish_author` (
-  `wish_Author_Id` int(9) unsigned NOT NULL AUTO_INCREMENT,
-  `wish_Id` int(9) NOT NULL,
-  `author` varchar(64) NOT NULL,
-  PRIMARY KEY (`wish_Author_Id`),
-  KEY `wish_Id_idx` (`wish_Id`),
-  CONSTRAINT `wish_Id` FOREIGN KEY (`wish_Id`) REFERENCES `wish` (`wish_Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `wish_author`
---
-
-LOCK TABLES `wish_author` WRITE;
-/*!40000 ALTER TABLE `wish_author` DISABLE KEYS */;
-/*!40000 ALTER TABLE `wish_author` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -336,4 +276,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-06-24 17:21:17
+-- Dump completed on 2015-06-23 10:44:18
