@@ -11,12 +11,12 @@
 		</tr>
 		<tr>
 			<td>ArrayList<String></td>
-			<td>keysName</td>
+			<td>keys_name</td>
 			<td>传输的数据字段的名称</td>
 		</tr>
 		<tr>
 			<td>ArrayList<String></td>
-			<td>keysValue</td>
+			<td>keys_value</td>
 			<td>传输的数据字段的内容</td>
 		</tr>
 		<tr>
@@ -25,7 +25,7 @@
 			<td>处理该请求的文件路径</td>
 		</tr>
 	</table>
-+ 返回参数 String 
++ 返回参数 String result
 
 ---
 #用户信息
@@ -50,11 +50,11 @@
 			<td>用户密码</td>
 		</tr>
 	</table>
-+ 返回参数 String errorCode
-+ errorCode类型说明
++ 返回参数 String error_code
++ error_code类型说明
 	<table>
 		<tr>
-			<td>errorCode</td>
+			<td>error_code</td>
 			<td>description</td>
 		</tr>
 		<tr>
@@ -67,7 +67,7 @@
 		</tr>
 	</table>
 
-+ 样例：{"errorCode":"1000"}
++ 样例：{"error_code":"1000"}
 ##我的借阅
 + 请求方法 getMyBorrowlist
 + 请求参数
@@ -79,17 +79,17 @@
 		</tr>
 		<tr>
 			<td>String</td>
-			<td>userId</td>
+			<td>user_id</td>
 			<td>用户名称</td>
 		</tr>
 	</table>
 + 返回参数 
 		
 
-+ errorCode类型说明
++ error_code类型说明
 	<table>
 		<tr>
-			<td>errorCode</td>
+			<td>error_code</td>
 			<td>description</td>
 		</tr>
 		<tr>
@@ -116,15 +116,15 @@
 		</tr>
 		<tr>
 			<td>String</td>
-			<td>userId</td>
+			<td>user_id</td>
 			<td>用户名称</td>
 		</tr>
 	</table>
 + 返回参数 {JSON}
-+ errorCode类型说明
++ error_code类型说明
 	<table>
 		<tr>
-			<td>errorCode</td>
+			<td>error_code</td>
 			<td>description</td>
 		</tr>
 		<tr>
@@ -136,7 +136,8 @@
 			<td>获取失败</td>
 		</tr>
 	</table>
-+ 样例:{"errorCode":"3000", "iterms":[]}
++ 样例:{"error_code":"3000", "iterms":[]}
+
 ##修改密码
 + 请求方法 setPassword
 + 请求参数
@@ -148,19 +149,24 @@
 		</tr>
 		<tr>
 			<td>String</td>
-			<td>oldPassword</td>
+			<td>old_password</td>
 			<td>原来的密码</td>
 		</tr>
 		<tr>
 			<td>String</td>
-			<td>newPassword</td>
+			<td>new_password</td>
 			<td>新的密码</td>
 		</tr>
+		<tr>
+			<td>String</td>
+			<td>user_id</td>
+			<td>用户ID</td>
+		</tr>
 	</table>
-+ 返回参数 String errorCode
++ 返回参数 String error_code
 	<table>
 		<tr>
-			<td>errorCode</td>
+			<td>error_code</td>
 			<td>description</td>
 		</tr>
 		<tr>
@@ -187,19 +193,19 @@
 		</tr>
 		<tr>
 			<td>String</td>
-			<td>bookId</td>
+			<td>book_id</td>
 			<td>图书ID</td>
 		</tr>
 		<tr>
 			<td>String</td>
-			<td>userId</td>
+			<td>user_id</td>
 			<td>用户ID</td>
 		</tr>
 	</table>
 + 返回参数
 	<table>
 		<tr>
-			<td>errorCode</td>
+			<td>error_code</td>
 			<td>description</td>
 		</tr>
 		<tr>
@@ -223,19 +229,19 @@
 		</tr>
 		<tr>
 			<td>String</td>
-			<td>bookId</td>
+			<td>book_id</td>
 			<td>图书ID</td>
 		</tr>
 		<tr>
 			<td>String</td>
-			<td>userId</td>
+			<td>user_id</td>
 			<td>用户ID</td>
 		</tr>
 	</table>
 + 返回参数
 	<table>
 		<tr>
-			<td>errorCode</td>
+			<td>error_code</td>
 			<td>description</td>
 		</tr>
 		<tr>
@@ -326,6 +332,33 @@
 		</tr>
 	</table>
 + 返回参数 {JSON}
+
+##我也想看
++ 请求方法 addHeat
++ 请求参数
+		<table>
+		<tr>
+			<td>参数类型</td>
+			<td>参数名称</td>
+			<td>参数说明</td>
+		</tr>
+		<tr>
+			<td>String</td>
+			<td>user_id</td>
+			<td>用户ID</td>
+		</tr>
+		<tr>
+			<td>String</td>
+			<td>book_isbn</td>
+			<td>书籍的条形码</td>
+		</tr>
+		<tr>
+			<td>boolean</td>
+			<td>isOwned</td>
+			<td>wishlist是否已经有这本书了</td>
+		</tr>
+	</table>		 
++ 返回参数 String error_code
 
 ##获取心愿单列表
 + 请求方法 getWishlist
