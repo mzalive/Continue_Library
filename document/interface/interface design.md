@@ -1,3 +1,32 @@
+<table>
+	<tr>
+		<td>error_code</td>
+		<td>description</td>
+	</tr>
+	<tr>
+		<td>1000</td>
+		<td>请求成功</td>
+	</tr>
+	<tr>
+		<td>2001</td>
+		<td>授权失败</td>
+	</tr>
+	<tr>
+		<td>2002</td>
+		<td>书籍已借完</td>
+	</tr>
+	<tr>
+		<td>2003</td>
+		<td>书籍已还完</td>
+	</tr>
+	<tr>
+		<td>0000</td>
+		<td>无结果</td>
+	</tr>
+</table>
+
+
+
 #通信
 ---
 ##http连接
@@ -51,22 +80,6 @@
 		</tr>
 	</table>
 + 返回参数 String error_code
-+ error_code类型说明
-	<table>
-		<tr>
-			<td>error_code</td>
-			<td>description</td>
-		</tr>
-		<tr>
-			<td>1000</td>
-			<td>登录成功</td>
-		</tr>
-		<tr>
-			<td>1001</td>
-			<td>用户名或密码错误</td>
-		</tr>
-	</table>
-
 + 样例：{"error_code":"1000"}
 ##我的借阅
 + 请求方法 getMyBorrowlist
@@ -83,27 +96,8 @@
 			<td>用户名称</td>
 		</tr>
 	</table>
-+ 返回参数 
-		
-
-+ error_code类型说明
-	<table>
-		<tr>
-			<td>error_code</td>
-			<td>description</td>
-		</tr>
-		<tr>
-			<td>2000</td>
-			<td>获取成功</td>
-		</tr>
-		<tr>
-			<td>2001</td>
-			<td>获取失败</td>
-		</tr>
-	</table>
++ 返回参数 {JSON}
 + 样例
-
-
 
 ##我的心愿单
 + 请求方法 getMyWishlist
@@ -121,22 +115,6 @@
 		</tr>
 	</table>
 + 返回参数 {JSON}
-+ error_code类型说明
-	<table>
-		<tr>
-			<td>error_code</td>
-			<td>description</td>
-		</tr>
-		<tr>
-			<td>3000</td>
-			<td>获取成功</td>
-		</tr>
-		<tr>
-			<td>3001</td>
-			<td>获取失败</td>
-		</tr>
-	</table>
-+ 样例:{"error_code":"3000", "iterms":[]}
 
 ##修改密码
 + 请求方法 setPassword
@@ -161,21 +139,6 @@
 			<td>String</td>
 			<td>user_id</td>
 			<td>用户ID</td>
-		</tr>
-	</table>
-+ 返回参数 String error_code
-	<table>
-		<tr>
-			<td>error_code</td>
-			<td>description</td>
-		</tr>
-		<tr>
-			<td>2000</td>
-			<td>修改成功</td>
-		</tr>
-		<tr>
-			<td>2001</td>
-			<td>修改失败</td>
 		</tr>
 	</table>
 
@@ -203,20 +166,6 @@
 		</tr>
 	</table>
 + 返回参数
-	<table>
-		<tr>
-			<td>error_code</td>
-			<td>description</td>
-		</tr>
-		<tr>
-			<td>3000</td>
-			<td>借书成功</td>
-		</tr>
-		<tr>
-			<td>3001</td>
-			<td>借书失败</td>
-		</tr>
-	</table>
 
 ##还书
 + 请求方法 retBook
@@ -239,20 +188,6 @@
 		</tr>
 	</table>
 + 返回参数
-	<table>
-		<tr>
-			<td>error_code</td>
-			<td>description</td>
-		</tr>
-		<tr>
-			<td>4000</td>
-			<td>还书成功</td>
-		</tr>
-		<tr>
-			<td>4001</td>
-			<td>还书失败</td>
-		</tr>
-	</table>
 
 ---
 #书籍信息
@@ -272,7 +207,7 @@
 			<td>图书ID</td>
 		</tr>
 	</table>
-+ 返回参数{JSON}
++ 返回参数{JSON} 见文档最下
 
 ##获取书籍详细信息（丢弃）
 + 请求方法 getBookDetail
@@ -289,13 +224,13 @@
 			<td>图书ID</td>
 		</tr>
 	</table>
-+ 返回参数 {JSON}
++ 返回参数 {JSON} 见文档最下
 
 ##获取书籍列表
 + 请求方法 getBooklist
 + 请求参数 无
 + 返回参数 {JSON}
-
++ 样例
 ---
 #心愿单信息
 ---
@@ -314,7 +249,7 @@
 			<td>图书ID</td>
 		</tr>
 	</table>
-+ 返回参数 {JSON}
++ 返回参数 {JSON} 见文档最下
 
 ##获取心愿单详情（丢弃）
 + 请求方法 getWishBookDetail
@@ -363,7 +298,7 @@
 ##获取心愿单列表
 + 请求方法 getWishlist
 + 请求参数 无
-+ 返回参数 {JSON}
++ 返回参数 {JSON} 见文档最下
 
 ---
 # 返回JSON的格式
