@@ -95,6 +95,11 @@
 			<td>user_id</td>
 			<td>用户名称</td>
 		</tr>
+		<tr>
+			<td>String</td>
+			<td>last_book_id</td>
+			<td>上个数组的最后一个ID</td>
+		</tr>
 	</table>
 + 返回参数 {JSON}
 + 样例
@@ -112,6 +117,11 @@
 			<td>String</td>
 			<td>user_id</td>
 			<td>用户名称</td>
+		</tr>
+		<tr>
+			<td>String</td>
+			<td>last_book_id</td>
+			<td>上个数组的最后一个ID</td>
 		</tr>
 	</table>
 + 返回参数 {JSON}
@@ -331,6 +341,7 @@
 		"start" : "0",		//结果的offset
 		"count" : "20",		//结果的条数
 		"total" : 500,		//可返回的总数据条数
+		"lastbookid" : "012312", //每个返回数组最有一条数据的bookid
 		"books" : [book,]		//book对象的数组
 	}
 		
