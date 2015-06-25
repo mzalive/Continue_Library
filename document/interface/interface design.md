@@ -4,6 +4,10 @@
 		<td>description</td>
 	</tr>
 	<tr>
+		<td>999</td>
+		<td>未知错误</td>
+	</tr>
+	<tr>
 		<td>1000</td>
 		<td>请求成功</td>
 	</tr>
@@ -93,12 +97,17 @@
 		<tr>
 			<td>String</td>
 			<td>user_id</td>
-			<td>用户名称</td>
+			<td>UID</td>
 		</tr>
 		<tr>
-			<td>String</td>
-			<td>last_book_id</td>
-			<td>上个数组的最后一个ID</td>
+			<td>int</td>
+			<td>start</td>
+			<td>取结果的offset</td>
+		</tr>
+		<tr>
+			<td>int</td>
+			<td>count</td>
+			<td>取结果数量</td>
 		</tr>
 	</table>
 + 返回参数 {JSON}
@@ -116,12 +125,17 @@
 		<tr>
 			<td>String</td>
 			<td>user_id</td>
-			<td>用户名称</td>
+			<td>UID</td>
 		</tr>
 		<tr>
-			<td>String</td>
-			<td>last_book_id</td>
-			<td>上个数组的最后一个ID</td>
+			<td>int</td>
+			<td>start</td>
+			<td>取结果的offset</td>
+		</tr>
+		<tr>
+			<td>int</td>
+			<td>count</td>
+			<td>取结果数量</td>
 		</tr>
 	</table>
 + 返回参数 {JSON}
@@ -148,7 +162,7 @@
 		<tr>
 			<td>String</td>
 			<td>user_id</td>
-			<td>用户ID</td>
+			<td>UID</td>
 		</tr>
 	</table>
 
@@ -166,13 +180,13 @@
 		</tr>
 		<tr>
 			<td>String</td>
-			<td>book_id</td>
-			<td>图书ID</td>
+			<td>book_isbn</td>
+			<td>ISBN</td>
 		</tr>
 		<tr>
 			<td>String</td>
 			<td>user_id</td>
-			<td>用户ID</td>
+			<td>UID</td>
 		</tr>
 	</table>
 + 返回参数
@@ -188,13 +202,13 @@
 		</tr>
 		<tr>
 			<td>String</td>
-			<td>book_id</td>
-			<td>图书ID</td>
+			<td>book_isbn</td>
+			<td>ISBN</td>
 		</tr>
 		<tr>
 			<td>String</td>
 			<td>user_id</td>
-			<td>用户ID</td>
+			<td>UID</td>
 		</tr>
 	</table>
 + 返回参数
@@ -202,7 +216,7 @@
 ---
 #书籍信息
 ---
-##获取书籍简略信息(丢弃)
+##~~获取书籍简略信息~~
 + 请求方法 getBookInfo
 + 请求参数
 	<table>
@@ -219,7 +233,7 @@
 	</table>
 + 返回参数{JSON} 见文档最下
 
-##获取书籍详细信息（丢弃）
+##~~获取书籍详细信息~~
 + 请求方法 getBookDetail
 + 请求参数 
 	<table>
@@ -244,7 +258,7 @@
 ---
 #心愿单信息
 ---
-##获取心愿单简略信息（丢弃）
+##~~获取心愿单简略信息~~
 + 请求方法 getWishBookInfo
 + 请求参数 
 	<table>
@@ -261,7 +275,7 @@
 	</table>
 + 返回参数 {JSON} 见文档最下
 
-##获取心愿单详情（丢弃）
+##~~获取心愿单详情~~
 + 请求方法 getWishBookDetail
 + 请求参数 
 	<table>
@@ -290,12 +304,12 @@
 		<tr>
 			<td>String</td>
 			<td>user_id</td>
-			<td>用户ID</td>
+			<td>UID</td>
 		</tr>
 		<tr>
 			<td>String</td>
 			<td>book_isbn</td>
-			<td>书籍的条形码</td>
+			<td>ISBN</td>
 		</tr>
 		<tr>
 			<td>boolean</td>
@@ -338,9 +352,9 @@
 ## 图书列表
 	{
 		"errorCode" : "200",	//通用错误码，另外定义
-		"start" : "0",		//结果的offset
-		"count" : "20",		//结果的条数
-		"total" : 500,		//可返回的总数据条数
+		"start" : "0",			//结果的offset
+		"count" : "20",			//结果的条数
+		"total" : 500,			//可返回的总数据条数
 		"lastbookid" : "012312", //每个返回数组最有一条数据的bookid
 		"books" : [book,]		//book对象的数组
 	}
