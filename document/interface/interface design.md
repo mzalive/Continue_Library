@@ -1,14 +1,14 @@
 # 通用状态码
 
-Result Name		| Result Code	| Description
--				| -				| -				
-UNKNOWN_ERROR	| 999			| 未知错误
-NETWORK_ERROR	|				| 网络错误
-RESULT_OK		| 1000			| 请求成功
-NO_CONTENT		| 2000			| 无内容
-AUTHORIZATION_ERROR | 2001		| 授权失败
-BOOK_ALL_BORROWED	| 2002		| 书籍已借完
-BOOK_ALL_RETURNED	| 2003		| 书籍已还完
+|Result Name		| Result Code	| Description|
+|-				| -				| -		|		
+|UNKNOWN_ERROR	| 999			| 未知错误|
+|NETWORK_ERROR	|				| 网络错误|
+|RESULT_OK		| 1000			| 请求成功|
+|NO_CONTENT		| 2000			| 无内容|
+|AUTHORIZATION_ERROR | 2001		| 授权失败|
+|BOOK_ALL_BORROWED	| 2002		| 书籍已借完|
+|BOOK_ALL_RETURNED	| 2003		| 书籍已还完|
 
 
 
