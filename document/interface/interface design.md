@@ -1,34 +1,46 @@
+# 通用状态码
 <table>
 	<tr>
-		<td>error_code</td>
-		<td>description</td>
+		<td>Result Name</td>
+		<td>Result Code</td>
+		<td>Description</td>
 	</tr>
 	<tr>
+		<td>UNKNOWN_ERROR</td>
 		<td>999</td>
 		<td>未知错误</td>
 	</tr>
 	<tr>
+		<td>RESULT_OK</td>
 		<td>1000</td>
 		<td>请求成功</td>
 	</tr>
 	<tr>
+		<td>NO_CONTENT</td>
+		<td>2000</td>
+		<td>无内容</td>
+	</tr>
+	<tr>
+		<td>NETWORK_ERROR</td>
 		<td>2001</td>
+		<td>网络错误</td>
+	</tr>
+	<tr>
+		<td>AUTHORIZATION_ERROR</td>
+		<td>2002</td>
 		<td>授权失败</td>
 	</tr>
 	<tr>
-		<td>2002</td>
+		<td>BOOK_ALL_BORROWED</td>
+		<td>3001</td>
 		<td>书籍已借完</td>
 	</tr>
 	<tr>
-		<td>2003</td>
+		<td>BOOK_ALL_RETURNED</td>
+		<td>3002</td>
 		<td>书籍已还完</td>
 	</tr>
-	<tr>
-		<td>0000</td>
-		<td>无结果</td>
-	</tr>
 </table>
-
 
 
 #通信
