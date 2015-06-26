@@ -1,7 +1,7 @@
 # 通用状态码
 
 |Result Name		| Result Code	| Description|
-|-				| -				| -		|		
+|:-:				| :-:				| :-:		|		
 |UNKNOWN_ERROR	| 999			| 未知错误|
 |NETWORK_ERROR	|				| 网络错误|
 |RESULT_OK		| 1000			| 请求成功|
