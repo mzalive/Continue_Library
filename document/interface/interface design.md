@@ -1,4 +1,24 @@
 # 通用状态码
+
+> *注意：需要审阅*
+>
+> 此表格分别使用 *扩展的Markdown语法* 及 *HTML代码* 分别编写，用于供审阅者评估其编写&显示效果。
+>
+>请在审阅后决定采用哪一种编写方式，调整编辑器，并从此文档中删去此注释和弃用的代码
+>
+>提示: [Visual Studio Code](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0CB4QFjAA&url=https%3A%2F%2Fwww.visualstudio.com%2Fen-us%2Fproducts%2Fcode-vs.aspx&ei=8tiMVbPJKYr0oAT02IKIDg&usg=AFQjCNH3Rm5vSVGIhWV7KSqEOmHqR7mXSw&sig2=QouZWg3gLnPRdZwich3lMA) 可对此Md语法提供支持
+
+|Result Name	| Result Code	| Description|
+|:-				| :-			| :-		|	
+|UNKNOWN_ERROR	| 999			| 未知错误|
+|NETWORK_ERROR	|				| 网络错误|
+|RESULT_OK		| 1000			| 请求成功|
+|NO_CONTENT		| 2000			| 无内容|
+|AUTHORIZATION_ERROR | 2001		| 授权失败|
+|BOOK_ALL_BORROWED	| 2002		| 书籍已借完|
+|BOOK_RETURNED	| 2003		| 此书已还|
+
+
 <table>
 	<tr>
 		<td>Result Name</td>
@@ -36,9 +56,9 @@
 		<td>书籍已借完</td>
 	</tr>
 	<tr>
-		<td>BOOK_ALL_RETURNED</td>
+		<td>BOOK_RETURNED</td>
 		<td>3002</td>
-		<td>书籍已还完</td>
+		<td>此书已还</td>
 	</tr>
 </table>
 
