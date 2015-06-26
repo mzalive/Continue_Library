@@ -1,16 +1,33 @@
-# 通用状态码
-
-|Result Name		| Result Code	| Description|
-|:-:				| :-:				| :-:		|		
-|UNKNOWN_ERROR	| 999			| 未知错误|
-|NETWORK_ERROR	|				| 网络错误|
-|RESULT_OK		| 1000			| 请求成功|
-|NO_CONTENT		| 2000			| 无内容|
-|AUTHORIZATION_ERROR | 2001		| 授权失败|
-|BOOK_ALL_BORROWED	| 2002		| 书籍已借完|
-|BOOK_ALL_RETURNED	| 2003		| 书籍已还完|
-
-
+<table>
+	<tr>
+		<td>error_code</td>
+		<td>description</td>
+	</tr>
+	<tr>
+		<td>999</td>
+		<td>未知错误</td>
+	</tr>
+	<tr>
+		<td>1000</td>
+		<td>请求成功</td>
+	</tr>
+	<tr>
+		<td>2001</td>
+		<td>授权失败</td>
+	</tr>
+	<tr>
+		<td>2002</td>
+		<td>书籍已借完</td>
+	</tr>
+	<tr>
+		<td>2003</td>
+		<td>书籍已还完</td>
+	</tr>
+	<tr>
+		<td>0000</td>
+		<td>无结果</td>
+	</tr>
+</table>
 
 
 
