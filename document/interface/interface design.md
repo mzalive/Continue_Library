@@ -284,7 +284,24 @@
 
 ##获取书籍列表
 + 请求方法 getBooklist
-+ 请求参数 无
++ 请求参数 
+		<table>
+		<tr>
+			<td>参数类型</td>
+			<td>参数名称</td>
+			<td>参数说明</td>
+		</tr>
+		<tr>
+			<td>int</td>
+			<td>start</td>
+			<td>取结果的offset</td>
+		</tr>
+		<tr>
+			<td>int</td>
+			<td>count</td>
+			<td>取结果数量</td>
+		</tr>
+	</table>
 + 返回参数 {JSON}
 + 样例
 ---
