@@ -224,7 +224,7 @@
 + 返回参数
 
 ##还书
-+ 请求方法 retBook
++ 请求方法 returnBook
 + 请求参数
 	<table>
 		<tr>
@@ -304,6 +304,24 @@
 	</table>
 + 返回参数 {JSON}
 + 样例
+
+##获取书籍库存
++ 请求方法 getBookCount
++ 请求参数 
+	<table>
+		<tr>
+			<td>参数类型</td>
+			<td>参数名称</td>
+			<td>参数说明</td>
+		</tr>
+		<tr>
+			<td>String</td>
+			<td>book_id</td>
+			<td>图书ID</td>
+		</tr>
+	</table>
++ 返回参数
+
 ---
 #心愿单信息
 ---
@@ -318,7 +336,7 @@
 		</tr>
 		<tr>
 			<td>String</td>
-			<td>bookId</td>
+			<td>book_id</td>
 			<td>图书ID</td>
 		</tr>
 	</table>
@@ -370,7 +388,24 @@
 
 ##获取心愿单列表
 + 请求方法 getWishlist
-+ 请求参数 无
++ 请求参数 
+	<table>
+		<tr>
+			<td>参数类型</td>
+			<td>参数名称</td>
+			<td>参数说明</td>
+		</tr>
+		<tr>
+			<td>int</td>
+			<td>start</td>
+			<td>取结果的offset</td>
+		</tr>
+		<tr>
+			<td>int</td>
+			<td>count</td>
+			<td>取结果数量</td>
+		</tr>
+	</table>
 + 返回参数 {JSON} 见文档最下
 
 ---
