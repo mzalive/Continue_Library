@@ -26,16 +26,15 @@ CREATE TABLE `book` (
   `book_Id` int(9) NOT NULL AUTO_INCREMENT,
   `book_Title` varchar(32) NOT NULL,
   `book_Subtitle` varchar(32) NOT NULL,
-  `book_Isbn` varchar(20) NOT NULL,
+  `book_Isbn` bigint(20) NOT NULL,
   `book_Publisher` varchar(64) NOT NULL,
   `book_ImageUrl` varchar(128) NOT NULL,
   `book_Summary` text NOT NULL,
-  `book_Amount_Available` int(2) NOT NULL,
   `book_Amount_Total` int(2) NOT NULL,
   `book_PublishDate` date NOT NULL,
   PRIMARY KEY (`book_Id`),
   UNIQUE KEY `book_Id_UNIQUE` (`book_Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='	';
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='	';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,7 +43,33 @@ CREATE TABLE `book` (
 
 LOCK TABLES `book` WRITE;
 /*!40000 ALTER TABLE `book` DISABLE KEYS */;
+INSERT INTO `book` VALUES (1,'小工工','',9787505715660,'中国友谊出版公司','http://img1.douban.com/lpic/s1001902.jpg','小工工驾到！大家好，我是小工工，生活在故宫.',1,'2000-09-01'),(2,'小工工','',9787505715660,'中国友谊出版公司','http://img1.douban.com/lpic/s1001902.jpg','小工工驾到！大家好，我是小工工，生活在故宫.',1,'2000-09-01'),(3,'小工工','',9787505715660,'中国友谊出版公司','http://img1.douban.com/lpic/s1001902.jpg','小工工驾到！大家好，我是小工工，生活在故宫.',1,'2000-09-01'),(4,'小工工','',9787505715660,'中国友谊出版公司','http://img1.douban.com/lpic/s1001902.jpg','小工工驾到！大家好，我是小工工，生活在故宫.',1,'2000-09-01'),(5,'小工工','',9787505715660,'中国友谊出版公司','http://img1.douban.com/lpic/s1001902.jpg','小工工驾到！大家好，我是小工工，生活在故宫.',1,'2000-09-01'),(6,'小工工','',9787505715660,'中国友谊出版公司','http://img1.douban.com/lpic/s1001902.jpg','小工工驾到！大家好，我是小工工，生活在故宫.',1,'2000-09-01'),(7,'小工工','',9787505715660,'中国友谊出版公司','http://img1.douban.com/lpic/s1001902.jpg','小工工驾到！大家好，我是小工工，生活在故宫.',1,'2000-09-01'),(8,'小工工','',9787505715660,'中国友谊出版公司','http://img1.douban.com/lpic/s1001902.jpg','小工工驾到！大家好，我是小工工，生活在故宫.',1,'2000-09-01'),(9,'小工工','',9787505715660,'中国友谊出版公司','http://img1.douban.com/lpic/s1001902.jpg','小工工驾到！大家好，我是小工工，生活在故宫.',1,'2000-09-01'),(10,'小工工','',9787505715660,'中国友谊出版公司','http://img1.douban.com/lpic/s1001902.jpg','小工工驾到！大家好，我是小工工，生活在故宫.',1,'2000-09-01');
 /*!40000 ALTER TABLE `book` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `book_amount`
+--
+
+DROP TABLE IF EXISTS `book_amount`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `book_amount` (
+  `book_Amount_Id` int(9) NOT NULL AUTO_INCREMENT,
+  `book_Id` int(9) NOT NULL,
+  `book_Amount_Available` int(2) NOT NULL,
+  PRIMARY KEY (`book_Amount_Id`),
+  UNIQUE KEY `book_amount_id_UNIQUE` (`book_Amount_Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `book_amount`
+--
+
+LOCK TABLES `book_amount` WRITE;
+/*!40000 ALTER TABLE `book_amount` DISABLE KEYS */;
+/*!40000 ALTER TABLE `book_amount` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -62,7 +87,7 @@ CREATE TABLE `book_author` (
   UNIQUE KEY `book_Author_Id_UNIQUE` (`book_Author_Id`),
   KEY `book_Id_idx` (`book_Id`),
   CONSTRAINT `book_Id` FOREIGN KEY (`book_Id`) REFERENCES `book` (`book_Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -71,6 +96,7 @@ CREATE TABLE `book_author` (
 
 LOCK TABLES `book_author` WRITE;
 /*!40000 ALTER TABLE `book_author` DISABLE KEYS */;
+INSERT INTO `book_author` VALUES (1,1,'叶虹江'),(2,2,'叶虹江'),(3,3,'叶虹江'),(4,4,'叶虹江'),(5,5,'叶虹江'),(6,6,'叶虹江'),(7,7,'叶虹江'),(8,8,'叶虹江'),(9,9,'叶虹江'),(10,10,'叶虹江');
 /*!40000 ALTER TABLE `book_author` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -91,7 +117,7 @@ CREATE TABLE `borrowlist` (
   KEY `FK_user_Id_idx` (`user_Id`),
   CONSTRAINT `FK_Borrow_Book_Id` FOREIGN KEY (`book_Id`) REFERENCES `book` (`book_Id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_Borrow_User_Id` FOREIGN KEY (`user_Id`) REFERENCES `user` (`user_Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -100,6 +126,7 @@ CREATE TABLE `borrowlist` (
 
 LOCK TABLES `borrowlist` WRITE;
 /*!40000 ALTER TABLE `borrowlist` DISABLE KEYS */;
+INSERT INTO `borrowlist` VALUES (1,1,1);
 /*!40000 ALTER TABLE `borrowlist` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -200,7 +227,7 @@ CREATE TABLE `user` (
   `user_Avator` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`user_Id`),
   UNIQUE KEY `user_Id_UNIQUE` (`user_Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -209,6 +236,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (1,'叶虹江','123456',NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -229,7 +257,7 @@ CREATE TABLE `user_borrowlist` (
   KEY `FK_User_Book_Id_idx` (`book_Id`),
   CONSTRAINT `FK_User_Book_Id` FOREIGN KEY (`book_Id`) REFERENCES `book` (`book_Id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_User_Borrowlist_User_Id` FOREIGN KEY (`user_Id`) REFERENCES `user` (`user_Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -238,6 +266,7 @@ CREATE TABLE `user_borrowlist` (
 
 LOCK TABLES `user_borrowlist` WRITE;
 /*!40000 ALTER TABLE `user_borrowlist` DISABLE KEYS */;
+INSERT INTO `user_borrowlist` VALUES (1,1,1),(2,1,2),(3,1,3),(4,1,4),(5,1,5),(6,1,6),(7,1,7),(8,1,8),(9,1,9),(10,1,10);
 /*!40000 ALTER TABLE `user_borrowlist` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -281,12 +310,11 @@ CREATE TABLE `wish` (
   `wish_Id` int(9) NOT NULL AUTO_INCREMENT,
   `wish_Title` varchar(32) NOT NULL,
   `wish_Subtitle` varchar(32) NOT NULL,
-  `wish_Isbn` varchar(20) NOT NULL,
+  `wish_Isbn` bigint(20) NOT NULL,
   `wish_Publisher` varchar(64) NOT NULL,
   `wish_PublishDate` date NOT NULL,
   `wish_ImageUrl` varchar(128) NOT NULL,
   `wish_Summary` text NOT NULL,
-  `wish_heat` int(8) NOT NULL DEFAULT '1',
   PRIMARY KEY (`wish_Id`),
   UNIQUE KEY `wish_Id_UNIQUE` (`wish_Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='		';
@@ -326,6 +354,31 @@ LOCK TABLES `wish_author` WRITE;
 /*!40000 ALTER TABLE `wish_author` DISABLE KEYS */;
 /*!40000 ALTER TABLE `wish_author` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `wish_heat`
+--
+
+DROP TABLE IF EXISTS `wish_heat`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `wish_heat` (
+  `wish_Heat_Id` int(9) NOT NULL AUTO_INCREMENT,
+  `wish_Id` int(9) NOT NULL,
+  `wish_Heat` int(6) NOT NULL,
+  PRIMARY KEY (`wish_Heat_Id`),
+  UNIQUE KEY `wish_Heat_Id_UNIQUE` (`wish_Heat_Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `wish_heat`
+--
+
+LOCK TABLES `wish_heat` WRITE;
+/*!40000 ALTER TABLE `wish_heat` DISABLE KEYS */;
+/*!40000 ALTER TABLE `wish_heat` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -336,4 +389,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-06-25 15:22:55
+-- Dump completed on 2015-06-27 11:34:21
