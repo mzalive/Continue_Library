@@ -60,7 +60,7 @@ function foo(){
 			$book_publisher = $result_book -> book_Publisher;
 			$book_imageurl = $result_book -> book_ImageUrl;
 			$book_summary = $result_book -> book_Summary;
-			$book_amount_available = $result_book -> book_Amount_Available;
+			// $book_amount_available = $result_book -> book_Amount_Available;
 			$book_amout_total = $result_book -> book_Amount_Total;
 			$book_publishdate = $result_book -> book_PublishDate;
 
@@ -76,8 +76,6 @@ function foo(){
 				'status' => array(
 					'isInStock' => false,
 					'amount_total' => $book_amout_total,
-					'amount_available' => $book_amount_available,
-					'heat' => 0,
 					'isWanted' => false
 					)
 				);

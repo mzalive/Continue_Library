@@ -82,8 +82,6 @@ function foo(){
 				'status' => array(
 					'isInStock' => false,
 					'amount_total' => 0,
-					'amount_available' => 0,
-					'heat' => $wish_heat,
 					'isWanted' => $want
 					)
 				);

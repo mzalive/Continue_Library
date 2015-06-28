@@ -26,12 +26,29 @@ function foo(){
 	mysql_query("BEGIN");
 
 	//check if the book is available
-	$sql = "select book_Id, book_Amount_Available from book where book_isbn = '$book_isbn'";
+	$sql = "select book_Id from book where book_isbn = '$book_isbn'";
 	$query = mysql_query($sql);
+	if(!$query)
+	{
+		mysql_query("ROLLBACK");
+		$lock -> release();
+		return NO_CONTENT;
+	}
 	$result = mysql_fetch_object($query);
-	$count = $result -> book_Amount_Available;
 	$book_Id = $result -> book_Id;
-	if($count<0)
+
+	$sql_amount = "select book_Amount_Available from book_amount where book_Id = '$book_Id'";
+	$query_amount = mysql_query($sql_amount);
+	if(!$query_amount)
+	{
+		mysql_query("ROLLBACK");
+		$lock -> release();
+		return DATABASE_OPERATION_ERROR;
+	}
+	$result_amount = mysql_fetch_object($query_amount);
+	$count = $result_amount -> book_Amount_Available;
+
+	if($count<=0)
 	{
 		mysql_query("ROLLBACK");
 		$lock -> release();
@@ -39,7 +56,7 @@ function foo(){
 	}
 
 	//update book amount.
-	$sql_book = "update book set book_Amount_Available = $count-1 where book_isbn = '$book_isbn'";
+	$sql_book = "update book_amount set book_Amount_Available = $count-1 where book_id = '$book_Id'";
 	$query_book = mysql_query($sql_book);
 	if(!$query_book)
 	{
