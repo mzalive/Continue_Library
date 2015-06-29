@@ -410,6 +410,7 @@
 			<td>ISBN</td>
 		</tr>
 	</table>
+
 ##获取心愿单列表
 + 请求方法 getWishlist
 + 请求参数 
@@ -428,6 +429,11 @@
 			<td>int</td>
 			<td>count</td>
 			<td>取结果数量</td>
+		</tr>
+		<tr>
+			<td>String</td>
+			<td>user_id</td>
+			<td>用户ID</td>
 		</tr>
 	</table>
 + 返回参数 {JSON} 见文档最下
@@ -456,6 +462,7 @@
 			<td>搜索关键字</td>
 		</tr>
 	</table>
+
 ---
 # 返回JSON的格式
 ---
