@@ -18,8 +18,8 @@
 |BOOK_ALL_BORROWED	| 2002		| 书籍已借完|
 |BOOK_RETURNED	| 2003		| 此书已还|
 |DATABASE_OPERATION_ERROR| 4001 | 数据库错误 |
-|ALREADY_ADDED  | 4002			| 已经添加到我也想看了|
-|NEVER_ADDED	| 4003			| 还未添加过这本书|
+|ALREADY_ADDED  | 5001			| 已经添加到我也想看了|
+
 
 <table>
 	<tr>
@@ -432,6 +432,30 @@
 	</table>
 + 返回参数 {JSON} 见文档最下
 
+
+---
+#搜索
+---
+##搜索书库和wishlist
++ 请求方法 search
++ 请求参数 
+<table>
+		<tr>
+			<td>参数类型</td>
+			<td>参数名称</td>
+			<td>参数说明</td>
+		</tr>
+		<tr>
+			<td>String</td>
+			<td>user_id</td>
+			<td>用户ID</td>
+		</tr>
+		<tr>
+			<td>String</td>
+			<td>keyword</td>
+			<td>搜索关键字</td>
+		</tr>
+	</table>
 ---
 # 返回JSON的格式
 ---
