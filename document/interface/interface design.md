@@ -324,6 +324,8 @@
 	</table>
 + 返回参数
 	{"error_code":"1231", "amount_available":"12"}
+
+
 ---
 #心愿单信息
 ---
@@ -355,7 +357,7 @@
 		</tr>
 		<tr>
 			<td>String</td>
-			<td>bookId</td>
+			<td>book_id</td>
 			<td>图书ID</td>
 		</tr>
 	</table>
@@ -382,7 +384,7 @@
 		</tr>
 		<tr>
 			<td>boolean</td>
-			<td>isOwned</td>
+			<td>is_owned</td>
 			<td>wishlist是否已经有这本书了</td>
 		</tr>
 	</table>		 
