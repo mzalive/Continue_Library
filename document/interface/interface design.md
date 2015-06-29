@@ -17,7 +17,9 @@
 |AUTHORIZATION_ERROR | 2001		| 授权失败|
 |BOOK_ALL_BORROWED	| 2002		| 书籍已借完|
 |BOOK_RETURNED	| 2003		| 此书已还|
-
+|DATABASE_OPERATION_ERROR| 4001 | 数据库错误 |
+|ALREADY_ADDED  | 4002			| 已经添加到我也想看了|
+|NEVER_ADDED	| 4003			| 还未添加过这本书|
 
 <table>
 	<tr>
@@ -321,7 +323,7 @@
 		</tr>
 	</table>
 + 返回参数
-
+	{"error_code":"1231", "amount_available":"12"}
 ---
 #心愿单信息
 ---
@@ -386,6 +388,26 @@
 	</table>		 
 + 返回参数 String error_code
 
+##取消我也想看（暂不实现）
++ 请求方法 cancelAddHeat
++ 请求参数 
+			<table>
+		<tr>
+			<td>参数类型</td>
+			<td>参数名称</td>
+			<td>参数说明</td>
+		</tr>
+		<tr>
+			<td>String</td>
+			<td>user_id</td>
+			<td>UID</td>
+		</tr>
+		<tr>
+			<td>String</td>
+			<td>book_isbn</td>
+			<td>ISBN</td>
+		</tr>
+	</table>
 ##获取心愿单列表
 + 请求方法 getWishlist
 + 请求参数 
