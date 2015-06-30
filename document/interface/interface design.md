@@ -411,13 +411,23 @@
 		</tr>
 		<tr>
 			<td>int</td>
-			<td>start</td>
-			<td>取结果的offset</td>
+			<td>book_start</td>
+			<td>取书库结果的offset</td>
 		</tr>
 		<tr>
 			<td>int</td>
-			<td>count</td>
-			<td>取结果数量</td>
+			<td>book_count</td>
+			<td>取书库结果数量</td>
+		</tr>
+		<tr>
+			<td>int</td>
+			<td>wish_start</td>
+			<td>取心愿单结果的offset</td>
+		</tr>
+		<tr>
+			<td>int</td>
+			<td>wish_count</td>
+			<td>取心愿单结果数量</td>
 		</tr>
 	</table>
 
@@ -430,29 +440,29 @@
 		"title" : "小王子",
 		"subtitle" : "",
 		"publisher" : "中国友谊出版公司",
-		"author" : [
-			"（法）圣埃克苏佩里"
-		],
+		"author" : ["（法）圣埃克苏佩里"],
 		"summary" : "小王子驾到！大家好，我是小王子，生活在B612星球.",
 		"image" : "http:\/\/img1.douban.com\/lpic\/s1001902.jpg",
 		"pubdate" : "2000-9-1",
 		"status" : {
-			"isInStock" : false,		//true -> 图书在库；false -> 图书在WL；
+			"is_in_stock" : false,		//true -> 图书在库；false -> 图书在WL；
 			"amount_total" : 5,			//[图书在库] 库存总数 ［default 0］
 			"amount_available" : 3,		//[图书在库] 可借数目 ［default 0］
 			"heat" : 0,					//[图书在WL] 想看的人数 ［default 0］
-			"isWanted" : false			//[图书在WL] 获取信息的用户已经点过“我也想看” ［default false］
+			"is_wanted" : false			//[图书在WL] 获取信息的用户已经点过“我也想看” ［default false］
 		}
 	}
 	
 	
 ## 图书列表
 	{
-		"errorCode" : "200",	//通用错误码，另外定义
-		"start" : "0",			//结果的offset
-		"count" : "20",			//结果的条数
-		"total" : 500,			//可返回的总数据条数
-		"lastbookid" : "012312", //每个返回数组最有一条数据的bookid
-		"books" : [book,]		//book对象的数组
+		"error_code" : "200",		//通用错误码，另外定义
+		"book_start" : "0",			//结果的offset
+		"book_count" : "20",		//结果的条数
+		"book_total" : 500,			//可返回的总数据条数
+		"wish_start" : "0",			//结果的offset
+		"wish_count" : "20",		//结果的条数
+		"wish_total" : 500,			//可返回的总数据条数
+		"books" : [book,]			//book对象的数组
 	}
 		
