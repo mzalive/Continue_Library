@@ -9,7 +9,7 @@
 >提示: [Visual Studio Code](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0CB4QFjAA&url=https%3A%2F%2Fwww.visualstudio.com%2Fen-us%2Fproducts%2Fcode-vs.aspx&ei=8tiMVbPJKYr0oAT02IKIDg&usg=AFQjCNH3Rm5vSVGIhWV7KSqEOmHqR7mXSw&sig2=QouZWg3gLnPRdZwich3lMA) 可对此Md语法提供支持
 
 |Result Name	| Result Code	| Description|
-|:-				| :-			| :-		|	
+|:--			| :--			| :--		|	
 |UNKNOWN_ERROR	| 999			| 未知错误|
 |NETWORK_ERROR	|				| 网络错误|
 |RESULT_OK		| 1000			| 请求成功|
