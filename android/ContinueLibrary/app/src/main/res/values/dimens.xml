@@ -3,4 +3,5 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="tool_bar_top_padding">0dp</dimen>
+    <dimen name="search_top_padding">-4dp</dimen>
 </resources>

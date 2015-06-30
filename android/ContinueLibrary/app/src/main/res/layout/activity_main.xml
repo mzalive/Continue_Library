@@ -18,19 +18,32 @@
             android:background="@color/colorPrimary"
             android:minHeight="?attr/actionBarSize"
             android:paddingTop="@dimen/tool_bar_top_padding">
-
         </android.support.v7.widget.Toolbar>
 
-        <FrameLayout
+        <com.quinny898.library.persistentsearch.SearchBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/search_top_margin"
+            android:id="@+id/searchbox"
+            />
+
+        <TextView
+            android:id="@+id/toolbar_search_result"
+            android:layout_marginTop="80dp"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+
+        <!--<FrameLayout
             android:id="@+id/content"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_below="@+id/toolBar" >
-        </FrameLayout>
+        </FrameLayout>-->
 
     </RelativeLayout>
 
 
+    <!-- 以下，Navigation Drawer -->
     <LinearLayout
         android:id="@+id/menu_drawer"
         android:layout_width="fill_parent"
