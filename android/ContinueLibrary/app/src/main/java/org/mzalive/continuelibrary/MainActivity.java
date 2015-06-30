@@ -1,5 +1,6 @@
 package org.mzalive.continuelibrary;
 
+import android.app.Fragment;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -22,6 +23,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        MainActivityFragment continueLibrary = new MainActivityFragment();
+        getFragmentManager().beginTransaction().replace(R.id.content, continueLibrary).commit();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar);
         final DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
