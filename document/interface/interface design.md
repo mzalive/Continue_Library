@@ -461,6 +461,16 @@
 			<td>keyword</td>
 			<td>搜索关键字</td>
 		</tr>
+		<tr>
+			<td>int</td>
+			<td>start</td>
+			<td>取结果的offset</td>
+		</tr>
+		<tr>
+			<td>int</td>
+			<td>count</td>
+			<td>取结果数量</td>
+		</tr>
 	</table>
 
 ---
