@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         MainActivityFragment continueLibrary = new MainActivityFragment();
-        getFragmentManager().beginTransaction().replace(R.id.content, continueLibrary).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content, continueLibrary).commit();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));

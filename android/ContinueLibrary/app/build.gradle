@@ -34,4 +34,5 @@ dependencies {
     compile('com.mikepenz:materialdrawer:3.0.9@aar') {
         transitive = true
     }
+    compile 'io.karim:materialtabs:2.0.2'
 }
