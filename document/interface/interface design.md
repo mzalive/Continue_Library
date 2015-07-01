@@ -266,8 +266,8 @@
 		</tr>
 		<tr>
 			<td>String</td>
-			<td>book_id</td>
-			<td>图书ID</td>
+			<td>book_isbn</td>
+			<td>图书ISBN</td>
 		</tr>
 	</table>
 + 返回参数
