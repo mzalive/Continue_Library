@@ -13,6 +13,11 @@
     <string name="drawer_item_about">About</string>
     <string name="drawer_item_contact">Contact</string>
 
-
     <string name="dummy_section_text">Section %1d is just a dummy section.</string>
+
+    <string name="image_login_logo">Image Logo</string>
+    <string name="login_username">username</string>
+    <string name="login_password">password</string>
+    <string name="login">登录</string>
+    <string name="copyright">Copyright © Continue</string>
 </resources>
