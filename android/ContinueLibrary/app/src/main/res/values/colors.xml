@@ -6,9 +6,15 @@
     <color name="windowBackground">#fff</color>
     <color name="accent">#2ff</color>
 
-    <color name="text_primary">#DE000000</color>
-    <color name="text_secondary">#8A000000</color>
-    <color name="text_hint_or_disabled">#42000000</color>
+    <color name="text_primary_on_light">#DE000000</color>
+    <color name="text_secondary_on_light">#8A000000</color>
+    <color name="text_hint_or_disabled_on_light">#42000000</color>
+    <color name="dividers_on_light">#1F000000</color>
+
+    <color name="text_primary_on_dark">#FFFFFFFF</color>
+    <color name="text_secondary_on_dark">#B3FFFFFF</color>
+    <color name="text_hint_or_disabled_on_dark">#4DFFFFFF</color>
+    <color name="dividers_on_dark">#1F000000</color>
 
     <color name="divider">#1F000000</color>
 </resources>

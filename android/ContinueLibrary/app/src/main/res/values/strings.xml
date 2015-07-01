@@ -19,5 +19,5 @@
     <string name="login_username">username</string>
     <string name="login_password">password</string>
     <string name="login">登录</string>
-    <string name="copyright">Copyright © Continue</string>
+    <string name="copyright">Copyright © Continue.</string>
 </resources>
