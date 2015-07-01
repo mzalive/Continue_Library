@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="NoActionBarAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="NoActionBarAppTheme" parent="MaterialDrawerTheme.Light.DarkToolbar.TranslucentStatus">
 
 
         <item name="android:colorPrimary">@color/colorPrimary</item>
@@ -13,6 +13,7 @@
         <item name="android:windowContentTransitions">true</item>
         <item name="android:windowAllowEnterTransitionOverlap">true</item>
         <item name="android:windowAllowReturnTransitionOverlap">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
 
     </style>
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">

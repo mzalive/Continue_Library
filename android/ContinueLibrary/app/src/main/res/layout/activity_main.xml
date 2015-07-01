@@ -1,23 +1,24 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.mingle.service.ui.MainActivity"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:fitsSystemWindows="false">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolBar"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:background="@color/colorPrimary"
-        android:elevation="4dp"
-        android:minHeight="?attr/actionBarSize"
-        android:paddingTop="@dimen/tool_bar_top_padding"></android.support.v7.widget.Toolbar>
+        android:elevation="4dp"></android.support.v7.widget.Toolbar>
 
     <com.quinny898.library.persistentsearch.SearchBox
         android:id="@+id/searchbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/search_top_margin"
-        android:elevation="4dp" />
+        android:elevation="4dp"
+        />
 
     <TextView
         android:id="@+id/toolbar_search_result"

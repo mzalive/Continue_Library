@@ -1,6 +1,7 @@
 package org.mzalive.continuelibrary;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -158,5 +159,9 @@ public class MainActivity extends AppCompatActivity {
         //}
 
         //return super.onOptionsItemSelected(item);
+    }
+    public void login(View view) {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
     }
 }
