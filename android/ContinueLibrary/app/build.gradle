@@ -22,6 +22,7 @@ android {
 repositories {
     maven { url "https://jitpack.io" }
     maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+    mavenCentral()
 }
 
 
@@ -30,4 +31,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.2.0'
     compile 'com.github.xperi:DSAvataImageView:4475d764d1'
     compile 'com.quinny898.library.persistentsearch:library:1.0.0-SNAPSHOT'
+    compile('com.mikepenz:materialdrawer:3.0.9@aar') {
+        transitive = true
+    }
 }

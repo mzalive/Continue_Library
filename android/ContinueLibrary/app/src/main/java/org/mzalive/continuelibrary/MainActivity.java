@@ -10,8 +10,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Toast;
 
+import com.mikepenz.iconics.typeface.FontAwesome;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.accountswitcher.AccountHeader;
+import com.mikepenz.materialdrawer.accountswitcher.AccountHeaderBuilder;
+import com.mikepenz.materialdrawer.model.DividerDrawerItem;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.quinny898.library.persistentsearch.SearchBox;
 import com.quinny898.library.persistentsearch.SearchResult;
 
@@ -28,14 +41,49 @@ public class MainActivity extends AppCompatActivity {
         getFragmentManager().beginTransaction().replace(R.id.content, continueLibrary).commit();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar);
-        final DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         setSupportActionBar(toolbar);
 
-        ActionBarDrawerToggle actionBarDrawerToggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar, R.string.drawer_open, R.string.drawer_close);
-        actionBarDrawerToggle.syncState();
 
-        drawerLayout.setDrawerListener(actionBarDrawerToggle);
+        // Create the AccountHeader
+        AccountHeader headerResult = new AccountHeaderBuilder()
+                .withActivity(this)
+                .withHeaderBackground(R.drawable.background_profile_default)
+                .addProfiles(
+                        new ProfileDrawerItem().withName("Matthew Mi").withEmail("mzalive@gmail.com").withIcon(getResources().getDrawable(R.drawable.ayanami))
+                )
+                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
+                    @Override
+                    public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
+                        return false;
+                    }
+                })
+                .build();
+
+
+        final Drawer naviDrawer = new DrawerBuilder()
+                .withActivity(this)
+                .withToolbar(toolbar)
+                .withAccountHeader(headerResult)
+                .withActionBarDrawerToggle(true)
+                .addDrawerItems(
+                        new PrimaryDrawerItem().withName(R.string.drawer_item_home),
+                        new PrimaryDrawerItem().withName(R.string.drawer_item_school),
+                        new PrimaryDrawerItem().withName(R.string.drawer_item_work),
+                        new DividerDrawerItem(),
+                        new SecondaryDrawerItem().withName(R.string.drawer_item_settings).withIcon(FontAwesome.Icon.faw_cog),
+                        new SecondaryDrawerItem().withName(R.string.drawer_item_help).withIcon(FontAwesome.Icon.faw_question).setEnabled(false),
+                        new SecondaryDrawerItem().withName(R.string.drawer_item_about).withIcon(FontAwesome.Icon.faw_github),
+                        new SecondaryDrawerItem().withName(R.string.drawer_item_contact).withIcon(FontAwesome.Icon.faw_bullhorn)
+                )
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
+                        // do something with the clicked item :D
+                        return true;
+                    }
+                })
+                .build();
 
         /**
          * Inset Search Box Configuration
@@ -44,17 +92,17 @@ public class MainActivity extends AppCompatActivity {
         Drawable recentIconDrawable = getResources().getDrawable(R.mipmap.ic_restore_black_24dp);
         recentIconDrawable.mutate().setAlpha(0x42);
         for(int x = 0; x < 5; x++){
-
             SearchResult option = new SearchResult("历史记录 " + Integer.toString(x), recentIconDrawable);
             search.addSearchable(option);
         }
+
         search.setLogoText((String) getResources().getText(R.string.app_name));
         search.setMenuListener(new SearchBox.MenuListener(){
 
             @Override
             public void onMenuClick() {
                 //Hamburger has been clicked
-                drawerLayout.openDrawer(Gravity.LEFT);
+                naviDrawer.openDrawer();
             }
 
         });
