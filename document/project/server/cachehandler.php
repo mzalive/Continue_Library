@@ -26,8 +26,9 @@ class cachehandler{
 	}
 	public function save($foo, $id)
 	{
+		$arg_arr = array_slice(func_get_args(),2);
 		if(function_exists($foo))
-			$response = call_user_func($foo);	//以后需要做错误处理
+			$response = call_user_func_array($foo,$arg_arr);	//以后需要做错误处理
 		$this->cache->save($response,$id);
 		return $response;
 	}
@@ -39,6 +40,11 @@ class cachehandler{
 	{
 		if($this->cache->get($id))
 			$this->cache->remove($id);
+	}
+
+	public function clean()
+	{
+		$this->cache->clean();
 	}
 }
 ?>

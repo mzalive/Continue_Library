@@ -1,17 +1,15 @@
 <?php
 include ("conn.php");
-include ("cachehandler.php");
+include ('cachehandler.php');
 include ("getWishHeat.php");
-if(!is_null($_GET["user_id"]) && !is_null($_GET["start"]) && !is_null($_GET["count"]))
-{
+if(!is_null($_POST["start"]) && !is_null($_POST["count"]) && !is_null($_POST["user_id"])){
 	$conn = mysql_open();
 
-	$user_id = $_GET["user_id"];
-	$start = $_GET["start"];
-	$count = $_GET["count"];
+	$start = $_POST["start"];
+	$count = $_POST["count"];
+	$user_id = $_POST["user_id"];
 
-	$cache = new cachehandler($_GET['action']);
-
+	$cache = new cachehandler($_POST['action']);
 	try{
 		if($output = $cache -> get($user_id))
 		{
@@ -24,7 +22,7 @@ if(!is_null($_GET["user_id"]) && !is_null($_GET["start"]) && !is_null($_GET["cou
 			$wishs = $output["books"];
 			$total = $output["wish_total"];
 
-			$count = $_GET['count'];
+			$count = $_POST['count'];
 			$output["wish_count"] = $count;
 			if($total - $start < $count)
 			{
@@ -42,36 +40,28 @@ if(!is_null($_GET["user_id"]) && !is_null($_GET["start"]) && !is_null($_GET["cou
 		$response = array('error_code' => '999');
 		echo json_encode($response,JSON_UNESCAPED_UNICODE);
 	}
-	
 	mysql_close($conn);
 }
-
 function foo(){
-	require_once("getBookInfo.php");
 	require_once("buildBook.php");
 	$response = array();
 
-	$user_id = $_GET["user_id"];
-	$start = $_GET["start"];
-	$count = $_GET["count"];
+	$start = $_POST["start"];
+	$count = $_POST["count"];
 
-	$sql = "select wish_id from user_wishlist where user_id = '$user_id'";
-	$query = mysql_query($sql);
+	$sql_wish = "select * from wish";
+	$query_wish =  mysql_query($sql_wish);
 
-	$total_amount = mysql_num_rows($query);
+	$total_amount = mysql_num_rows($query_wish);
 
 	$response["error_code"] = $total_amount?RESULT_OK:NO_CONTENT;
 	$response["wish_total"] = $total_amount;
 	$response["wish_start"] = $start;
 	$wishs = array();
 
-	while($result = mysql_fetch_object($query)){
-		$query_wish = get_wish_info($bId);
-		while($result_wish = mysql_fetch_object($query_wish)){
-			$wish = build_wish($result_wish,$author,$want);
-			array_push($wishs, $wish);
-		}
-
+	while($result_wish = mysql_fetch_object($query_wish)){
+		$wish = build_wish($result_wish);
+		array_push($wishs, $wish);
 	}
 	$response["books"] = $wishs;
 	$output = json_encode($response);

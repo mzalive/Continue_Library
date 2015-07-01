@@ -21,7 +21,7 @@ class filelock{
 	public function __destruct()
 	{
 		if($this->fp)
-			$this->release();
+			fclose($this->fp);
 	}
 
 	public function lock(){

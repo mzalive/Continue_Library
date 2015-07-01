@@ -1,6 +1,6 @@
 <?php
 include ("conn.php");
-if(!is_null($_GET['book_isbn']) && !is_null($_GET['user_id'])){
+if(!is_null($_POST['book_isbn']) && !is_null($_POST['user_id'])){
 
 	$conn = mysql_open();
 	$response = array();
@@ -15,11 +15,11 @@ if(!is_null($_GET['book_isbn']) && !is_null($_GET['user_id'])){
 function foo(){
 	require_once("lock.php");
 
-	$book_isbn = $_GET['book_isbn'];
-	$user_id = $_GET['user_id'];
+	$book_isbn = $_POST['book_isbn'];
+	$user_id = $_POST['user_id'];
 
 	//transaction lock
-	$lock = new filelock($_GET['action']);
+	$lock = new filelock($_POST['action']);
 	$lock -> lock();
 
 	mysql_query("SET AUTOCOMMIT=0");
@@ -81,6 +81,13 @@ function foo(){
 
 	$lock -> release();
 	return RESULT_OK;
+}
+
+function clean_cache(){
+	require_once("cachehandler.php");
+
+	$cache = new cachehandler($_POST['action']);
+	$cache -> remove($_POST['user_id']);
 }
 
 ?>

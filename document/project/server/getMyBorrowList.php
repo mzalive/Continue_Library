@@ -1,30 +1,50 @@
 <?php
 include ("conn.php");
+include ("cachehandler.php");
 if(!is_null($_GET["user_id"]) && !is_null($_GET["start"]) && !is_null($_GET["count"]))
 {
+	$conn = mysql_open();
+
 	$user_id = $_GET["user_id"];
 	$start = $_GET["start"];
 	$count = $_GET["count"];
 
+	$cache = new cachehandler($_GET['action']);
+
 	try{
-		$output = foo();
+		if($output = $cache -> get($user_id))
+		{
+			// echo 'has cache!';
+		}else{
+			$output = $cache -> save("foo", $user_id);
+		}
 		$output = json_decode($output,true);
-		$books = $output["books"];
-		$total = $output["total"];
-		if($start+$count>$total)
-			$count = $total-$start;
-		$books = array_slice($books,$start,$count);
-		$output["books"] = $books;
+		if($output['error_code'] == RESULT_OK){
+			$books = $output["books"];
+			$total = $output["book_total"];
+
+			$count = $_GET['count'];
+			$output["book_count"] = $count;
+			if($total - $start < $count)
+			{
+				$count = $total-$start;
+				$output["book_count"] =$count;
+			}
+			$books = array_slice($books,$start,$count);
+
+			$output["books"] = $books;
+		}
 		echo json_encode($output,JSON_UNESCAPED_UNICODE);
 	}catch(Exception $e){	//更新的时候要在代码里添加throw
 		$response = array('error_code' => '999');
 		echo json_encode($response,JSON_UNESCAPED_UNICODE);
 	}
+	mysql_close($conn);
 }
 
 function foo(){
 	require_once("getBookInfo.php");
-	$conn = mysql_open();
+	require_once("buildBook.php");
 	$response = array();
 
 	$user_id = $_GET["user_id"];
@@ -36,12 +56,9 @@ function foo(){
 
 	$total_amount = mysql_num_rows($query);
 
-	$response["error_code"] = 1000;
-	$response["total"] = $total_amount;
-	$response["count"] = $count;
-	if($total_amount - $start < $count)
-		$response["count"] = $total_amount - $start;
-	$response["start"] = $start;
+	$response["error_code"] = $total_amount?RESULT_OK:NO_CONTENT;
+	$response["book_total"] = $total_amount;
+	$response["book_start"] = $start;
 	$books = array();
 
 	while($result = mysql_fetch_object($query)){
@@ -52,39 +69,15 @@ function foo(){
 		while($result_author = mysql_fetch_object($query_author)){
 			array_push($author, $result_author -> author);
 		}
-		$query_book = getBookInfo($bId);
+		$query_book = get_book_info($bId);
 		while($result_book = mysql_fetch_object($query_book)){
-			$book_title = $result_book -> book_Title;
-			$book_subtitle = $result_book -> book_Subtitle;
-			$book_isbn = $result_book -> book_Isbn;
-			$book_publisher = $result_book -> book_Publisher;
-			$book_imageurl = $result_book -> book_ImageUrl;
-			$book_summary = $result_book -> book_Summary;
-			// $book_amount_available = $result_book -> book_Amount_Available;
-			$book_amout_total = $result_book -> book_Amount_Total;
-			$book_publishdate = $result_book -> book_PublishDate;
-
-			$book = array(
-				'isbn' => $book_isbn,
-				'title' => $book_title,
-				'subtitle' => $book_subtitle,
-				'publisher' => $book_publisher,
-				'author' => $author,
-				'summary' => $book_summary,
-				'image' => $book_imageurl,
-				'pubdate' => $book_publishdate,
-				'status' => array(
-					'isInStock' => false,
-					'amount_total' => $book_amout_total,
-					'isWanted' => false
-					)
-				);
+			$book = buildBook($result_book);
 			array_push($books, $book);
 		}
 
 	}
 	$response["books"] = $books;
-	$output = json_encode($response);
+	$output = json_encode($response,JSON_UNESCAPED_UNICODE);
 	return $output;
 }
 ?>
