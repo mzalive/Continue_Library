@@ -67,7 +67,7 @@
 	</table>
 + 返回参数 
 
-+ 样例：{"error_code":"1000", "user_id":"1", "username":"daye"}
++ 样例：{"error_code":"1000", "user_id":"1"}
 
 
 ##我的借阅
