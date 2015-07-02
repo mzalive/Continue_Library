@@ -3,8 +3,8 @@
     <!-- Material Design Base Color Settings -->
     <color name="colorPrimary">#00BCD4</color>
     <color name="colorPrimaryDark">#0097A7</color>
-    <color name="windowBackground">#fff</color>
-    <color name="accent">#2ff</color>
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="accent">#FFFF8D</color>
 
     <color name="text_primary_on_light">#DE000000</color>
     <color name="text_secondary_on_light">#8A000000</color>
