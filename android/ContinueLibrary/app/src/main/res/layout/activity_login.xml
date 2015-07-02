@@ -54,6 +54,7 @@
             android:textColor="@color/text_primary_on_dark"
             android:textSize="14sp"
             android:background="@drawable/login_btn_act_h"
+            android:onClick="clickLogin"
             />
 
     </LinearLayout>
