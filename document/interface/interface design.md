@@ -65,8 +65,11 @@
 			<td>用户密码</td>
 		</tr>
 	</table>
-+ 返回参数 String error_code
-+ 样例：{"error_code":"1000"}
++ 返回参数 
+
++ 样例：{"error_code":"1000", "user_id":"1"}
+
+
 ##我的借阅
 + 请求方法 getMyBorrowlist
 + 请求参数
