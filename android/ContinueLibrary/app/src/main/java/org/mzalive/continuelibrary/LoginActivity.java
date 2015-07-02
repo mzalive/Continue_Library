@@ -1,6 +1,7 @@
 package org.mzalive.continuelibrary;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,6 +16,8 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.mzalive.communication.MdEncode;
 import org.mzalive.communication.UserInfo;
+
+import java.util.ArrayList;
 
 /**
  * Created by Trigger on 2015/7/1.
@@ -42,10 +45,9 @@ public class LoginActivity  extends Activity {
     }
 
     //异步线程实现登录请求
-    class Login extends AsyncTask<Integer, Integer,String>{
+    class Login extends AsyncTask<Integer, Integer,ArrayList<String>>{
         private String username;
         private String password;
-        private int  errorCode;
         private SharedPreferences sp;
 
         @Override
@@ -53,27 +55,36 @@ public class LoginActivity  extends Activity {
             btnLogin.setClickable(false);
             username = etUsername.getText().toString();
             password = MdEncode.encode(etPassword.getText().toString());
+            sp = getSharedPreferences("UserInfo", MODE_PRIVATE);
             Log.d("username", username);
             Log.d("password", password);
         }
 
         @Override
-        protected String doInBackground(Integer... params){
-            errorCode = getLoginResult(username, password);
+        protected ArrayList<String> doInBackground(Integer... params){
+            ArrayList<String> result = getLoginResult(username, password);
+            return result;
+        }
 
+        @Override
+        protected void onPostExecute(ArrayList<String> result){
             SharedPreferences.Editor editor = sp.edit();
+            int errorCode = Integer.valueOf(result.get(0));
+            String userId = result.get(1);
             if(errorCode == 1000){
                 editor.putBoolean("isLogin", true);
-                editor
+                editor.putString("userId", userId);
+                editor.putString("username", username);
             }
             else{
                 editor.putBoolean("isLogin", false);
             }
-            return "Done";
-        }
+            //test sharedPreferences files
+//            SharedPreferences t = getSharedPreferences("UserInfo", MODE_PRIVATE);
+//            SharedPreferences.Editor e = t.edit();
+//            boolean value = t.getBoolean("isLogin", false);
+//            Log.d("isLogin", String.valueOf(value));
 
-        @Override
-        protected void onPostExecute(String result){
             btnLogin.setClickable(true);
             switch (errorCode){
                 case 0:
@@ -93,28 +104,39 @@ public class LoginActivity  extends Activity {
                     break;
                 case 1000:
                     Toast.makeText(LoginActivity.this, "登录成功！",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent();
+                    intent.setClass(LoginActivity.this, MainActivity.class);
+                    LoginActivity.this.startActivity(intent);
+                    LoginActivity.this.finish();
                     break;
                 default:
                     break;
             }
         }
     }
-    private static int getLoginResult(String username, String password){
-        int result;
+    private static ArrayList<String> getLoginResult(String username, String password){
+        ArrayList<String> result = new ArrayList<>();
+        String errorCode = "";
+        String userId = "";
         if(username.equals("") || password.equals("")){
-            result =  0;
+            errorCode =  "0";
         }
         else{
             String loginResult = UserInfo.login(username, password);
             try{
                 JSONTokener jsonTokener = new JSONTokener(loginResult);
                 JSONObject object = (JSONObject) jsonTokener.nextValue();
-                result = Integer.valueOf(object.getString("error_code"));
+                errorCode = object.getString("error_code");
+                if(errorCode == "1000"){
+                    userId = object.getString("user_id");
+                }
             }catch (JSONException e){
                 e.printStackTrace();
-                result = -1;
+                errorCode = "-1";
             }
         }
+        result.add(errorCode);
+        result.add(userId);
         return result;
     }
 
