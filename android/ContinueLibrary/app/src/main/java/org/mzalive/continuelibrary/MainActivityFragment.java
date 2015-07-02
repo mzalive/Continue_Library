@@ -1,6 +1,6 @@
 package org.mzalive.continuelibrary;
 
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,76 +18,106 @@ import io.karim.MaterialTabs;
  */
 public class MainActivityFragment extends Fragment {
 
+    public final static int CONTINUE_FRAGMENT_CATEGORY = 0;
+    public final static int USER_FRAGMENT_CATEGORY = 1;
+    public final static int BOOKLIST_SECTION_CATEGORY = 0;
+    public final static int WISHLIST_SECTION_CATEGORY = 1;
+
+    public static final String ARG_FRAGMENT_CATEGORY = "fragment_category";
+    public static final String ARG_SECTION_CATEGORY = "section_category";
+
+    private int mFragmentCategory = 0;
+    private ViewPager pager;
+    private MaterialTabs tabs;
+
     public MainActivityFragment() {
+    }
+
+    public static Fragment newInstance(int fragmentCategory){
+        MainActivityFragment fragment = new MainActivityFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(ARG_FRAGMENT_CATEGORY, fragmentCategory);
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_main, container, false);
+
+
+
+        mFragmentCategory = getArguments().getInt(ARG_FRAGMENT_CATEGORY, 0);
+        View rootView;
+
+        if (mFragmentCategory == CONTINUE_FRAGMENT_CATEGORY)
+            rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        else
+            rootView = inflater.inflate(R.layout.fragment_main_du, container, false);
+
+        // Initialize the ViewPager and set an adapter
+        pager = (ViewPager) rootView.findViewById(R.id.continue_container);
+        pager.setAdapter(new AppSectionsPagerAdapter(getChildFragmentManager(), getActivity(), mFragmentCategory));
+
+        // Bind the tabs to the ViewPager
+        tabs = (MaterialTabs) rootView.findViewById(R.id.material_tabs);
+        tabs.setViewPager(pager);
+
+        return rootView;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        // Initialize the ViewPager and set an adapter
-        ViewPager pager = (ViewPager) getView().findViewById(R.id.continue_container);
-        pager.setAdapter(new AppSectionsPagerAdapter(getFragmentManager()));
-
-        // Bind the tabs to the ViewPager
-        MaterialTabs tabs = (MaterialTabs) getView().findViewById(R.id.material_tabs);
-        tabs.setViewPager(pager);
     }
 
-    public static class AppSectionsPagerAdapter extends FragmentPagerAdapter {
+    public class AppSectionsPagerAdapter extends FragmentPagerAdapter {
+        Context mContext;
+        int mFragmentCategory;
 
-        public AppSectionsPagerAdapter(FragmentManager fm) {
+        public AppSectionsPagerAdapter(FragmentManager fm, Context context, int fragmentCategory) {
             super(fm);
+            mContext = context;
+            mFragmentCategory = fragmentCategory;
         }
 
+
         @Override
-        public android.support.v4.app.Fragment getItem(int i) {
-            switch (i) {
-                default:
-                    // The other sections of the app are dummy placeholders.
-                    android.support.v4.app.Fragment fragment = new DummySectionFragment();
-                    Bundle args = new Bundle();
-                    args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, i + 1);
-                    fragment.setArguments(args);
-                    return fragment;
-            }
+        public Fragment getItem(int i) {
+            Fragment fragment = new ListSectionFragment();
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_CATEGORY, i);
+            args.putInt(ARG_FRAGMENT_CATEGORY, mFragmentCategory);
+            fragment.setArguments(args);
+            return fragment;
         }
 
         @Override
         public int getCount() {
-            return 3;
+            return 2;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return "Section " + (position + 1);
+            switch (mFragmentCategory) {
+                case CONTINUE_FRAGMENT_CATEGORY:
+                    switch (position) {
+                        case BOOKLIST_SECTION_CATEGORY:
+                            return mContext.getString(R.string.continue_booklist_section);
+                        case WISHLIST_SECTION_CATEGORY:
+                            return mContext.getString(R.string.continue_wishlist_section);
+                    }
+                case USER_FRAGMENT_CATEGORY:
+                    switch (position) {
+                        case BOOKLIST_SECTION_CATEGORY:
+                            return mContext.getString(R.string.user_booklist_section);
+                        case WISHLIST_SECTION_CATEGORY:
+                            return mContext.getString(R.string.user_wishlist_section);
+                    }
+            }
+            return "Shouldn't be here";
         }
     }
-
-
-    /**
-     * A dummy fragment representing a section of the app, but that simply displays dummy text.
-     */
-    public static class DummySectionFragment extends Fragment {
-
-        public static final String ARG_SECTION_NUMBER = "section_number";
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_section_dummy, container, false);
-            Bundle args = getArguments();
-            ((TextView) rootView.findViewById(android.R.id.text1)).setText(
-                    getString(R.string.dummy_section_text, args.getInt(ARG_SECTION_NUMBER)));
-            return rootView;
-        }
-    }
-
 
 
 }

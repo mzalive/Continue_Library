@@ -1,13 +1,15 @@
 package org.mzalive.continuelibrary;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,20 +34,31 @@ import com.quinny898.library.persistentsearch.SearchResult;
 public class MainActivity extends AppCompatActivity {
 
     private SearchBox search;
+    private Fragment mContent;
+    private Fragment continueFragment;
+    private Fragment userFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        MainActivityFragment continueLibrary = new MainActivityFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.content, continueLibrary).commit();
+        /**
+         * Initializing Fragments
+         */
+        continueFragment = MainActivityFragment.newInstance(MainActivityFragment.CONTINUE_FRAGMENT_CATEGORY);
+        userFragment = MainActivityFragment.newInstance(MainActivityFragment.USER_FRAGMENT_CATEGORY);
 
+        /**
+         * Toolbar Configuration
+         */
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         setSupportActionBar(toolbar);
 
-
+        /**
+         * Navigation Drawer Configuration
+         */
         // Create the AccountHeader
         AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
@@ -68,19 +81,26 @@ public class MainActivity extends AppCompatActivity {
                 .withAccountHeader(headerResult)
                 .withActionBarDrawerToggle(true)
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withName(R.string.drawer_item_home),
-                        new PrimaryDrawerItem().withName(R.string.drawer_item_school),
-                        new PrimaryDrawerItem().withName(R.string.drawer_item_work),
+                        new PrimaryDrawerItem().withName(R.string.drawer_item_continue).withIcon(FontAwesome.Icon.faw_university),
+                        new PrimaryDrawerItem().withName(R.string.drawer_item_user).withIcon(FontAwesome.Icon.faw_book),
                         new DividerDrawerItem(),
-                        new SecondaryDrawerItem().withName(R.string.drawer_item_settings).withIcon(FontAwesome.Icon.faw_cog),
-                        new SecondaryDrawerItem().withName(R.string.drawer_item_help).withIcon(FontAwesome.Icon.faw_question).setEnabled(false),
-                        new SecondaryDrawerItem().withName(R.string.drawer_item_about).withIcon(FontAwesome.Icon.faw_github),
-                        new SecondaryDrawerItem().withName(R.string.drawer_item_contact).withIcon(FontAwesome.Icon.faw_bullhorn)
+                        new SecondaryDrawerItem().withName(R.string.drawer_item_guide).withIcon(FontAwesome.Icon.faw_info_circle),
+                        new SecondaryDrawerItem().withName(R.string.drawer_item_about).withIcon(FontAwesome.Icon.faw_question),
+                        new SecondaryDrawerItem().withName(R.string.drawer_item_contact).withIcon(FontAwesome.Icon.faw_envelope_o)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
-                        // do something with the clicked item :D
+                        switch (position) {
+                            case 0:
+                                switchFragment(continueFragment);
+                                break;
+                            case 1:
+                                switchFragment(userFragment);
+                                break;
+                            default :
+                                Toast.makeText(view.getContext(), ""+position,Toast.LENGTH_SHORT).show();
+                        }
                         return true;
                     }
                 })
@@ -98,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         search.setLogoText((String) getResources().getText(R.string.app_name));
+        //search.setDrawerLogo(getResources().getDrawable(R.mipmap.ic_launcher));
         search.setMenuListener(new SearchBox.MenuListener(){
 
             @Override
@@ -137,6 +158,12 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.content, continueFragment)
+//                .commit();
+        switchFragment(continueFragment);
+
     }
 
 
@@ -161,7 +188,33 @@ public class MainActivity extends AppCompatActivity {
         //return super.onOptionsItemSelected(item);
     }
     public void login(View view) {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(this, LoginActivity.class);
+//        startActivity(intent);
+        //mContent = userFragment;
+        //getSupportFragmentManager().beginTransaction().hide(continueFragment).commit();
+    }
+
+    public void switchFragment(Fragment fragment) {
+        String LOG_TAG = "switchFragment method";
+        Log.d(LOG_TAG, "Accessed!");
+        if (mContent == null) {
+            Log.d(LOG_TAG, "mContent is NULL!");
+            getSupportFragmentManager().beginTransaction().add(R.id.content, fragment).commit();
+            mContent = fragment;
+            return;
+        }
+        if (mContent != fragment) {
+            Log.d(LOG_TAG, "mContent differs");
+            FragmentTransaction transaction = getSupportFragmentManager()
+                    .beginTransaction();
+            if (!fragment.isAdded()) {
+                Log.d(LOG_TAG, "Added");
+                transaction.hide(mContent).add(R.id.content, fragment).commit();
+            } else {
+                Log.d(LOG_TAG, "Non-Added");
+                transaction.hide(mContent).show(fragment).commit();
+            }
+            mContent = fragment;
+        }
     }
 }
