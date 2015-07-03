@@ -56,7 +56,7 @@
 // 					.$sql_search_author." union "
 // 					.$sql_search_publisher.") as j";
 
-	$sql_union = "select "."$target"."_id from "."$target"." where "."$target"."_isbn regexp '$reg'";
+	$sql_union = "select book_title from ";
 	$query_search = mysql_query($sql_union);
 
 	while($result = mysql_fetch_object($query_search))

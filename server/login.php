@@ -15,14 +15,13 @@ function foo(){
 		$flag = 0;
 		$username = $_GET["username"];
 		$password = $_GET["password"];
-		$sql = "select user_Id from user where user_Name='$username' and user_Password='$password'";
+		$sql = "select user_Password from user where user_Name='$username' and user_Password='$password'";
 		$query = mysql_query($sql);
 		
 		while($result = mysql_fetch_object($query))
 		{
 			$flag = 1;
 			$response['error_code'] = '1000';
-			$response['user_id'] = $result -> user_Id;
 			break;
 		}
 		if($flag == 0)
