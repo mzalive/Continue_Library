@@ -1,7 +1,7 @@
 /**
  * Created by Trigger on 2015/6/24.
  */
-package org.mzalive.communication;
+package org.mzalive.continuelibrary.communication;
 
 import android.util.Log;
 

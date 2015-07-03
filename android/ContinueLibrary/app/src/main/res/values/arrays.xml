@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    　　
+    <string-array name="test_items">
+        　　
+        <item>data1</item>
+        　　
+        <item>data2</item>
+        　　
+        <item>data3</item>
+        <item>data4</item>
+        <item>data5</item>
+
+        　　
+    </string-array>
+</resources>

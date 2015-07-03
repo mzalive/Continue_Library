@@ -1,4 +1,4 @@
-package org.mzalive.communication;
+package org.mzalive.continuelibrary.communication;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

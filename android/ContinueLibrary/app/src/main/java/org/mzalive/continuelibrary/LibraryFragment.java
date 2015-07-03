@@ -29,8 +29,7 @@ public class LibraryFragment extends Fragment {
     private ViewPager pager;
     private MaterialTabs tabs;
 
-    public LibraryFragment() {
-    }
+    public LibraryFragment() {}
 
     public static Fragment newInstance(int fragmentCategory){
         LibraryFragment fragment = new LibraryFragment();
@@ -77,12 +76,7 @@ public class LibraryFragment extends Fragment {
 
         @Override
         public Fragment getItem(int i) {
-            Fragment fragment = new BookGridFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_CATEGORY, i);
-            args.putInt(ARG_FRAGMENT_CATEGORY, mFragmentCategory);
-            fragment.setArguments(args);
-            return fragment;
+            return BookGridFragment.newInstance(mFragmentCategory, i);
         }
 
         @Override

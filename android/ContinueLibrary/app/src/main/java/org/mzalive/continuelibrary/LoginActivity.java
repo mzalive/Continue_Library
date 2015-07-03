@@ -14,8 +14,8 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
-import org.mzalive.communication.MdEncode;
-import org.mzalive.communication.UserInfo;
+import org.mzalive.continuelibrary.communication.MdEncode;
+import org.mzalive.continuelibrary.communication.UserInfo;
 
 import java.util.ArrayList;
 

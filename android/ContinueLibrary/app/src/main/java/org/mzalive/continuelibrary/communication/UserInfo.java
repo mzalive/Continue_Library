@@ -1,7 +1,4 @@
-package org.mzalive.communication;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+package org.mzalive.continuelibrary.communication;
 
 import java.util.ArrayList;
 
