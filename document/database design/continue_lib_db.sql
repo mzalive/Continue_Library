@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.6.11, for Win32 (x86)
+-- MySQL dump 10.13  Distrib 5.6.23, for Win64 (x86_64)
 --
--- Host: localhost    Database: continuelibrary
+-- Host: localhost    Database: continue_lib_db
 -- ------------------------------------------------------
--- Server version	5.6.11
+-- Server version	5.6.25-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -31,11 +31,21 @@ CREATE TABLE `book` (
   `book_ImageUrl` varchar(128) NOT NULL,
   `book_Summary` text NOT NULL,
   `book_Amount_Total` int(2) NOT NULL,
-  `book_PublishDate` date NOT NULL,
+  `book_PublishDate` varchar(10) NOT NULL,
   PRIMARY KEY (`book_Id`),
   UNIQUE KEY `book_Id_UNIQUE` (`book_Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='	';
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `book`
+--
+
+LOCK TABLES `book` WRITE;
+/*!40000 ALTER TABLE `book` DISABLE KEYS */;
+INSERT INTO `book` VALUES (1,'大爷','',9787505715660,'中国友谊出版公司','http://img1.douban.com/lpic/s1001902.jpg','大爷驾到！大家好，我是大爷，生活在故宫.',1,'2000-09-01'),(2,'大爷','',9787505715660,'中国友谊出版公司','http://img1.douban.com/lpic/s1001902.jpg','大爷驾到！大家好，我是大爷，生活在故宫.',1,'2000-09-01'),(3,'大爷','',9787505715660,'中国友谊出版公司','http://img1.douban.com/lpic/s1001902.jpg','大爷驾到！大家好，我是大爷，生活在故宫.',1,'2000-09-01'),(4,'大爷','',9787505715660,'中国友谊出版公司','http://img1.douban.com/lpic/s1001902.jpg','大爷驾到！大家好，我是大爷，生活在故宫.',1,'2000-09-01'),(5,'大爷','',9787505715660,'中国友谊出版公司','http://img1.douban.com/lpic/s1001902.jpg','大爷驾到！大家好，我是大爷，生活在故宫.',1,'2000-09-01'),(6,'大爷','',9787505715660,'中国友谊出版公司','http://img1.douban.com/lpic/s1001902.jpg','大爷驾到！大家好，我是大爷，生活在故宫.',1,'2000-09-01'),(7,'大爷','',9787505715660,'中国友谊出版公司','http://img1.douban.com/lpic/s1001902.jpg','大爷驾到！大家好，我是大爷，生活在故宫.',1,'2000-09-01'),(8,'大爷','',9787505715660,'中国友谊出版公司','http://img1.douban.com/lpic/s1001902.jpg','大爷驾到！大家好，我是大爷，生活在故宫.',1,'2000-09-01'),(9,'大爷2','',9787505715660,'中国友谊出版公司','http://img1.douban.com/lpic/s1001902.jpg','大爷驾到！大家好，我是大爷，生活在故宫.',1,'2000-09-01'),(10,'大爷1','',9787505715661,'中国友谊出版公司','http://img1.douban.com/lpic/s1001902.jpg','大爷驾到！大家好，我是大爷，生活在故宫.',1,'2000-09-01');
+/*!40000 ALTER TABLE `book` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `book_amount`
@@ -50,8 +60,18 @@ CREATE TABLE `book_amount` (
   `book_Amount_Available` int(2) NOT NULL,
   PRIMARY KEY (`book_Amount_Id`),
   UNIQUE KEY `book_amount_id_UNIQUE` (`book_Amount_Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `book_amount`
+--
+
+LOCK TABLES `book_amount` WRITE;
+/*!40000 ALTER TABLE `book_amount` DISABLE KEYS */;
+INSERT INTO `book_amount` VALUES (1,1,1),(2,2,1),(3,3,1),(4,4,1),(5,5,1),(6,6,1),(7,7,1),(8,8,5),(9,9,5),(10,10,5);
+/*!40000 ALTER TABLE `book_amount` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `book_author`
@@ -72,6 +92,16 @@ CREATE TABLE `book_author` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `book_author`
+--
+
+LOCK TABLES `book_author` WRITE;
+/*!40000 ALTER TABLE `book_author` DISABLE KEYS */;
+INSERT INTO `book_author` VALUES (1,1,'叶虹江'),(2,2,'叶虹江'),(3,3,'叶虹江'),(4,4,'叶虹江'),(5,5,'叶虹江'),(6,6,'叶虹江'),(7,7,'叶虹江'),(8,8,'叶虹江'),(9,9,'叶虹江'),(10,10,'叶虹江');
+/*!40000 ALTER TABLE `book_author` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `borrowlist`
 --
 
@@ -88,8 +118,18 @@ CREATE TABLE `borrowlist` (
   KEY `FK_user_Id_idx` (`user_Id`),
   CONSTRAINT `FK_Borrow_Book_Id` FOREIGN KEY (`book_Id`) REFERENCES `book` (`book_Id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_Borrow_User_Id` FOREIGN KEY (`user_Id`) REFERENCES `user` (`user_Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `borrowlist`
+--
+
+LOCK TABLES `borrowlist` WRITE;
+/*!40000 ALTER TABLE `borrowlist` DISABLE KEYS */;
+INSERT INTO `borrowlist` VALUES (1,1,1);
+/*!40000 ALTER TABLE `borrowlist` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `tag_book`
@@ -112,6 +152,15 @@ CREATE TABLE `tag_book` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `tag_book`
+--
+
+LOCK TABLES `tag_book` WRITE;
+/*!40000 ALTER TABLE `tag_book` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tag_book` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `tag_index`
 --
 
@@ -124,8 +173,17 @@ CREATE TABLE `tag_index` (
   PRIMARY KEY (`tag_Id`),
   UNIQUE KEY `tag_Id_UNIQUE` (`tag_Id`),
   KEY `FK_Index_Tag_Book_Id_idx` (`tag_Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tag_index`
+--
+
+LOCK TABLES `tag_index` WRITE;
+/*!40000 ALTER TABLE `tag_index` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tag_index` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `tag_wish`
@@ -144,8 +202,17 @@ CREATE TABLE `tag_wish` (
   KEY `FK_Tag_Wish_Index_Id_idx` (`tag_Id`),
   CONSTRAINT `FK_Tag_Wish_Index_Id` FOREIGN KEY (`tag_Id`) REFERENCES `tag_index` (`tag_Id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_Tag_Wish_Wish_Id` FOREIGN KEY (`wish_Id`) REFERENCES `wish` (`wish_Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tag_wish`
+--
+
+LOCK TABLES `tag_wish` WRITE;
+/*!40000 ALTER TABLE `tag_wish` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tag_wish` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `user`
@@ -161,8 +228,18 @@ CREATE TABLE `user` (
   `user_Avator` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`user_Id`),
   UNIQUE KEY `user_Id_UNIQUE` (`user_Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user`
+--
+
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (1,'叶虹江','123456',NULL),(2,'count1','698d51a19d8a121ce581499d7b701668',NULL),(3,'count2','698d51a19d8a121ce581499d7b701668',NULL);
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `user_borrowlist`
@@ -181,8 +258,18 @@ CREATE TABLE `user_borrowlist` (
   KEY `FK_User_Book_Id_idx` (`book_Id`),
   CONSTRAINT `FK_User_Book_Id` FOREIGN KEY (`book_Id`) REFERENCES `book` (`book_Id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_User_Borrowlist_User_Id` FOREIGN KEY (`user_Id`) REFERENCES `user` (`user_Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_borrowlist`
+--
+
+LOCK TABLES `user_borrowlist` WRITE;
+/*!40000 ALTER TABLE `user_borrowlist` DISABLE KEYS */;
+INSERT INTO `user_borrowlist` VALUES (1,1,1),(2,1,2),(3,1,3),(4,1,4),(5,1,5),(6,1,6),(7,1,7),(8,1,8),(9,1,9),(10,1,10),(11,1,10);
+/*!40000 ALTER TABLE `user_borrowlist` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `user_wishlist`
@@ -201,8 +288,18 @@ CREATE TABLE `user_wishlist` (
   KEY `FK_User_Wishlist_Wish_Id_idx` (`wish_Id`),
   CONSTRAINT `FK_User_Wishlist_User_Id` FOREIGN KEY (`user_Id`) REFERENCES `user` (`user_Id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_User_Wishlist_Wish_Id` FOREIGN KEY (`wish_Id`) REFERENCES `wish` (`wish_Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_wishlist`
+--
+
+LOCK TABLES `user_wishlist` WRITE;
+/*!40000 ALTER TABLE `user_wishlist` DISABLE KEYS */;
+INSERT INTO `user_wishlist` VALUES (1,1,1),(2,1,2),(3,1,3),(4,1,4),(5,1,5),(6,1,6),(7,1,7),(8,1,8),(9,1,9),(10,1,10);
+/*!40000 ALTER TABLE `user_wishlist` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `wish`
@@ -217,13 +314,23 @@ CREATE TABLE `wish` (
   `wish_Subtitle` varchar(32) NOT NULL,
   `wish_Isbn` bigint(20) NOT NULL,
   `wish_Publisher` varchar(64) NOT NULL,
-  `wish_PublishDate` date NOT NULL,
+  `wish_PublishDate` varchar(10) NOT NULL,
   `wish_ImageUrl` varchar(128) NOT NULL,
   `wish_Summary` text NOT NULL,
   PRIMARY KEY (`wish_Id`),
   UNIQUE KEY `wish_Id_UNIQUE` (`wish_Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='		';
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='		';
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `wish`
+--
+
+LOCK TABLES `wish` WRITE;
+/*!40000 ALTER TABLE `wish` DISABLE KEYS */;
+INSERT INTO `wish` VALUES (1,'小工工','',9787505715660,'中国友谊出版公司','2000-09-01','http://img1.douban.com/lpic/s1001902.jpg','小工工驾到！大家好，我是小工工，生活在故宫.'),(2,'小工工','',9787505715660,'中国友谊出版公司','2000-09-01','http://img1.douban.com/lpic/s1001902.jpg','小工工驾到！大家好，我是小工工，生活在故宫.'),(3,'小工工','',9787505715660,'中国友谊出版公司','2000-09-01','http://img1.douban.com/lpic/s1001902.jpg','小工工驾到！大家好，我是小工工，生活在故宫.'),(4,'小工工','',9787505715660,'中国友谊出版公司','2000-09-01','http://img1.douban.com/lpic/s1001902.jpg','小工工驾到！大家好，我是小工工，生活在故宫.'),(5,'小工工','',9787505715660,'中国友谊出版公司','2000-09-01','http://img1.douban.com/lpic/s1001902.jpg','小工工驾到！大家好，我是小工工，生活在故宫.'),(6,'小工工','',9787505715660,'中国友谊出版公司','2000-09-01','http://img1.douban.com/lpic/s1001902.jpg','小工工驾到！大家好，我是小工工，生活在故宫.'),(7,'小工工','',9787505715660,'中国友谊出版公司','2000-09-01','http://img1.douban.com/lpic/s1001902.jpg','小工工驾到！大家好，我是小工工，生活在故宫.'),(8,'小工工','',9787505715660,'中国友谊出版公司','2000-09-01','http://img1.douban.com/lpic/s1001902.jpg','小工工驾到！大家好，我是小工工，生活在故宫.'),(9,'小工工','',9787505715660,'中国友谊出版公司','2000-09-01','http://img1.douban.com/lpic/s1001902.jpg','小工工驾到！大家好，我是小工工，生活在故宫.'),(10,'小工工','',9787505715660,'中国友谊出版公司','2000-09-01','http://img1.douban.com/lpic/s1001902.jpg','小工工驾到！大家好，我是小工工，生活在故宫.');
+/*!40000 ALTER TABLE `wish` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `wish_author`
@@ -239,8 +346,18 @@ CREATE TABLE `wish_author` (
   PRIMARY KEY (`wish_Author_Id`),
   KEY `wish_Id_idx` (`wish_Id`),
   CONSTRAINT `wish_Id` FOREIGN KEY (`wish_Id`) REFERENCES `wish` (`wish_Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `wish_author`
+--
+
+LOCK TABLES `wish_author` WRITE;
+/*!40000 ALTER TABLE `wish_author` DISABLE KEYS */;
+INSERT INTO `wish_author` VALUES (1,1,'叶虹江'),(2,2,'叶虹江'),(3,3,'叶虹江'),(4,4,'叶虹江'),(5,5,'叶虹江'),(6,6,'叶虹江'),(7,7,'叶虹江'),(8,8,'叶虹江'),(9,9,'叶虹江'),(10,10,'叶虹江');
+/*!40000 ALTER TABLE `wish_author` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `wish_heat`
@@ -255,8 +372,18 @@ CREATE TABLE `wish_heat` (
   `wish_Heat` int(6) NOT NULL,
   PRIMARY KEY (`wish_Heat_Id`),
   UNIQUE KEY `wish_Heat_Id_UNIQUE` (`wish_Heat_Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `wish_heat`
+--
+
+LOCK TABLES `wish_heat` WRITE;
+/*!40000 ALTER TABLE `wish_heat` DISABLE KEYS */;
+INSERT INTO `wish_heat` VALUES (1,1,1),(2,2,1),(3,3,1),(4,4,1),(5,5,1),(6,6,1),(7,7,1),(8,8,1),(9,9,1),(10,10,1);
+/*!40000 ALTER TABLE `wish_heat` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -267,4 +394,4 @@ CREATE TABLE `wish_heat` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-07-03 19:36:39
+-- Dump completed on 2015-07-03 20:00:29
