@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,8 @@ public class LibraryFragment extends Fragment {
         // Initialize the ViewPager and set an adapter
         pager = (ViewPager) rootView.findViewById(R.id.continue_container);
         pager.setAdapter(new AppSectionsPagerAdapter(getChildFragmentManager(), getActivity(), mFragmentCategory));
+        int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, getResources().getDisplayMetrics());
+        pager.setPageMargin(pageMargin);
 
         // Bind the tabs to the ViewPager
         tabs = (MaterialTabs) rootView.findViewById(R.id.material_tabs);
