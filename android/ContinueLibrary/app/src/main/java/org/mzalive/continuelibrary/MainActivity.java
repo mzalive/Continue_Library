@@ -27,6 +27,9 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.quinny898.library.persistentsearch.SearchBox;
 import com.quinny898.library.persistentsearch.SearchResult;
 
+import org.mzalive.continuelibrary.Base.*;
+import org.mzalive.continuelibrary.communication.*;
+
 public class MainActivity extends AppCompatActivity {
 
     private SearchBox search;
@@ -188,6 +191,20 @@ public class MainActivity extends AppCompatActivity {
 //        startActivity(intent);
         //mContent = userFragment;
         //getSupportFragmentManager().beginTransaction().hide(continueFragment).commit();
+        Thread thread=new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                Log.d("click me", "click me");
+                BookList list = new BookList();
+                list = WishlistManage.getWishlist("1", 1,10);
+                Log.d("result", list.toString());
+                Log.d("click me", "click me finish");
+            }
+        });
+        thread.start();
+
     }
 
     public void switchFragment(Fragment fragment) {
