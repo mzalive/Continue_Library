@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    　　
     <string-array name="test_items">
-        　　
-        <item>data1</item>
-        　　
-        <item>data2</item>
-        　　
-        <item>data3</item>
-        <item>data4</item>
-        <item>data5</item>
-
-        　　
+        <item>DATA 1</item>
+        <item>DATA 2</item>
+        <item>DATA 3</item>
+        <item>DATA 4</item>
+        <item>DATA 5</item>
+        <item>DATA 6</item>
+        <item>DATA 7</item>
+        <item>DATA 8</item>
+        <item>DATA 9</item>
+        <item>DATA 10</item>
     </string-array>
 </resources>

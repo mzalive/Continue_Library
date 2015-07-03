@@ -49,9 +49,8 @@ public class BookGridFragment extends LibraryFragment {
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_book_grid);
 
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         mRecyclerView.setAdapter(new BookGridRecyclerViewAdapter(getActivity()));
-
 
         return rootView;
     }
