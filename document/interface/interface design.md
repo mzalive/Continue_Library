@@ -450,7 +450,6 @@
 		"status" : {
 			"is_in_stock" : false,		//true -> 图书在库；false -> 图书在WL；
 			"amount_total" : 5,			//[图书在库] 库存总数 ［default 0］
-			"amount_available" : 3,		//[图书在库] 可借数目 ［default 0］
 			"heat" : 0,					//[图书在WL] 想看的人数 ［default 0］
 			"is_wanted" : false			//[图书在WL] 获取信息的用户已经点过“我也想看” ［default false］
 		}
