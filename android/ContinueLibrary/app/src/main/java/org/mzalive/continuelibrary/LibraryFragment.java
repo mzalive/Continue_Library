@@ -9,14 +9,13 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import io.karim.MaterialTabs;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends Fragment {
+public class LibraryFragment extends Fragment {
 
     public final static int CONTINUE_FRAGMENT_CATEGORY = 0;
     public final static int USER_FRAGMENT_CATEGORY = 1;
@@ -30,11 +29,11 @@ public class MainActivityFragment extends Fragment {
     private ViewPager pager;
     private MaterialTabs tabs;
 
-    public MainActivityFragment() {
+    public LibraryFragment() {
     }
 
     public static Fragment newInstance(int fragmentCategory){
-        MainActivityFragment fragment = new MainActivityFragment();
+        LibraryFragment fragment = new LibraryFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_FRAGMENT_CATEGORY, fragmentCategory);
         fragment.setArguments(bundle);
@@ -45,15 +44,9 @@ public class MainActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
-
         mFragmentCategory = getArguments().getInt(ARG_FRAGMENT_CATEGORY, 0);
-        View rootView;
 
-        if (mFragmentCategory == CONTINUE_FRAGMENT_CATEGORY)
-            rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        else
-            rootView = inflater.inflate(R.layout.fragment_main_du, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_library, container, false);
 
         // Initialize the ViewPager and set an adapter
         pager = (ViewPager) rootView.findViewById(R.id.continue_container);
@@ -84,7 +77,7 @@ public class MainActivityFragment extends Fragment {
 
         @Override
         public Fragment getItem(int i) {
-            Fragment fragment = new ListSectionFragment();
+            Fragment fragment = new BookGridFragment();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_CATEGORY, i);
             args.putInt(ARG_FRAGMENT_CATEGORY, mFragmentCategory);

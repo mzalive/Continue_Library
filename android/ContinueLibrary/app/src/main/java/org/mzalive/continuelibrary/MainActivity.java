@@ -1,16 +1,12 @@
 package org.mzalive.continuelibrary;
 
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
         /**
          * Initializing Fragments
          */
-        continueFragment = MainActivityFragment.newInstance(MainActivityFragment.CONTINUE_FRAGMENT_CATEGORY);
-        userFragment = MainActivityFragment.newInstance(MainActivityFragment.USER_FRAGMENT_CATEGORY);
+        continueFragment = LibraryFragment.newInstance(LibraryFragment.CONTINUE_FRAGMENT_CATEGORY);
+        userFragment = LibraryFragment.newInstance(LibraryFragment.USER_FRAGMENT_CATEGORY);
 
         /**
          * Toolbar Configuration
