@@ -5,7 +5,7 @@ package org.mzalive.continuelibrary.communication;
  */
 public class GlobalSettings {
     public final static String REQUEST_URL = "http://192.168.1.130/continuelibrary/server/index.php";
-    public final static String REQUEST_URL_TEST = "http://192.168.56.1/Continue/server/index.php";
+    public final static String REQUEST_URL_TEST = "http://192.168.56.101/Continue/server/index.php";
 
     public final  static String ACTION_LOGIN = "login";
     public final static String ACTION_GETMYBORROWLIST = "getMyBorrowlist";
