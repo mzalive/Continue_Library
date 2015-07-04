@@ -24,8 +24,7 @@ public class BaseFunctions {
 
         URL url;
         try {
-//            url = new URL(GlobalSettings.REQUEST_URL);
-            url = new URL(GlobalSettings.REQUEST_URL_TEST);
+            url = new URL(GlobalSettings.REQUEST_URL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setDoInput(true);
