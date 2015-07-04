@@ -34,6 +34,9 @@ if(!is_null($_POST["start"]) && !is_null($_POST["count"]) && !is_null($_POST["us
 			$wishs = get_heat($wishs);
 
 			$output["books"] = $wishs;
+			$output["book_total"]=0;
+			$output["book_count"]=0;
+			$output["book_start"]=0;
 		}
 		echo json_encode($output,JSON_UNESCAPED_UNICODE);
 	}catch(Exception $e){	//更新的时候要在代码里添加throw

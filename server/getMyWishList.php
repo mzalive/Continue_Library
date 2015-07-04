@@ -35,6 +35,10 @@ if(!is_null($_GET["user_id"]) && !is_null($_GET["start"]) && !is_null($_GET["cou
 
 			$wishs = get_heat($wishs);
 
+			$output["book_total"]=0;
+			$output["book_count"]=0;
+			$output["book_start"]=0;
+
 			$output["books"] = $wishs;
 		}
 		echo json_encode($output,JSON_UNESCAPED_UNICODE);

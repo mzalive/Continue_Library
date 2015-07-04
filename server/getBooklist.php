@@ -29,12 +29,13 @@ if(!is_null($_POST["start"]) && !is_null($_POST["count"])){
 				$output["book_count"] =$count;
 			}
 			$books = array_slice($books,$start,$count);
+			
+			$output["wish_start"] = 0;
+			$output["wish_total"] = 0;
+			$output["wish_count"] = 0;
 
 			$output["books"] = $books;
 		}
-		$output["wish_start"] = 0;
-		$output["wish_total"] = 0;
-		$output["wish_count"] = 0;
 		echo json_encode($output,JSON_UNESCAPED_UNICODE);
 	}catch(Exception $e){	//更新的时候要在代码里添加throw
 		$response = array('error_code' => '999');
