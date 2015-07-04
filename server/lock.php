@@ -29,6 +29,10 @@ class filelock{
 
 	public function lock(){
 		$this->fp = fopen($this->filename,'w+');
+		if(is_null($this->fp)){
+			ServerLogger::d("File Openning Permission Denied!");
+			die("File Openning Permission Denied!");
+		}
 		while(flock($this->fp,LOCK_EX)==false);
 	}
 

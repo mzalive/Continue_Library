@@ -10,6 +10,8 @@ class cachehandler{
 	public function makedir()
 	{
 		$this->dir = $this->default_dir.$this->filename.'/';
+		if(!is_dir($this->default_dir))
+			mkdir($this->default_dir);
 		if(!is_dir($this->dir))
 			mkdir($this->dir);
 	}

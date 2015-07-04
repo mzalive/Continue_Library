@@ -1,6 +1,7 @@
 <?php
 include ("conn.php");
 include ("addBookHelper.php");
+include ("logger.php");
 if(!is_null($_GET["book_isbn"]) && !is_null($_GET["user_id"]) && !is_null($_GET["is_owned"])){
 	$conn = mysql_open();
 	$response = array();
@@ -8,6 +9,9 @@ if(!is_null($_GET["book_isbn"]) && !is_null($_GET["user_id"]) && !is_null($_GET[
 	//global $wish_tags = array();
 
 	$response['error_code'] =$_GET["is_owned"]?add_heat():add_to_book("wish");
+	if($response['error_code'] != RESULT_OK){
+		ServerLogger::d(json_encode($response,JSON_UNESCAPED_UNICODE)."\n".mysql_error());
+	}
 
 	echo json_encode($response,JSON_UNESCAPED_UNICODE);
 	mysql_close($conn);
@@ -72,7 +76,6 @@ function add_heat(){
 		return DATABASE_OPERATION_ERROR;
 	}
 	mysql_query("COMMIT");
-
 	$lock -> release();
 	return RESULT_OK;
 }

@@ -5,13 +5,10 @@ include ("getWishHeat.php");
 if(!is_null($_GET["user_id"]) && !is_null($_GET["start"]) && !is_null($_GET["count"]))
 {
 	$conn = mysql_open();
-
 	$user_id = $_GET["user_id"];
 	$start = $_GET["start"];
 	$count = $_GET["count"];
-
 	$cache = new cachehandler($_GET['action']);
-
 	try{
 		if($output = $cache -> get($user_id))
 		{
@@ -61,6 +58,10 @@ function foo(){
 
 	$sql = "select wish_id from user_wishlist where user_id = '$user_id'";
 	$query = mysql_query($sql);
+	if(!$query){
+		$response["error_code"] = DATABASE_OPERATION_ERROR;
+		return json_encode($response,JSON_UNESCAPED_UNICODE);
+	}
 
 	$total_amount = mysql_num_rows($query);
 
@@ -70,15 +71,18 @@ function foo(){
 	$wishs = array();
 
 	while($result = mysql_fetch_object($query)){
-		$query_wish = get_wish_info($bId);
-		while($result_wish = mysql_fetch_object($query_wish)){
-			$wish = build_wish($result_wish,$author,$want);
+		$query_wish = get_wish_info($result -> wish_id);
+		if($result_wish = mysql_fetch_object($query_wish)){
+			$wish = build_wish($result_wish);
 			array_push($wishs, $wish);
+		}else{
+			$response["error_code"] = DATABASE_OPERATION_ERROR;
+			return json_encode($response,JSON_UNESCAPED_UNICODE);
 		}
 
 	}
 	$response["books"] = $wishs;
-	$output = json_encode($response);
+	$output = json_encode($response,JSON_UNESCAPED_UNICODE);
 	return $output;
 }
 ?>

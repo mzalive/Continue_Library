@@ -2,12 +2,12 @@
 include ("conn.php");
 require_once("getBookInfo.php");
 require_once("buildBook.php");
-if(!is_null($_POST['keyword']) && !is_null($_POST['user_id']) && !is_null($_POST['book_start']) && !is_null($_POST['book_count'])
-	&& !is_null($_POST['wish_start']) && !is_null($_POST['wish_count'])){
+if(!is_null($_GET['keyword']) && !is_null($_GET['user_id']) && !is_null($_GET['book_start']) && !is_null($_GET['book_count'])
+	&& !is_null($_GET['wish_start']) && !is_null($_GET['wish_count'])){
 	try{
 		$conn = mysql_open();
 
-		$keyword = $_POST['keyword'];
+		$keyword = $_GET['keyword'];
 
 		$keyword = preprocess($keyword);
 
@@ -52,7 +52,7 @@ function search_helper($target,$keyword){
 	require_once("cachehandler.php");
 	require_once("getWishHeat.php");
 
-	$cache = new cachehandler($_POST['action']."_".$target);
+	$cache = new cachehandler($_GET['action']."_".$target);
 
 	if($output = $cache -> get($keyword))
 	{
@@ -128,10 +128,10 @@ function foo($target,$keywords){
 	$total = mysql_num_rows($query_search);
 
 	$response[$target.'_total'] = $total;
-	$response[$target.'_start'] = $_POST[$target.'_start'];
-	$response[$target.'_count'] = $total-$_POST[$target.'_start'] >= $_POST[$target.'_count']
-									?$_POST[$target.'_count']
-									:$total-$_POST[$target.'_start'];
+	$response[$target.'_start'] = $_GET[$target.'_start'];
+	$response[$target.'_count'] = $total-$_GET[$target.'_start'] >= $_GET[$target.'_count']
+									?$_GET[$target.'_count']
+									:$total-$_GET[$target.'_start'];
 
 	$response['books'] = array();
 	while($result = mysql_fetch_object($query_search)){

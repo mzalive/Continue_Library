@@ -39,7 +39,7 @@ function build_book($result_book)
 
 function build_wish($result_wish){
 
-	$user_id = $_POST["user_id"];
+	$user_id = $_GET["user_id"];
 
 	$wish_id = $result_wish -> wish_Id;
 	$wish_title = $result_wish -> wish_Title;
