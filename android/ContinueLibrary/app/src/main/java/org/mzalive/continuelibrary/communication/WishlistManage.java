@@ -18,8 +18,7 @@ public class WishlistManage {
     //start:获取结果的Offset
     //count:获取结果的数量
     public static BookList getWishlist(String user_id, int start, int count){
-        BookList bookList = new BookList();
-
+        BookList wishList = new BookList();
         ArrayList<Book> booksArray = new ArrayList<>();
         ArrayList<String> keys_name = new ArrayList<>();
         ArrayList<String> keys_value = new ArrayList<>();
@@ -34,13 +33,13 @@ public class WishlistManage {
         try{
             JSONTokener jsonTokener = new JSONTokener(result);
             JSONObject object = (JSONObject)jsonTokener.nextValue();
-            bookList.setErrorCode(object.getString("error_code"));
-            bookList.setBookStart(object.getInt("book_start"));
-            bookList.setBookCount(object.getInt("book_count"));
-            bookList.setBookTotal(object.getInt("book_total"));
-            bookList.setWishStart(object.getInt("wish_start"));
-            bookList.setWishCount(object.getInt("wish_count"));
-            bookList.setWishTotal(object.getInt("wish_total"));
+            wishList.setErrorCode(object.getString("error_code"));
+            wishList.setBookStart(object.getInt("book_start"));
+            wishList.setBookCount(object.getInt("book_count"));
+            wishList.setBookTotal(object.getInt("book_total"));
+            wishList.setWishStart(object.getInt("wish_start"));
+            wishList.setWishCount(object.getInt("wish_count"));
+            wishList.setWishTotal(object.getInt("wish_total"));
             JSONArray books = object.getJSONArray("books");
             for(int i = 0; i<books.length(); i++){
                 JSONObject book = (JSONObject)books.get(i);
@@ -65,11 +64,11 @@ public class WishlistManage {
                 Book newBook = new Book(isbn, title, subTitle, publisher, image, summary, publishDate, author, isInStock, amountTotal, heat, isWanted);
                 booksArray.add(newBook);
             }
-            bookList.setBooks(booksArray);
+            wishList.setBooks(booksArray);
         }catch (JSONException e){
             e.printStackTrace();
         }
-        return bookList;
+        return wishList;
     }
 
     //addHeat 方法，增加心愿单中书籍的热度

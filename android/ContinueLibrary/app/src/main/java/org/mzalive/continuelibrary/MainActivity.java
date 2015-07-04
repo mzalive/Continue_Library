@@ -198,7 +198,10 @@ public class MainActivity extends AppCompatActivity {
             {
                 Log.d("click me", "click me");
                 BookList list = new BookList();
-                list = WishlistManage.getWishlist("1", 1,10);
+//                list = UserInfo.getMyBorrowlist("1", 1, 10);
+//                Log.d("result", list.toString());
+//                list = UserInfo.getMyWishlist("1", 1, 10);
+                list = BookManage.getBooklist(1, 10);
                 Log.d("result", list.toString());
                 Log.d("click me", "click me finish");
             }

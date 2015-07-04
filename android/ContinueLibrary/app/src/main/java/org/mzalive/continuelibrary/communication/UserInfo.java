@@ -1,5 +1,12 @@
 package org.mzalive.continuelibrary.communication;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+import org.mzalive.continuelibrary.Base.Book;
+import org.mzalive.continuelibrary.Base.BookList;
+
 import java.util.ArrayList;
 
 /**
@@ -27,7 +34,9 @@ public class UserInfo {
     //user_id:用户ID
     //start:获取结果的Offset
     //count:获取结果的数量
-    public static String getMyBorrowlist(String user_id, int start, int count){
+    public static BookList getMyBorrowlist(String user_id, int start, int count){
+        BookList myBorrowList = new BookList();
+        ArrayList<Book> booksArray = new ArrayList<>();
         ArrayList<String> keys_name = new ArrayList<>();
         ArrayList<String> keys_value = new ArrayList<>();
         keys_name.add("user_id");
@@ -37,7 +46,45 @@ public class UserInfo {
         keys_value.add(Integer.toString(start));
         keys_value.add(Integer.toString(count));
         String result = BaseFunctions.httpConnection(keys_name, keys_value, GlobalSettings.ACTION_GETMYBORROWLIST);
-        return result;
+        try{
+            JSONTokener jsonTokener = new JSONTokener(result);
+            JSONObject object = (JSONObject)jsonTokener.nextValue();
+            myBorrowList.setErrorCode(object.getString("error_code"));
+            myBorrowList.setBookStart(object.getInt("book_start"));
+            myBorrowList.setBookCount(object.getInt("book_count"));
+            myBorrowList.setBookTotal(object.getInt("book_total"));
+            myBorrowList.setWishStart(object.getInt("wish_start"));
+            myBorrowList.setWishCount(object.getInt("wish_count"));
+            myBorrowList.setWishTotal(object.getInt("wish_total"));
+            JSONArray books = object.getJSONArray("books");
+            for(int i = 0; i<books.length(); i++){
+                JSONObject book = (JSONObject)books.get(i);
+                String isbn = book.getString("isbn");
+                String title = book.getString("title");
+                String subTitle = book.getString("subtitle");
+                ArrayList<String> author = new ArrayList<>();
+                JSONArray authors = book.getJSONArray("author");
+                for(int j = 0; j < authors.length(); j++){
+                    author.add(authors.get(j).toString());
+                }
+                String summary = book.getString("summary");
+                String image = book.getString("image");
+                String publisher = book.getString("publisher");
+                String publishDate = book.getString("pubdate");
+                JSONObject status = book.getJSONObject("status");
+                boolean isInStock = status.getBoolean("is_in_stock");
+                int amountTotal = status.getInt("amount_total");
+                int heat = status.getInt("heat");
+                boolean isWanted = status.getBoolean("is_wanted");
+
+                Book newBook = new Book(isbn, title, subTitle, publisher, image, summary, publishDate, author, isInStock, amountTotal, heat, isWanted);
+                booksArray.add(newBook);
+            }
+            myBorrowList.setBooks(booksArray);
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        return myBorrowList;
     }
 
     //getMyWishlist方法，获取用户的心愿单列表
@@ -45,7 +92,9 @@ public class UserInfo {
     //user_id:用户ID
     //start:获取结果的Offset
     //count:获取结果的数量
-    public static String getMyWishlist(String user_id, int start, int count){
+    public static BookList getMyWishlist(String user_id, int start, int count){
+        BookList myWishList = new BookList();
+        ArrayList<Book> booksArray = new ArrayList<>();
         ArrayList<String> keys_name = new ArrayList<>();
         ArrayList<String> keys_value = new ArrayList<>();
         keys_name.add("user_id");
@@ -55,7 +104,45 @@ public class UserInfo {
         keys_value.add(Integer.toString(start));
         keys_value.add(Integer.toString(count));
         String result = BaseFunctions.httpConnection(keys_name, keys_value, GlobalSettings.ACTION_GETMYWISHLIST);
-        return result;
+        try{
+            JSONTokener jsonTokener = new JSONTokener(result);
+            JSONObject object = (JSONObject)jsonTokener.nextValue();
+            myWishList.setErrorCode(object.getString("error_code"));
+            myWishList.setBookStart(object.getInt("book_start"));
+            myWishList.setBookCount(object.getInt("book_count"));
+            myWishList.setBookTotal(object.getInt("book_total"));
+            myWishList.setWishStart(object.getInt("wish_start"));
+            myWishList.setWishCount(object.getInt("wish_count"));
+            myWishList.setWishTotal(object.getInt("wish_total"));
+            JSONArray books = object.getJSONArray("books");
+            for(int i = 0; i<books.length(); i++){
+                JSONObject book = (JSONObject)books.get(i);
+                String isbn = book.getString("isbn");
+                String title = book.getString("title");
+                String subTitle = book.getString("subtitle");
+                ArrayList<String> author = new ArrayList<>();
+                JSONArray authors = book.getJSONArray("author");
+                for(int j = 0; j < authors.length(); j++){
+                    author.add(authors.get(j).toString());
+                }
+                String summary = book.getString("summary");
+                String image = book.getString("image");
+                String publisher = book.getString("publisher");
+                String publishDate = book.getString("pubdate");
+                JSONObject status = book.getJSONObject("status");
+                boolean isInStock = status.getBoolean("is_in_stock");
+                int amountTotal = status.getInt("amount_total");
+                int heat = status.getInt("heat");
+                boolean isWanted = status.getBoolean("is_wanted");
+
+                Book newBook = new Book(isbn, title, subTitle, publisher, image, summary, publishDate, author, isInStock, amountTotal, heat, isWanted);
+                booksArray.add(newBook);
+            }
+            myWishList.setBooks(booksArray);
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        return myWishList;
     }
 
     //setPassword,设置用户密码
