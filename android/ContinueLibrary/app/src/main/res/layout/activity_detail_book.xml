@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,7 +24,7 @@
 
             <ImageView
                 android:id="@+id/image_book_blur"
-                android:layout_width="match_parent"
+                android:layout_width="360dp"
                 android:layout_height="384dp"
                 android:src="@drawable/ayanami"
                 />
@@ -61,12 +63,20 @@
                 android:text="@string/detail_book_publish_info"
                 android:textSize="16sp"/>
 
+            <Button
+                android:id="@+id/button_add"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/text_publish_info"
+                android:text="@string/button_add"
+                />
             <TextView
                 android:id="@+id/text_content_index"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/text_publish_info"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="70dp"
                 android:text="@string/detail_book_content_index"
                 android:textSize="16dp"/>
             <TextView
@@ -77,8 +87,5 @@
                 android:layout_marginTop="10dp"
                 android:text="@string/detail_book_content"/>
         </RelativeLayout>
-
-
-
     </LinearLayout>
 </ScrollView>
