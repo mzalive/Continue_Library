@@ -1,13 +1,13 @@
 <?php
 include ("conn.php");
 include ("addBookHelper.php");
-if(!is_null($_POST["book_isbn"]) && !is_null($_POST["user_id"]) && !is_null($_POST["is_owned"])){
+if(!is_null($_GET["book_isbn"]) && !is_null($_GET["user_id"]) && !is_null($_GET["is_owned"])){
 	$conn = mysql_open();
 	$response = array();
 
 	//global $wish_tags = array();
 
-	$response['error_code'] =$_POST["is_owned"]?add_heat():add_to_book("wish");
+	$response['error_code'] =$_GET["is_owned"]?add_heat():add_to_book("wish");
 
 	echo json_encode($response,JSON_UNESCAPED_UNICODE);
 	mysql_close($conn);
@@ -18,11 +18,11 @@ if(!is_null($_POST["book_isbn"]) && !is_null($_POST["user_id"]) && !is_null($_PO
 function add_heat(){
 	require_once("lock.php");
 
-	$book_isbn = $_POST['book_isbn'];
-	$user_id = $_POST['user_id'];
+	$book_isbn = $_GET['book_isbn'];
+	$user_id = $_GET['user_id'];
 
 	//transaction lock
-	$lock = new filelock($_POST['action']);
+	$lock = new filelock($_GET['action']);
 	$lock -> lock();
 
 
@@ -82,10 +82,10 @@ function clean_cache(){
 	require_once("cachehandler.php");
 
 	$cache = new cachehandler("getMyWishlist");
-	$cache -> remove($_POST['user_id']);
+	$cache -> remove($_GET['user_id']);
 
 	$cache = new cachehandler("getWishlist");
-	$cache -> remove($_POST['user_id']);
+	$cache -> remove($_GET['user_id']);
 	
 	$cache = new cachehandler("search_wish");
 	$cache -> clean();

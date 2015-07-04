@@ -11,12 +11,12 @@ define("BOOK_ALL_RETURNED", "3002");
 define("DATABASE_OPERATION_ERROR", "4001");
 define("ALREADY_ADDED","5001");
 //define path used for cache
-define("CACHE_PATH","D:/tmp/");
+define("CACHE_PATH","tmp/");
 //define path used for file lock
-define("FILE_LOCK_PATH","D:/tmp/lock/");
+define("FILE_LOCK_PATH","tmp/lock/");
 //define url for douban api
 define("DOUBAN_API","https://api.douban.com/v2/book/isbn/");
 
-$action = $_POST['action'] == '' ? 'index' : $_POST['action'];
+$action = $_GET['action'] == '' ? 'index' : $_GET['action'];
 include('/' . $action . '.php');
 ?>

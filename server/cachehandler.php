@@ -1,5 +1,5 @@
 <?php
-require_once("/Cache_Lite-1.7.16/Cache/Lite.php");
+require_once("Cache_Lite-1.7.16/Cache/Lite.php");
 class cachehandler{
 
 	private $default_dir = CACHE_PATH;

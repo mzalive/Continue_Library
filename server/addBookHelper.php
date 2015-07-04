@@ -2,21 +2,21 @@
 function add_to_book($target){
 	require_once("lock.php");
 
-	$flag = false;
+	$is_book = false;
 
 	$book_amount_total = -1;
 	$user_id = -1;
 
 	if($target == "book"){
-		$book_amount_total = $_POST['total_amount'];
-		$flag = true;
+		$book_amount_total = $_GET['total_amount'];
+		$is_book = true;
 		$sql_insert_book1 = ",book_amount_total";
 		$sql_insert_book2 = ",'$book_amount_total'";
 	}else{
-		$user_id = $_POST['user_id'];
+		$user_id = $_GET['user_id'];
 	}
 
-	$book_isbn = $_POST['book_isbn'];
+	$book_isbn = $_GET['book_isbn'];
 
 	$url = DOUBAN_API.$book_isbn;
 	$info = file_get_contents($url);
@@ -37,7 +37,7 @@ function add_to_book($target){
 	$book_author = $book -> author;
 
 	//transaction lock
-	$lock = new filelock($_POST['action']);
+	$lock = new filelock($_GET['action']);
 	$lock -> lock();
 
 	mysql_query("SET AUTOCOMMIT=0");
@@ -45,9 +45,9 @@ function add_to_book($target){
 
 	$sql = "insert into ".$target."(".$target."_title,".$target."_subtitle,".$target."_isbn,"
 		.$target."_publisher,".$target."_publishdate,".$target."_imageurl,".$target."_summary"
-		.($flag?$sql_insert_book1:"").")
+		.($is_book?$sql_insert_book1:"").")
 		values('$book_title','$book_subtitle','$book_isbn','$book_publisher'
-		,'$book_publishdate','$book_imageurl','$book_summary'".($flag?$sql_insert_book2:"").")";
+		,'$book_publishdate','$book_imageurl','$book_summary'".($is_book?$sql_insert_book2:"").")";
 	$query = mysql_query($sql);
 	if(!$query){
 		mysql_query("ROLLBACK");
@@ -57,7 +57,7 @@ function add_to_book($target){
 
 	$book_id = mysql_insert_id();
 
-	if(!$flag){
+	if(!$is_book){
 		$sql_heat = "insert into wish_heat(wish_id,wish_heat) values('$book_id',1)";
 		$query_heat = mysql_query($sql_heat);
 		if(!$query_heat){

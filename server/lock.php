@@ -1,6 +1,7 @@
 <?php
 //lock a file and no other process may access it.
 class filelock{
+	private $parent_dir = CACHE_PATH;
 	private $default_dir = FILE_LOCK_PATH;
 	private $filename;
 	private $dir;
@@ -9,6 +10,8 @@ class filelock{
 	{
 		$this->dir = $this->default_dir.$filename.'/';
 		$this->filename = $this->dir.$filename.'.txt';
+		if(!is_dir($this->parent_dir))
+			mkdir($this->parent_dir);
 		if(!is_dir($this->default_dir))
 			mkdir($this->default_dir);
 		if(!is_dir($this->dir))
