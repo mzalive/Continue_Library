@@ -26,4 +26,10 @@
     <string name="login_password">password</string>
     <string name="login">登录</string>
     <string name="copyright">Copyright © Continue.</string>
+
+
+    <string name="detail_book_title">我是书名</string>
+    <string name="detail_book_publish_info">我是出版社/我是作者/2012-12-12</string>
+    <string name="detail_book_content_index">简介</string>
+    <string name="detail_book_content">我是内容我是内容我是内容我是内容我是容我是内容我是内容我是内容我是容我是内容我是内容我是内容我是容我容我是内容我是内容我是内容我是容我是内容我是内容我是内容我是容我是内容我是内容我是内容我是容我是内容我是内容我是内容我是我是内容我是内容我是内容我是容我是内容我是内容我是内容我是容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容</string>
 </resources>

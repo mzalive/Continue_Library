@@ -22,6 +22,9 @@
             android:name=".LoginActivity"
             android:launchMode="singleTask">
         </activity>
+        <activity android:name=".BookDedatilActivity"
+            android:launchMode="singleTask">
+        </activity>
     </application>
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
 </manifest>

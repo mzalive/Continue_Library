@@ -1,5 +1,6 @@
 package org.mzalive.continuelibrary;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -187,26 +188,26 @@ public class MainActivity extends AppCompatActivity {
         //return super.onOptionsItemSelected(item);
     }
     public void login(View view) {
-//        Intent intent = new Intent(this, LoginActivity.class);
-//        startActivity(intent);
+        Intent intent = new Intent(this, BookDedatilActivity.class);
+        startActivity(intent);
         //mContent = userFragment;
         //getSupportFragmentManager().beginTransaction().hide(continueFragment).commit();
-        Thread thread=new Thread(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                Log.d("click me", "click me");
-                BookList list = new BookList();
+//        Thread thread=new Thread(new Runnable()
+//        {
+//            @Override
+//            public void run()
+//            {
+//                Log.d("click me", "click me");
+//                BookList list = new BookList();
 //                list = UserInfo.getMyBorrowlist("1", 1, 10);
 //                Log.d("result", list.toString());
 //                list = UserInfo.getMyWishlist("1", 1, 10);
-                list = BookManage.getBooklist(1, 10);
-                Log.d("result", list.toString());
-                Log.d("click me", "click me finish");
-            }
-        });
-        thread.start();
+//                list = BookManage.getBooklist(1, 10);
+//                Log.d("result", list.toString());
+//                Log.d("click me", "click me finish");
+//            }
+//        });
+//        thread.start();
 
     }
 
