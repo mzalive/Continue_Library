@@ -6,6 +6,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +35,12 @@ public class BookGridRecyclerViewAdapter extends RecyclerView.Adapter<BookGridRe
         public ImageView mImageView;
         public BookGridViewHolder(View view) {
             super(view);
+
+            DisplayMetrics dm = view.getResources().getDisplayMetrics();
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            lp.height = dm.widthPixels / 2;
+            view.setLayoutParams(lp);
+
             cardView = (CardView) view.findViewById(R.id.card_view);
             mTextView = (TextView) view.findViewById(R.id.info_text);
             mImageView = (ImageView) view.findViewById(R.id.card_book_image);
@@ -69,12 +76,15 @@ public class BookGridRecyclerViewAdapter extends RecyclerView.Adapter<BookGridRe
                     public void onSuccess() {
                         //Get palette to produce card's background color
                         Bitmap source = ((BitmapDrawable) holder.mImageView.getDrawable()).getBitmap();
-                        Palette.from(source).generate(new Palette.PaletteAsyncListener() {
-                            public void onGenerated(Palette p) {
-                                Palette.Swatch vibrant = p.getVibrantSwatch();
-                                holder.cardView.setCardBackgroundColor(vibrant.getRgb());
-                            }
-                        });
+                        Palette.from(source)
+                                .maximumColorCount(32)
+                                .generate(new Palette.PaletteAsyncListener() {
+                                    public void onGenerated(Palette p) {
+                                        Palette.Swatch swatch = p.getDarkVibrantSwatch();
+                                        if (swatch != null)
+                                            holder.cardView.setCardBackgroundColor(swatch.getRgb());
+                                    }
+                                });
                         }
                     });
     }
