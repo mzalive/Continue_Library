@@ -1,21 +1,10 @@
 package org.mzalive.continuelibrary;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.renderscript.Allocation;
-import android.renderscript.RenderScript;
-import android.renderscript.ScriptIntrinsicBlur;
-import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -62,7 +51,7 @@ public class BookDedatilActivity extends Activity{
         p = ivBookImage.getLayoutParams();
         p.width = (int)(dm.widthPixels*0.45);
 
-//        ivBookBlur
+//      ivBookBlur
         ivBookImage.setScaleType(ImageView.ScaleType.FIT_XY);
         Picasso.with(this)
                 .load("http://img3.douban.com/lpic/s28120622.jpg")
@@ -80,39 +69,5 @@ public class BookDedatilActivity extends Activity{
                         ivBookImage.setLayoutParams(lp);
                     }
                 });
-        Drawable blurDraw = new BitmapDrawable(getResources(), blur(ivBookImage.getDrawingCache(), p.width));
-        ivBookBlur.setImageDrawable(blurDraw);
-
     }
-
-    private Bitmap blur(Bitmap bitmap, int size) {
-        long startMs = System.currentTimeMillis();
-        float radius = 20;
-
-        Bitmap overlay = Bitmap.createBitmap( size, size, Bitmap.Config.ARGB_8888);
-
-        Canvas canvas = new Canvas(overlay);
-
-        canvas.translate(-view.getLeft(), -view.getTop());
-        canvas.drawBitmap(bitmap, 0, 0, null);
-
-        RenderScript rs = RenderScript.create(this);
-
-        Allocation overlayAlloc = Allocation.createFromBitmap(rs, overlay);
-
-        ScriptIntrinsicBlur blur = ScriptIntrinsicBlur.create(rs, overlayAlloc.getElement());
-
-        blur.setInput(overlayAlloc);
-
-        blur.setRadius(radius);
-
-        blur.forEach(overlayAlloc);
-
-        overlayAlloc.copyTo(overlay);
-
-        rs.destroy();
-
-        return overlay;
-    }
-
 }
