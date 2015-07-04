@@ -80,39 +80,7 @@ public class BookDedatilActivity extends Activity{
                         ivBookImage.setLayoutParams(lp);
                     }
                 });
-        Drawable blurDraw = new BitmapDrawable(getResources(), blur(ivBookImage.getDrawingCache(), p.width));
-        ivBookBlur.setImageDrawable(blurDraw);
 
-    }
-
-    private Bitmap blur(Bitmap bitmap, int size) {
-        long startMs = System.currentTimeMillis();
-        float radius = 20;
-
-        Bitmap overlay = Bitmap.createBitmap( size, size, Bitmap.Config.ARGB_8888);
-
-        Canvas canvas = new Canvas(overlay);
-
-        canvas.translate(-view.getLeft(), -view.getTop());
-        canvas.drawBitmap(bitmap, 0, 0, null);
-
-        RenderScript rs = RenderScript.create(this);
-
-        Allocation overlayAlloc = Allocation.createFromBitmap(rs, overlay);
-
-        ScriptIntrinsicBlur blur = ScriptIntrinsicBlur.create(rs, overlayAlloc.getElement());
-
-        blur.setInput(overlayAlloc);
-
-        blur.setRadius(radius);
-
-        blur.forEach(overlayAlloc);
-
-        overlayAlloc.copyTo(overlay);
-
-        rs.destroy();
-
-        return overlay;
     }
 
 }
