@@ -3,4 +3,3 @@
 ~*.tmp
 ~$*.~vsdx
 Thumbs.db
-conn.php

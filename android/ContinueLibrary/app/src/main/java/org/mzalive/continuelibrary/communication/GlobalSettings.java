@@ -4,7 +4,8 @@ package org.mzalive.continuelibrary.communication;
  * Created by Trigger on 2015/6/26.
  */
 public class GlobalSettings {
-    public final static String REQUEST_URL = "http://continuelibrary.mzalive.org/server/index.php";
+    public final static String REQUEST_URL = "http://192.168.1.130/continuelibrary/server/index.php";
+    public final static String REQUEST_URL_TEST = "http://192.168.56.101/Continue/server/index.php";
 
     public final  static String ACTION_LOGIN = "login";
     public final static String ACTION_GETMYBORROWLIST = "getMyBorrowlist";

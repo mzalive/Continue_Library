@@ -1,15 +1,15 @@
 <?php
 include ("conn.php");
 include ("cachehandler.php");
-if(!is_null($_POST["user_id"]) && !is_null($_POST["start"]) && !is_null($_POST["count"]))
+if(!is_null($_GET["user_id"]) && !is_null($_GET["start"]) && !is_null($_GET["count"]))
 {
 	$conn = mysql_open();
 
-	$user_id = $_POST["user_id"];
-	$start = $_POST["start"];
-	$count = $_POST["count"];
+	$user_id = $_GET["user_id"];
+	$start = $_GET["start"];
+	$count = $_GET["count"];
 
-	$cache = new cachehandler($_POST['action']);
+	$cache = new cachehandler($_GET['action']);
 
 	try{
 		if($output = $cache -> get($user_id))
@@ -23,7 +23,7 @@ if(!is_null($_POST["user_id"]) && !is_null($_POST["start"]) && !is_null($_POST["
 			$books = $output["books"];
 			$total = $output["book_total"];
 
-			$count = $_POST['count'];
+			$count = $_GET['count'];
 			$output["book_count"] = $count;
 			if($total - $start < $count)
 			{
@@ -51,9 +51,9 @@ function foo(){
 	require_once("buildBook.php");
 	$response = array();
 
-	$user_id = $_POST["user_id"];
-	$start = $_POST["start"];
-	$count = $_POST["count"];
+	$user_id = $_GET["user_id"];
+	$start = $_GET["start"];
+	$count = $_GET["count"];
 
 	$sql = "select book_id from borrowlist where user_id = '$user_id'";
 	$query = mysql_query($sql);
