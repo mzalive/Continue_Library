@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                             default :
                                 Toast.makeText(view.getContext(), ""+position,Toast.LENGTH_SHORT).show();
                         }
-                        return true;
+                        return false;
                     }
                 })
                 .build();
@@ -233,5 +233,9 @@ public class MainActivity extends AppCompatActivity {
             }
             mContent = fragment;
         }
+    }
+
+    private void callForContact() {
+        
     }
 }

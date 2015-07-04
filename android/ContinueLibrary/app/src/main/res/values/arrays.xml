@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="test_items">
-        <item>DATA 1</item>
-        <item>DATA 2</item>
-        <item>DATA 3</item>
-        <item>DATA 4</item>
-        <item>DATA 5</item>
-        <item>DATA 6</item>
-        <item>DATA 7</item>
-        <item>DATA 8</item>
-        <item>DATA 9</item>
-        <item>DATA 10</item>
+        <item>http://img4.douban.com/lpic/s4259006.jpg</item>
+        <item>http://img3.douban.com/lpic/s3817805.jpg</item>
+        <item>http://img3.douban.com/lpic/s11171603.jpg</item>
+        <item>http://img4.douban.com/mpic/s4143787.jpg</item>
+        <item>http://img4.douban.com/lpic/s6089507.jpg</item>
+        <item>http://img4.douban.com/lpic/s6937206.jpg</item>
+        <item>http://img3.douban.com/lpic/s27280265.jpg</item>
     </string-array>
 </resources>
