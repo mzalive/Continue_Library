@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dialogUI"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center">
+    <ImageView
+        android:id="@+id/BookImage"
+        android:layout_width="120dp"
+        android:layout_height="160dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/ic_launcher"
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:layout_alignTop="@+id/BookImage"
+        android:layout_toEndOf="@+id/BookImage"
+        android:layout_marginStart="10dp"
+        android:layout_alignBottom="@+id/BookImage">
+        <TextView
+            android:id="@+id/BookTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/scan_result_title"
+            android:typeface="sans"
+            android:textSize="15sp"
+            android:maxLength="20"/>
+        <TextView
+            android:id="@+id/BookAuthor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/scan_result_author"
+            android:typeface="sans"
+            android:textSize="15sp"
+            android:layout_marginTop="10dp"
+            android:maxLength="20" />
+        <TextView
+            android:id="@+id/BookPublisher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/scan_result_publisher"
+            android:typeface="sans"
+            android:textSize="15sp"
+            android:layout_marginTop="10dp"
+            android:maxLength="20" />
+    </LinearLayout>
+</RelativeLayout>

@@ -39,5 +39,6 @@ dependencies {
     }
     compile 'io.karim:materialtabs:2.0.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile project (':library:StackBlur')
+    compile project(':library:StackBlur')
+    compile 'com.google.zxing:core:3.2.0'
 }

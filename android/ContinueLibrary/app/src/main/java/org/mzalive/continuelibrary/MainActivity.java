@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
         //return super.onOptionsItemSelected(item);
     }
     public void login(View view) {
-        Intent intent = new Intent(this, BookDedatilActivity.class);
+        Intent intent = new Intent(this, ScanBarcodeActivity.class);
         startActivity(intent);
         //mContent = userFragment;
         //getSupportFragmentManager().beginTransaction().hide(continueFragment).commit();

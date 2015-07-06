@@ -1,30 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="org.mzalive.continuelibrary">
+    package="org.mzalive.continuelibrary" >
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.write_external_storage" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
-        tools:replace="android:icon, android:theme"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/NoActionBarAppTheme" >
+        android:theme="@style/NoActionBarAppTheme"
+        tools:replace="android:icon, android:theme" >
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask" >
         </activity>
-        <activity android:name=".BookDedatilActivity"
-            android:launchMode="singleTask">
+        <activity
+            android:name=".BookDedatilActivity"
+            android:launchMode="singleTask" >
+        </activity>
+        <activity
+            android:name=".ScanBarcodeActivity"
+            android:label="@string/title_activity_scan_barcode" >
         </activity>
     </application>
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+
 </manifest>

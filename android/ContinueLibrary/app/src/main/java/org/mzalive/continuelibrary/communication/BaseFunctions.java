@@ -59,7 +59,7 @@ public class BaseFunctions {
             Log.d("IOException", e.getMessage());
         }catch(Exception e){
             e.printStackTrace();
-            Log.d("exception", e.getMessage());
+//            Log.d("exception", e.getMessage());
         }
         Log.d("Result", result);
         return result;
