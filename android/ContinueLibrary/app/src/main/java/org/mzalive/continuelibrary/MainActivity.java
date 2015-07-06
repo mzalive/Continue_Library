@@ -1,6 +1,7 @@
 package org.mzalive.continuelibrary;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -192,6 +193,10 @@ public class MainActivity extends AppCompatActivity {
         //return super.onOptionsItemSelected(item);
     }
     public void login(View view) {
+        SharedPreferences sp = getSharedPreferences("UserInfo", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("userId", "2");
+        editor.putString("username", "liuziyi");
         Intent intent = new Intent(this, SetPasswordActivity.class);
         startActivity(intent);
         //mContent = userFragment;

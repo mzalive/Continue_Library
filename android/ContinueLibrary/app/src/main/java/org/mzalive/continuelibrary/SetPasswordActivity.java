@@ -132,7 +132,8 @@ public class SetPasswordActivity extends Activity{
             SharedPreferences sp = getSharedPreferences("UserInfo", MODE_PRIVATE);
             String username = sp.getString("username", "");
             userId = sp.getString("userId", "");
-            userId = "2";
+            //测试用的
+//            userId = "2";
             oldPassword = MdEncode.encode(etOldPasswordContent.getText().toString());
             newPassword = MdEncode.encode(etNewPasswordContent.getText().toString());
             Log.d("userId", userId);

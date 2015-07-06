@@ -27,11 +27,11 @@
     <string name="login">登录</string>
     <string name="copyright">Copyright © Continue.</string>
 
-    <string name="username">用户ID</string>
+    <string name="username">用户ID:</string>
     <string name="username_content">我是用户名</string>
-    <string name="old_password">当前密码</string>
-    <string name="new_password">新密码</string>
-    <string name="confirm_password">确认密码</string>
+    <string name="old_password">当前密码:</string>
+    <string name="new_password">新密码:</string>
+    <string name="confirm_password">确认密码:</string>
     <string name="modify">修改</string>
 
     <string name="detail_book_title">我是书名</string>
