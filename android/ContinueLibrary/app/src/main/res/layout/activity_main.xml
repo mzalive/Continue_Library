@@ -9,14 +9,13 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolBar"
         android:layout_width="fill_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="60dp"
         android:background="@color/colorPrimary"></android.support.v7.widget.Toolbar>
 
     <com.quinny898.library.persistentsearch.SearchBox
         android:id="@+id/searchbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:elevation="50dp"
         />
 
     <TextView
