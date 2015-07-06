@@ -17,6 +17,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import org.mzalive.continuelibrary.communication.MdEncode;
 import org.mzalive.continuelibrary.communication.UserInfo;
 
 /**
@@ -132,8 +133,8 @@ public class SetPasswordActivity extends Activity{
             String username = sp.getString("username", "");
             userId = sp.getString("userId", "");
             userId = "2";
-            oldPassword = etOldPasswordContent.getText().toString();
-            newPassword = etNewPasswordContent.getText().toString();
+            oldPassword = MdEncode.encode(etOldPasswordContent.getText().toString());
+            newPassword = MdEncode.encode(etNewPasswordContent.getText().toString());
             Log.d("userId", userId);
             Log.d("oldPassword", oldPassword);
             Log.d("newPassword", newPassword);
