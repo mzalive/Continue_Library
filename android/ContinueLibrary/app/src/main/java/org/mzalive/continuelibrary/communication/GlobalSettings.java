@@ -7,15 +7,15 @@ public class GlobalSettings {
     public final static String REQUEST_URL = "http://continuelibrary.mzalive.org/server/index.php";
 
     public final  static String ACTION_LOGIN = "login";
-    public final static String ACTION_GETMYBORROWLIST = "getMyBorrowlist";
-    public final static String ACTION_GETMYWISHLIST = "getMyWishlist";
+    public final static String ACTION_GETMYBORROWLIST = "getMyBorrowList";
+    public final static String ACTION_GETMYWISHLIST = "getMyWishList";
     public final static String ACTION_SETPASSWORD = "setPassword";
     public final static String ACTION_BORROWBOOK = "borrowBook";
     public final static String ACTION_RETURNBOOK = "returnBook";
-    public final static String ACTION_GETBOOKLIST = "getBooklist";
+    public final static String ACTION_GETBOOKLIST = "getBookList";
     public final static String ACTION_GETBOOKCOUNT = "getBookCount";
     public final static String ACTION_ADDHEAT = "addHeat";
-    public final static String ACTION_GETWISHLIST = "getWishlist";
+    public final static String ACTION_GETWISHLIST = "getWishList";
     public final static String ACTION_SEARCH = "search";
 
     public final static int UNKNOWN_ERROR = 999;

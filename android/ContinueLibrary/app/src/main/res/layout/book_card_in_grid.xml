@@ -1,4 +1,4 @@
-<android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+﻿<android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/card_in_grid"
     android:layout_margin="@dimen/card_margin_grid"

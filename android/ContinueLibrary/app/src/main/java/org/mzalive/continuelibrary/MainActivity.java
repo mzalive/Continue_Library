@@ -29,8 +29,10 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.quinny898.library.persistentsearch.SearchBox;
 import com.quinny898.library.persistentsearch.SearchResult;
 
-import org.mzalive.continuelibrary.Base.*;
-import org.mzalive.continuelibrary.communication.*;
+import org.mzalive.continuelibrary.Base.BookList;
+import org.mzalive.continuelibrary.communication.BookManage;
+import org.mzalive.continuelibrary.communication.Search;
+import org.mzalive.continuelibrary.communication.UserInfo;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -193,31 +195,31 @@ public class MainActivity extends AppCompatActivity {
         //return super.onOptionsItemSelected(item);
     }
     public void login(View view) {
-        SharedPreferences sp = getSharedPreferences("UserInfo", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sp.edit();
-        editor.putString("userId", "2");
-        editor.putString("username", "liuziyi");
-        Intent intent = new Intent(this, ScanBarcodeActivity.class);
-        startActivity(intent);
+//        SharedPreferences sp = getSharedPreferences("UserInfo", MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sp.edit();
+//        editor.putString("userId", "2");
+//        editor.putString("username", "liuziyi");
+//        Intent intent = new Intent(this, ScanBarcodeActivity.class);
+//        startActivity(intent);
         //mContent = userFragment;
         //getSupportFragmentManager().beginTransaction().hide(continueFragment).commit();
-//        Thread thread=new Thread(new Runnable()
-//        {
-//            @Override
-//            public void run()
-//            {
-//                Log.d("click me", "click me");
-//                BookList list = new BookList();
-//                list = UserInfo.getMyBorrowlist("1", 1, 10);
+        Thread thread=new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                Log.d("click me", "click me");
+                BookList list = new BookList();
+                list = UserInfo.getMyBorrowlist("1", 1, 10);
 //                Log.d("result", list.toString());
 //                list = UserInfo.getMyWishlist("1", 1, 10);
-//                list = BookManage.getBooklist(1, 10);
-//                String result = Search.search("-1", "9787302315582", 0, 1, 0, 0);
-//                Log.d("result", result.toString());
-//                Log.d("click me", "click me finish");
-//            }
-//        });
-//        thread.start();
+//                list = BookManage.getBooklist(0, 20);
+//                Log.d("result11", list.getBooks().get(11).getTitle().toString());
+//                Search.search("1", "偷影子的人", 0, 20, 0, 20);
+                Log.d("click me", "click me finish");
+            }
+        });
+        thread.start();
     }
 
     public void switchFragment(Fragment fragment) {
