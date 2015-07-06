@@ -2,6 +2,7 @@ package org.mzalive.continuelibrary;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.util.Log;
@@ -11,6 +12,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.text.TextWatcher;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+import org.mzalive.continuelibrary.communication.UserInfo;
 
 /**
  * Created by Trigger on 2015/7/6.
@@ -28,10 +35,6 @@ public class SetPasswordActivity extends Activity{
     private EditText etConfirmPasswordContent;
     private TextView tvWarningConfirm;
     private Button   btnModify;
-
-    private String   userId;
-    private String   oldPassword;
-    private String   newPassword;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -53,7 +56,6 @@ public class SetPasswordActivity extends Activity{
 
         SharedPreferences sp = getSharedPreferences("UserInfo", MODE_PRIVATE);
         String username = sp.getString("username", "");
-        userId = sp.getString("userId", "");
         tvUsernameContent.setText(username);
 
         textChange change = new textChange();
@@ -75,53 +77,104 @@ public class SetPasswordActivity extends Activity{
 
         @Override
         public void onTextChanged(CharSequence cs, int start, int before, int count){
-            boolean sign1 = false;
-            boolean sign2 = false;
-
-            if(etOldPasswordContent.getText().length() < 6 && etOldPasswordContent.getText().length() > 0){
-                tvWarningOld.setText("请输入6-16位密码，字母区分大小写");
-                sign1 = false;
-            }
-            else{
-                tvWarningOld.setText("");
-                sign1 = true;
-            }
-            if(etNewPasswordContent.getText().length() < 6 && etNewPasswordContent.getText().length() > 0 && sign1){
-                tvWarningNew.setText("请输入6-16位密码，字母区分大小写");
-                sign2 = false;
-            }
-            else{
-                tvWarningNew.setText("");
-                sign2 = true;
-            }
-            if((!etConfirmPasswordContent.getText().equals(etNewPasswordContent.getText())) && sign1 && sign2){
+            if((!etConfirmPasswordContent.getText().toString().equals(etNewPasswordContent.getText().toString()))){
                 tvWarningConfirm.setText("两次输入的密码不一致，请重新输入");
             }
             else{
                 tvWarningConfirm.setText("");
             }
+            if((etNewPasswordContent.getText().length() < 6) && (etNewPasswordContent.getText().length() > 0)){
+                tvWarningNew.setText("请输入6-16位密码，字母区分大小写");
+            }
+            else{
+                tvWarningNew.setText("");
+            }
+            if((etOldPasswordContent.getText().length() > 0) && (etOldPasswordContent.getText().length() < 6)){
+                tvWarningOld.setText("请输入6-16位密码，字母区分大小写");
+            }
+            else{
+                tvWarningOld.setText("");
+            }
         }
     }
     public void clickModify(View v){
-        etOldPasswordContent.setText("");
-        etNewPasswordContent.setText("");
-        etConfirmPasswordContent.setText("");
-//        oldPassword = etOldPasswordContent.getText().toString();
-//        newPassword = etNewPasswordContent.getText().toString();
-//        String confirm = etConfirmPasswordContent.getText().toString();
-//        if(oldPassword.equals("") || newPassword.equals("")||confirm.equals("")){
-//            Toast.makeText(SetPasswordActivity.this, "密码不能为空，请重试！", Toast.LENGTH_SHORT).show();
-//            etOldPasswordContent.clearComposingText();
-//            etNewPasswordContent.clearComposingText();
-//            etConfirmPasswordContent.clearComposingText();
-//        }
-//
-//        if(!confirm.equals(newPassword)){
-//            Toast.makeText(SetPasswordActivity.this, "两次输入密码不匹配，请重试！", Toast.LENGTH_SHORT).show();
-//            etOldPasswordContent.clearComposingText();
-//            etNewPasswordContent.clearComposingText();
-//            etConfirmPasswordContent.clearComposingText();
-//        }
+        Log.d("click", "modify clicked");
+
+        boolean sign1 = true;
+        boolean sign2 = true;
+        boolean sign3 = true;
+        boolean sign4 = etNewPasswordContent.getText().toString().equals(etConfirmPasswordContent.getText().toString());
+        if(etOldPasswordContent.getText().length() < 1){
+            sign1 = false;
+            tvWarningOld.setText("请输入原始密码！");
+        }
+        if(etNewPasswordContent.getText().length() <1){
+            sign2 = false;
+            tvWarningNew.setText("请输入新密码！");
+        }
+        if(etConfirmPasswordContent.getText().length() <1){
+            sign3 = false;
+            tvWarningConfirm.setText("请确认密码！");
+        }
+        if(sign1 && sign2 && sign3 && sign4){
+            new setPassword().execute();
+        }
+    }
+
+    class setPassword extends AsyncTask<Integer, Integer, String>{
+        private String userId;
+        private String oldPassword;
+        private String newPassword;
+        @Override
+        protected void onPreExecute(){
+            btnModify.setClickable(false);
+            SharedPreferences sp = getSharedPreferences("UserInfo", MODE_PRIVATE);
+            String username = sp.getString("username", "");
+            userId = sp.getString("userId", "");
+            userId = "2";
+            oldPassword = etOldPasswordContent.getText().toString();
+            newPassword = etNewPasswordContent.getText().toString();
+            Log.d("userId", userId);
+            Log.d("oldPassword", oldPassword);
+            Log.d("newPassword", newPassword);
+            etOldPasswordContent.setText("");
+            etNewPasswordContent.setText("");
+            etConfirmPasswordContent.setText("");
+        }
+        @Override
+        protected String doInBackground(Integer...params){
+            String result = getSetPassword(userId, oldPassword, newPassword);
+            return result;
+        }
+        @Override
+        protected void onPostExecute(String result){
+            btnModify.setClickable(true);
+            int errorCode = Integer.valueOf(result);
+            switch (errorCode){
+                case -1:
+                    Toast.makeText(SetPasswordActivity.this, "未知错误，请重试！",Toast.LENGTH_SHORT).show();
+                    break;
+                case 1000:
+                    Toast.makeText(SetPasswordActivity.this, "修改成功！",Toast.LENGTH_SHORT).show();
+                    break;
+                case 2001:
+                    Toast.makeText(SetPasswordActivity.this, "修改失败！",Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
+    }
+
+    private static String getSetPassword(String userId, String oldPassword, String newPassword){
+        String result = "-1";
+        String setResult = UserInfo.setPassword(oldPassword, newPassword,userId);
+        try{
+            JSONTokener jsonTokener = new JSONTokener(setResult);
+            JSONObject object = (JSONObject)jsonTokener.nextValue();
+            result = object.getString("error_code");
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        return result;
     }
 
 }
