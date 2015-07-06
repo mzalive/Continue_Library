@@ -1,6 +1,6 @@
 <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/card_in_grid"
+    android:id="@+id/card_in_search"
     android:layout_margin="@dimen/card_margin"
     android:layout_gravity="center"
     android:layout_width="0dp"
@@ -11,17 +11,16 @@
     card_view:cardPreventCornerOverlap="false">
     
     <ImageView
-        android:id="@+id/card_book_image_in_grid"
+        android:id="@+id/card_book_image_in_search_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:scaleType="fitCenter"/>
 
     <TextView
-        android:id="@+id/info_text_in_grid"
+        android:id="@+id/info_text_in_search_list"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-
         android:layout_gravity="bottom"
         android:gravity="center"
         android:background="@color/translucent_dark"

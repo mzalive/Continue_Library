@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private Fragment mContent;
     private Fragment continueFragment;
     private Fragment userFragment;
+    private Fragment searchResultListFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
          */
         continueFragment = LibraryFragment.newInstance(LibraryFragment.CONTINUE_FRAGMENT_CATEGORY);
         userFragment = LibraryFragment.newInstance(LibraryFragment.USER_FRAGMENT_CATEGORY);
+        searchResultListFragment = SearchResultListFragment.newInstance();
 
         /**
          * Toolbar Configuration
@@ -92,12 +94,14 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onItemClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
                         switch (position) {
-                            case 0:
+                            case 0: //Continue
                                 switchFragment(continueFragment);
                                 break;
-                            case 1:
+                            case 1: //Mine
                                 switchFragment(userFragment);
                                 break;
+                            case 3: //Test only
+                                switchFragment(searchResultListFragment);
                             default :
                                 Toast.makeText(view.getContext(), ""+position,Toast.LENGTH_SHORT).show();
                         }
