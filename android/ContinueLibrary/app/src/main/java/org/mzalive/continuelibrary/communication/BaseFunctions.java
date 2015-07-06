@@ -53,15 +53,12 @@ public class BaseFunctions {
             conn.disconnect();
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            Log.d("MalformedException", e.getMessage());
         } catch (IOException e) {
             e.printStackTrace();
-            Log.d("IOException", e.getMessage());
         }catch(Exception e){
             e.printStackTrace();
-//            Log.d("exception", e.getMessage());
         }
-        Log.d("Result", result);
+        Log.d("Result_HttpResponse", result);
         return result;
     }
 

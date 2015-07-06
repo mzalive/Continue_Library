@@ -1,5 +1,7 @@
 package org.mzalive.continuelibrary.communication;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -59,10 +61,27 @@ public class BookManage {
         keys_value.add(Integer.toString(count));
         String result = BaseFunctions.httpConnection(keys_name, keys_value, GlobalSettings.ACTION_GETBOOKLIST);
 
+        try {
+            JSONTokener jsonTokener = new JSONTokener(result);
+            JSONObject object = (JSONObject) jsonTokener.nextValue();
+            bookList.setErrorCode(object.getString("error_code"));
+            Log.d("ErrorCode_Booklist", bookList.getErrorCode());
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        if(bookList.getErrorCode() != "1000"){
+            bookList.setBookStart(0);
+            bookList.setBookCount(0);
+            bookList.setBookTotal(0);
+            bookList.setWishStart(0);
+            bookList.setWishCount(0);
+            bookList.setWishTotal(0);
+            bookList.setBooks(null);
+            return bookList;
+        }
         try{
             JSONTokener jsonTokener = new JSONTokener(result);
-            JSONObject object = (JSONObject)jsonTokener.nextValue();
-            bookList.setErrorCode(object.getString("error_code"));
+            JSONObject object = (JSONObject) jsonTokener.nextValue();
             bookList.setBookStart(object.getInt("book_start"));
             bookList.setBookCount(object.getInt("book_count"));
             bookList.setBookTotal(object.getInt("book_total"));

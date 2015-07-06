@@ -1,5 +1,7 @@
 package org.mzalive.continuelibrary.communication;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,6 +32,24 @@ public class WishlistManage {
         keys_value.add(Integer.toString(count));
         String result = BaseFunctions.httpConnection(keys_name, keys_value, GlobalSettings.ACTION_GETWISHLIST);
 
+        try {
+            JSONTokener jsonTokener = new JSONTokener(result);
+            JSONObject object = (JSONObject) jsonTokener.nextValue();
+            wishList.setErrorCode(object.getString("error_code"));
+            Log.d("ErrorCode_getWishList", wishList.getErrorCode());
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        if(wishList.getErrorCode() != "1000"){
+            wishList.setBookStart(0);
+            wishList.setBookCount(0);
+            wishList.setBookTotal(0);
+            wishList.setWishStart(0);
+            wishList.setWishCount(0);
+            wishList.setWishTotal(0);
+            wishList.setBooks(null);
+            return wishList;
+        }
         try{
             JSONTokener jsonTokener = new JSONTokener(result);
             JSONObject object = (JSONObject)jsonTokener.nextValue();

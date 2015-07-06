@@ -1,5 +1,7 @@
 package org.mzalive.continuelibrary.communication;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,10 +48,29 @@ public class UserInfo {
         keys_value.add(Integer.toString(start));
         keys_value.add(Integer.toString(count));
         String result = BaseFunctions.httpConnection(keys_name, keys_value, GlobalSettings.ACTION_GETMYBORROWLIST);
+
+        try {
+            JSONTokener jsonTokener = new JSONTokener(result);
+            JSONObject object = (JSONObject) jsonTokener.nextValue();
+            myBorrowList.setErrorCode(object.getString("error_code"));
+            Log.d("ErrorCode_getMyBorrowlist", myBorrowList.getErrorCode());
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        if(myBorrowList.getErrorCode() != "1000"){
+            myBorrowList.setBookStart(0);
+            myBorrowList.setBookCount(0);
+            myBorrowList.setBookTotal(0);
+            myBorrowList.setWishStart(0);
+            myBorrowList.setWishCount(0);
+            myBorrowList.setWishTotal(0);
+            myBorrowList.setBooks(null);
+            return myBorrowList;
+        }
+
         try{
             JSONTokener jsonTokener = new JSONTokener(result);
             JSONObject object = (JSONObject)jsonTokener.nextValue();
-            myBorrowList.setErrorCode(object.getString("error_code"));
             myBorrowList.setBookStart(object.getInt("book_start"));
             myBorrowList.setBookCount(object.getInt("book_count"));
             myBorrowList.setBookTotal(object.getInt("book_total"));
@@ -104,6 +125,25 @@ public class UserInfo {
         keys_value.add(Integer.toString(start));
         keys_value.add(Integer.toString(count));
         String result = BaseFunctions.httpConnection(keys_name, keys_value, GlobalSettings.ACTION_GETMYWISHLIST);
+
+        try {
+            JSONTokener jsonTokener = new JSONTokener(result);
+            JSONObject object = (JSONObject) jsonTokener.nextValue();
+            myWishList.setErrorCode(object.getString("error_code"));
+            Log.d("ErrorCode_getMyWishlist", myWishList.getErrorCode());
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        if(myWishList.getErrorCode() != "1000"){
+            myWishList.setBookStart(0);
+            myWishList.setBookCount(0);
+            myWishList.setBookTotal(0);
+            myWishList.setWishStart(0);
+            myWishList.setWishCount(0);
+            myWishList.setWishTotal(0);
+            myWishList.setBooks(null);
+            return myWishList;
+        }
         try{
             JSONTokener jsonTokener = new JSONTokener(result);
             JSONObject object = (JSONObject)jsonTokener.nextValue();
