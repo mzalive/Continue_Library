@@ -1,5 +1,4 @@
 <?php
-phpinfo();
 function deldir($dir) {
   //先删除目录下的文件：
   $dh=opendir($dir);

@@ -1,6 +1,6 @@
 <?php
 include ("conn.php");
-if(!is_null($_GET['old_password']) && !is_null($_GET['new_password']) && !is_null($_GET['user_id'])){
+if(!is_null($_POST['old_password']) && !is_null($_POST['new_password']) && !is_null($_POST['user_id'])){
 	$response = array();
 
 	$flag = foo();
@@ -15,12 +15,12 @@ function foo(){
 	require_once("lock.php");
 
 	$conn = mysql_open();
-	$old_password = $_GET['old_password'];
-	$new_password = $_GET['new_password'];
-	$user_id = $_GET['user_id'];
+	$old_password = $_POST['old_password'];
+	$new_password = $_POST['new_password'];
+	$user_id = $_POST['user_id'];
 
 	//transaction lock
-	$lock = new filelock($_GET['action']);
+	$lock = new filelock($_POST['action']);
 	$lock -> lock();
 
 

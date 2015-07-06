@@ -2,35 +2,44 @@
 include ("conn.php");
 require_once("getBookInfo.php");
 require_once("buildBook.php");
-if(!is_null($_GET['keyword']) && !is_null($_GET['user_id']) && !is_null($_GET['book_start']) && !is_null($_GET['book_count'])
-	&& !is_null($_GET['wish_start']) && !is_null($_GET['wish_count'])){
+if(!is_null($_POST['keyword']) && !is_null($_POST['user_id']) && !is_null($_POST['book_start']) && !is_null($_POST['book_count'])
+	&& !is_null($_POST['wish_start']) && !is_null($_POST['wish_count'])){
 	try{
 		$conn = mysql_open();
 
-		$keyword = $_GET['keyword'];
+		$keyword = $_POST['keyword'];
 
 		$keyword = preprocess($keyword);
 
-		$output_book = search_helper("book",$keyword);
-		$output_wish = search_helper("wish",$keyword);
+		$output_book = $_POST['book_count']==='0'?array('error_code' => NO_CONTENT)
+												:search_helper("book",$keyword);
+		$output_wish = $_POST['wish_count']==='0'?array('error_code' => NO_CONTENT)
+												:search_helper("wish",$keyword);
 
 		$output = array();
 
 		$output['error_code'] = $output_book['error_code']==RESULT_OK
-								?($output_wish['error_code']==RESULT_OK
+								?RESULT_OK
+								:($output_wish['error_code']==RESULT_OK)
 									?RESULT_OK
-									:$output_wish['error_code'])
-								:$output_book['error_code'];
+									:$output_book['error_code'];
 		if($output['error_code'] == RESULT_OK)
 		{
-			$output['book_count'] = $output_book['book_count'];
-			$output['book_start'] = $output_book['book_start'];
-			$output['book_total'] = $output_book['book_total'];
-			$output['wish_count'] = $output_wish['wish_count'];
-			$output['wish_start'] = $output_wish['wish_start'];
-			$output['wish_total'] = $output_wish['wish_total'];
-
-			$output['books'] = array_merge($output_book['books'],$output_wish['books']);
+			if($output_book['error_code']==RESULT_OK) 
+			{
+				$output['book_count'] = $output_book['book_count'];
+				$output['book_start'] = $output_book['book_start'];
+				$output['book_total'] = $output_book['book_total'];
+			}else{
+				$output['wish_count'] = $output_wish['wish_count'];
+				$output['wish_start'] = $output_wish['wish_start'];
+				$output['wish_total'] = $output_wish['wish_total'];
+			}
+			$output['books'] =  $output_book['error_code']==RESULT_OK
+								?($output_wish['error_code']==RESULT_OK
+									?array_merge($output_book['books'],$output_wish['books'])
+									:$output_book['books'])
+								:$output_wish['books'];
 		}
 		echo json_encode($output,JSON_UNESCAPED_UNICODE);
 		mysql_close($conn);
@@ -52,7 +61,7 @@ function search_helper($target,$keyword){
 	require_once("cachehandler.php");
 	require_once("getWishHeat.php");
 
-	$cache = new cachehandler($_GET['action']."_".$target);
+	$cache = new cachehandler($_POST['action']."_".$target);
 
 	if($output = $cache -> get($keyword))
 	{
@@ -128,10 +137,10 @@ function foo($target,$keywords){
 	$total = mysql_num_rows($query_search);
 
 	$response[$target.'_total'] = $total;
-	$response[$target.'_start'] = $_GET[$target.'_start'];
-	$response[$target.'_count'] = $total-$_GET[$target.'_start'] >= $_GET[$target.'_count']
-									?$_GET[$target.'_count']
-									:$total-$_GET[$target.'_start'];
+	$response[$target.'_start'] = $_POST[$target.'_start'];
+	$response[$target.'_count'] = $total-$_POST[$target.'_start'] >= $_POST[$target.'_count']
+									?$_POST[$target.'_count']
+									:$total-$_POST[$target.'_start'];
 
 	$response['books'] = array();
 	while($result = mysql_fetch_object($query_search)){
@@ -146,7 +155,7 @@ function foo($target,$keywords){
 				return $response;
 		}
 	}
-	$response['error_code'] = RESULT_OK;
+	$response['error_code'] = $total==0?NO_CONTENT:RESULT_OK;
 	return json_encode($response,JSON_UNESCAPED_UNICODE);
 }
 

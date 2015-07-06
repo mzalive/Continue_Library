@@ -8,15 +8,15 @@ function add_to_book($target){
 	$user_id = -1;
 
 	if($target == "book"){
-		$book_amount_total = $_GET['total_amount'];
+		$book_amount_total = $_POST['total_amount'];
 		$is_book = true;
 		$sql_insert_book1 = ",book_amount_total";
 		$sql_insert_book2 = ",'$book_amount_total'";
 	}else{
-		$user_id = $_GET['user_id'];
+		$user_id = $_POST['user_id'];
 	}
 
-	$book_isbn = $_GET['book_isbn'];
+	$book_isbn = $_POST['book_isbn'];
 
 	$url = DOUBAN_API.$book_isbn;
 	$info = file_get_contents($url);
@@ -37,7 +37,7 @@ function add_to_book($target){
 	$book_author = $book -> author;
 
 	//transaction lock
-	$lock = new filelock($_GET['action']);
+	$lock = new filelock($_POST['action']);
 	$lock -> lock();
 
 	mysql_query("SET AUTOCOMMIT=0");

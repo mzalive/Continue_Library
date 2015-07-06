@@ -4,8 +4,8 @@
 define("UNKNOWN_ERROR","999");
 define("RESULT_OK","1000");
 define("NO_CONTENT", "2000");
-define("NETWORK_ERROR", "2001");
-define("AUTHORIZATION_ERROR","2002");
+define("NETWORK_ERROR", "9999");
+define("AUTHORIZATION_ERROR","2001");
 define("BOOK_ALL_BORROWED","3001");
 define("BOOK_ALL_RETURNED", "3002");
 define("DATABASE_OPERATION_ERROR", "4001");
@@ -20,8 +20,8 @@ define("DOUBAN_API","https://api.douban.com/v2/book/isbn/");
 define("LOGGER_PATH","tmp/log/");
 
 $action = "";
-if($_GET['action'] != ''){
-	$action= $_GET['action'];
+if($_POST['action'] != ''){
+	$action= $_POST['action'];
 	if(file_exists($action.'.php')){
 		include($action.'.php');
 	}

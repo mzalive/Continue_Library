@@ -1,7 +1,7 @@
 <?php
 include ("conn.php");
 include ("addBookHelper.php");
-if(!is_null($_GET['book_isbn']) && !is_null($_GET['total_amount'])){
+if(!is_null($_POST['book_isbn']) && !is_null($_POST['total_amount'])){
 	$conn = mysql_open();
 	$response = array();
 	

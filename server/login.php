@@ -1,7 +1,7 @@
 <?php
 include ("conn.php");
 include ("cachehandler.php");
-if(!is_null($_GET["username"]) && !is_null($_GET["password"]))
+if(!is_null($_POST["username"]) && !is_null($_POST["password"]))
 {
 	$conn = mysql_open();
 	$response = array();
@@ -11,8 +11,8 @@ if(!is_null($_GET["username"]) && !is_null($_GET["password"]))
 }
 
 function foo(){
-		$username = $_GET["username"];
-		$password = $_GET["password"];
+		$username = $_POST["username"];
+		$password = $_POST["password"];
 		$sql = "select user_Password from user where user_Name='$username' and user_Password='$password'";
 		$query = mysql_query($sql);
 		if(!$query)

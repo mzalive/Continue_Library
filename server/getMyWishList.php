@@ -2,13 +2,13 @@
 include ("conn.php");
 include ("cachehandler.php");
 include ("getWishHeat.php");
-if(!is_null($_GET["user_id"]) && !is_null($_GET["start"]) && !is_null($_GET["count"]))
+if(!is_null($_POST["user_id"]) && !is_null($_POST["start"]) && !is_null($_POST["count"]))
 {
 	$conn = mysql_open();
-	$user_id = $_GET["user_id"];
-	$start = $_GET["start"];
-	$count = $_GET["count"];
-	$cache = new cachehandler($_GET['action']);
+	$user_id = $_POST["user_id"];
+	$start = $_POST["start"];
+	$count = $_POST["count"];
+	$cache = new cachehandler($_POST['action']);
 	try{
 		if($output = $cache -> get($user_id))
 		{
@@ -21,7 +21,7 @@ if(!is_null($_GET["user_id"]) && !is_null($_GET["start"]) && !is_null($_GET["cou
 			$wishs = $output["books"];
 			$total = $output["wish_total"];
 
-			$count = $_GET['count'];
+			$count = $_POST['count'];
 			$output["wish_count"] = $count;
 			if($total - $start < $count)
 			{
@@ -52,9 +52,9 @@ function foo(){
 	require_once("buildBook.php");
 	$response = array();
 
-	$user_id = $_GET["user_id"];
-	$start = $_GET["start"];
-	$count = $_GET["count"];
+	$user_id = $_POST["user_id"];
+	$start = $_POST["start"];
+	$count = $_POST["count"];
 
 	$sql = "select wish_id from user_wishlist where user_id = '$user_id'";
 	$query = mysql_query($sql);
