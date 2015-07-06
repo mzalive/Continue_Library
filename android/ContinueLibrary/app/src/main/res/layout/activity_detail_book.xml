@@ -1,91 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:scrollbars="none">
-    <LinearLayout
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/button_daye"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="大爷"
+        />
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-
-        <RelativeLayout
-            android:id="@+id/book_image_area"
+        android:layout_above="@id/button_daye"
+        android:scrollbars="none">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/toolBar"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_alignParentTop="true"
-                android:background="#00ff00"/>
 
-            <ImageView
-                android:id="@+id/image_book_blur"
+            <RelativeLayout
+                android:id="@+id/book_image_area"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:src="@drawable/ayanami"
-                />
+                android:layout_gravity="center_vertical">
 
-            <ImageView
-                android:id="@+id/image_book"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/avatar2"
-                />
-        </RelativeLayout>
+                <ImageView
+                    android:id="@+id/toolBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_alignParentTop="true"
+                    android:background="#00ff00"/>
 
-        <RelativeLayout
-            android:id="@+id/book_info"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="20dp">
-            <TextView
-                android:id="@+id/text_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/detail_book_title"
-                android:textSize="20sp"/>
-            <TextView
-                android:id="@+id/text_publish_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/text_title"
-                android:layout_marginTop="10dp"
-                android:text="@string/detail_book_publish_info"
-                android:textSize="16sp"/>
+                <ImageView
+                    android:id="@+id/image_book_blur"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ayanami"
+                    />
 
-            <Button
-                android:id="@+id/button_add"
+                <ImageView
+                    android:id="@+id/image_book"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/avatar2"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/book_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_below="@id/text_publish_info"
-                android:text="@string/button_add"
-                />
-            <TextView
-                android:id="@+id/text_content_index"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/text_publish_info"
-                android:layout_marginTop="70dp"
-                android:text="@string/detail_book_content_index"
-                android:textSize="16dp"/>
-            <TextView
-                android:id="@+id/text_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/text_content_index"
-                android:layout_marginTop="10dp"
-                android:text="@string/detail_book_content"/>
-        </RelativeLayout>
-    </LinearLayout>
-</ScrollView>
+                android:layout_marginTop="40dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="20dp">
+                <TextView
+                    android:id="@+id/text_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/detail_book_title"
+                    android:textSize="20sp"/>
+                <TextView
+                    android:id="@+id/text_publish_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/text_title"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/detail_book_publish_info"
+                    android:textSize="16sp"/>
+
+                <Button
+                    android:id="@+id/button_add"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@id/text_publish_info"
+                    android:text="@string/button_add"
+                    />
+                <TextView
+                    android:id="@+id/text_content_index"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/text_publish_info"
+                    android:layout_marginTop="70dp"
+                    android:text="@string/detail_book_content_index"
+                    android:textSize="16dp"/>
+
+                <com.ms.square.android.expandabletextview.ExpandableTextView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/expand_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/text_content_index"
+                    android:layout_marginTop="10dp"
+                    expandableTextView:maxCollapsedLines="4"
+                    expandableTextView:animDuration="200">
+                    <TextView
+                        android:id="@id/expandable_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textColor="#666666" />
+                    <ImageButton
+                        android:id="@id/expand_collapse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:layout_gravity="right|bottom"
+                        android:background="@android:color/transparent"/>
+                </com.ms.square.android.expandabletextview.ExpandableTextView>
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>
+
+
