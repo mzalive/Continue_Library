@@ -316,14 +316,12 @@ public class ScanBarcodeActivity extends Activity implements SensorEventListener
             }catch (JSONException e){
                 mAutoFocus = true;
                 e.printStackTrace();
-                Toast toast = Toast.makeText(getApplicationContext(), "解析结果时出错", Toast.LENGTH_SHORT);
-                toast.show();
+
                 return false;
             }catch(Exception e){
                 mAutoFocus = true;
                 e.printStackTrace();
-                Toast toast = Toast.makeText(getApplicationContext(), "未知错误", Toast.LENGTH_SHORT);
-                toast.show();
+
                 return false;
             }
         }

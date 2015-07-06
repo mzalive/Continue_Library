@@ -1,4 +1,4 @@
-﻿package org.mzalive.continuelibrary;
+package org.mzalive.continuelibrary;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
