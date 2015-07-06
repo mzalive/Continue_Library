@@ -41,7 +41,12 @@
         <activity
             android:name=".SetPasswordActivity"
             android:launchMode="singleTask"
-            ></activity>
+            >
+        </activity>
+        <activity
+            android:name=".AboutActivity"
+            android:launchMode="singleTask">
+        </activity>
     </application>
 
 </manifest>
