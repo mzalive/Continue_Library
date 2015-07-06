@@ -1,6 +1,7 @@
-package org.mzalive.continuelibrary;
+﻿package org.mzalive.continuelibrary;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private Fragment mContent;
     private Fragment continueFragment;
     private Fragment userFragment;
+    private Fragment searchResultListFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
          */
         continueFragment = LibraryFragment.newInstance(LibraryFragment.CONTINUE_FRAGMENT_CATEGORY);
         userFragment = LibraryFragment.newInstance(LibraryFragment.USER_FRAGMENT_CATEGORY);
+        searchResultListFragment = SearchResultListFragment.newInstance();
 
         /**
          * Toolbar Configuration
@@ -92,12 +95,14 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onItemClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
                         switch (position) {
-                            case 0:
+                            case 0: //Continue
                                 switchFragment(continueFragment);
                                 break;
-                            case 1:
+                            case 1: //Mine
                                 switchFragment(userFragment);
                                 break;
+                            case 3: //Test only
+                                switchFragment(searchResultListFragment);
                             default :
                                 Toast.makeText(view.getContext(), ""+position,Toast.LENGTH_SHORT).show();
                         }
@@ -188,6 +193,10 @@ public class MainActivity extends AppCompatActivity {
         //return super.onOptionsItemSelected(item);
     }
     public void login(View view) {
+        SharedPreferences sp = getSharedPreferences("UserInfo", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("userId", "2");
+        editor.putString("username", "liuziyi");
         Intent intent = new Intent(this, ScanBarcodeActivity.class);
         startActivity(intent);
         //mContent = userFragment;
@@ -203,12 +212,12 @@ public class MainActivity extends AppCompatActivity {
 //                Log.d("result", list.toString());
 //                list = UserInfo.getMyWishlist("1", 1, 10);
 //                list = BookManage.getBooklist(1, 10);
-//                Log.d("result", list.toString());
+//                String result = Search.search("-1", "9787302315582", 0, 1, 0, 0);
+//                Log.d("result", result.toString());
 //                Log.d("click me", "click me finish");
 //            }
 //        });
 //        thread.start();
-
     }
 
     public void switchFragment(Fragment fragment) {

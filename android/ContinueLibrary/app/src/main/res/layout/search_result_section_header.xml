@@ -1,0 +1,20 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:layout_marginTop="@dimen/card_margin_list_top_bottom"
+    android:layout_marginBottom="@dimen/card_margin_list_top_bottom"
+    android:padding="8dp">
+
+    <!-- TextView as a section header. -->
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textDirection="locale"
+        android:textColor="@color/text_primary_on_dark"
+        android:textSize="14sp"
+        android:textStyle="bold"/>
+
+
+</RelativeLayout>

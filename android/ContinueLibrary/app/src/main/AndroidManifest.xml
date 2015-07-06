@@ -38,6 +38,10 @@
             android:name=".ScanBarcodeActivity"
             android:label="@string/title_activity_scan_barcode" >
         </activity>
+        <activity
+            android:name=".SetPasswordActivity"
+            android:launchMode="singleTask"
+            ></activity>
     </application>
 
 </manifest>
