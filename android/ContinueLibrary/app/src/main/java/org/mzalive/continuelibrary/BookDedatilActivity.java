@@ -27,18 +27,18 @@ public class BookDedatilActivity extends Activity{
     private Button    btnAdd;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_book);
 
-        toolbar             = (ImageView)findViewById(R.id.toolBar);
-        ivBookBlur          = (ImageView)findViewById(R.id.image_book_blur);
-        ivBookImage         = (ImageView)findViewById(R.id.image_book);
-        tvBookTitle         = (TextView)findViewById(R.id.text_title);
-        tvBookPubInfo       = (TextView)findViewById(R.id.text_publish_info);
-        tvBookContentIndex  = (TextView)findViewById(R.id.text_content_index);
-        tvBookContent       = (TextView)findViewById(R.id.text_content);
-        btnAdd              = (Button)findViewById(R.id.button_add);
+        toolbar = (ImageView) findViewById(R.id.toolBar);
+        ivBookBlur = (ImageView) findViewById(R.id.image_book_blur);
+        ivBookImage = (ImageView) findViewById(R.id.image_book);
+        tvBookTitle = (TextView) findViewById(R.id.text_title);
+        tvBookPubInfo = (TextView) findViewById(R.id.text_publish_info);
+        tvBookContentIndex = (TextView) findViewById(R.id.text_content_index);
+        tvBookContent = (TextView) findViewById(R.id.text_content);
+        btnAdd = (Button) findViewById(R.id.button_add);
 
         //动态设置背景的大小
         DisplayMetrics dm = new DisplayMetrics();
@@ -49,7 +49,7 @@ public class BookDedatilActivity extends Activity{
         ivBookBlur.setLayoutParams(p);
 
         p = ivBookImage.getLayoutParams();
-        p.width = (int)(dm.widthPixels*0.45);
+        p.width = (int) (dm.widthPixels * 0.45);
 
 //      ivBookBlur
         ivBookImage.setScaleType(ImageView.ScaleType.FIT_XY);
@@ -59,13 +59,13 @@ public class BookDedatilActivity extends Activity{
                     @Override
                     public void onSuccess() {
                         Drawable drawable = ivBookImage.getDrawable();
-                        int targetHeight = (int)((float) ivBookImage.getWidth()/drawable.getMinimumWidth() * drawable.getMinimumHeight());
+                        int targetHeight = (int) ((float) ivBookImage.getWidth() / drawable.getMinimumWidth() * drawable.getMinimumHeight());
                         // check if height too large there
                         DisplayMetrics dm = new DisplayMetrics();
                         getWindowManager().getDefaultDisplay().getMetrics(dm);
                         RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) ivBookImage.getLayoutParams();
                         lp.height = targetHeight;
-                        lp.width = (int) (dm.widthPixels*0.45);
+                        lp.width = (int) (dm.widthPixels * 0.45);
                         ivBookImage.setLayoutParams(lp);
                     }
                 });
