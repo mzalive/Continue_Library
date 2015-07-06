@@ -48,6 +48,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //测试信息缓存
+        SharedPreferences sp = getSharedPreferences("UserInfo", MODE_PRIVATE);
+        Log.d("isLogin", String.valueOf(sp.getBoolean("isLogin", false)));
+        Log.d("userId", sp.getString("userId", "-1"));
+        Log.d("username", sp.getString("username", ""));
+
 
         /**
          * Initializing Fragments
@@ -212,18 +218,12 @@ public class MainActivity extends AppCompatActivity {
             public void run()
             {
                 Log.d("click me", "click me");
-                BookList list = new BookList();
-//                list = UserInfo.getMyBorrowlist("1", 1, 10);
-//                Log.d("result", list.toString());
-//                list = UserInfo.getMyWishlist("1", 1, 10);
-                list = BookManage.getBooklist(0, 20);
-                Book book = list.getBooks().get(1);
-                Search.search("1", "偷影子的人", 0, 20, 0, 20);
+                BookManage.borrowBook("9787302209935", "1");
+                UserInfo.getHasBorrowed("1", "9787302209935");
                 Log.d("click me", "click me finish");
             }
         });
         thread.start();
-
     }
 
     public void switchFragment(Fragment fragment) {

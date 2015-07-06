@@ -202,4 +202,19 @@ public class UserInfo {
         String result = BaseFunctions.httpConnection(keys_name, keys_value, GlobalSettings.ACTION_SETPASSWORD);
         return result;
     }
+
+    //getHasBorrowed，获取用户是否借阅某本书的信息
+    //参数说明：
+    //user_id:用户ID
+    //book_isbn:书籍ISBN
+    public static String getHasBorrowed(String user_id, String book_isbn){
+        ArrayList<String> keys_name = new ArrayList<>();
+        ArrayList<String> keys_value = new ArrayList<>();
+        keys_name.add("user_id");
+        keys_name.add("book_isbn");
+        keys_value.add(user_id);
+        keys_value.add(book_isbn);
+        String result = BaseFunctions.httpConnection(keys_name, keys_value, GlobalSettings.ACTION_GETHASBORROWED);
+        return result;
+    }
 }

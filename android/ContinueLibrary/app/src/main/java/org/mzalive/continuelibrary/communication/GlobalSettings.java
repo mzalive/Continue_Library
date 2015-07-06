@@ -17,6 +17,7 @@ public class GlobalSettings {
     public final static String ACTION_ADDHEAT = "addHeat";
     public final static String ACTION_GETWISHLIST = "getWishList";
     public final static String ACTION_SEARCH = "search";
+    public final static String ACTION_GETHASBORROWED = "getHasBorrowed";
 
     public final static int UNKNOWN_ERROR = 999;
     public final static int RESULT_OK = 1000;
