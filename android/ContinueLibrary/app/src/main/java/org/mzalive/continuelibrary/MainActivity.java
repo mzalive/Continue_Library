@@ -203,23 +203,23 @@ public class MainActivity extends AppCompatActivity {
 //        startActivity(intent);
         //mContent = userFragment;
         //getSupportFragmentManager().beginTransaction().hide(continueFragment).commit();
-        Thread thread=new Thread(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                Log.d("click me", "click me");
-                BookList list = new BookList();
-                list = UserInfo.getMyBorrowlist("1", 1, 10);
+//        Thread thread=new Thread(new Runnable()
+//        {
+//            @Override
+//            public void run()
+//            {
+//                Log.d("click me", "click me");
+//                BookList list = new BookList();
+//                list = UserInfo.getMyBorrowlist("1", 1, 10);
 //                Log.d("result", list.toString());
 //                list = UserInfo.getMyWishlist("1", 1, 10);
 //                list = BookManage.getBooklist(0, 20);
 //                Log.d("result11", list.getBooks().get(11).getTitle().toString());
 //                Search.search("1", "偷影子的人", 0, 20, 0, 20);
-                Log.d("click me", "click me finish");
-            }
-        });
-        thread.start();
+//                Log.d("click me", "click me finish");
+//            }
+//        });
+//        thread.start();
     }
 
     public void switchFragment(Fragment fragment) {

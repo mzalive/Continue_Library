@@ -45,8 +45,10 @@
     <string name="scan_barcode_back">返回</string>
     <string name="title_activity_scan_barcode">ScanBarcodeActivity</string>
 
-    <string name="scan_result_title">小弓弓</string>
-    <string name="scan_result_author">叶工工</string>
-    <string name="scan_result_publisher">公公出版社</string>
+    <string name="scan_result_title">刘大爷</string>
+    <string name="scan_result_author">我是大爷</string>
+    <string name="scan_result_publisher">大爷的出版社</string>
+
+    <string name="about_version">Version 1.1</string>
 
 </resources>
