@@ -36,9 +36,10 @@ public class BookGridRecyclerViewAdapter extends RecyclerView.Adapter<BookGridRe
         public BookGridViewHolder(View view) {
             super(view);
 
-            //DisplayMetrics dm = view.getResources().getDisplayMetrics();
+            DisplayMetrics dm = view.getResources().getDisplayMetrics();
             ViewGroup.LayoutParams lp = view.getLayoutParams();
-            lp.height = (int) (lp.width * 1.2);
+//            lp.height = (int) (lp.width * 1.2);
+            lp.height = (int) (0.45 * dm.widthPixels);
             view.setLayoutParams(lp);
 
             cardView = (CardView) view.findViewById(R.id.card_in_grid);

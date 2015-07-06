@@ -20,8 +20,7 @@ public class SearchResultListFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
 
-    public SearchResultListFragment() {
-    }
+    public SearchResultListFragment() { }
 
     public static Fragment newInstance() {
         SearchResultListFragment fragment = new SearchResultListFragment();

@@ -62,7 +62,7 @@ public class SearchResultListRecyclerViewAdapter extends RecyclerView.Adapter<Se
 
     @Override
     public SearchResultItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new SearchResultItemViewHolder(mLayoutInflater.inflate(R.layout.book_card_in_grid, parent, false));
+        return new SearchResultItemViewHolder(mLayoutInflater.inflate(R.layout.book_card_in_search_result_list, parent, false));
     }
 
     @Override

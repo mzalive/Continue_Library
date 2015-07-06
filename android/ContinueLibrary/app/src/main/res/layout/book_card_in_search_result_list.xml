@@ -2,10 +2,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/card_in_search"
     android:layout_margin="@dimen/card_margin"
-    android:layout_gravity="center"
-    android:layout_width="0dp"
-    android:layout_weight="1"
-    android:layout_height="200dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     card_view:cardElevation="2dp"
     card_view:cardCornerRadius="2dp"
     card_view:cardPreventCornerOverlap="false">
