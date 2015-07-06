@@ -3,15 +3,19 @@ package org.mzalive.continuelibrary;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Callback;
@@ -31,7 +35,8 @@ public class SearchResultListRecyclerViewAdapter extends RecyclerView.Adapter<Se
     // you provide access to all the views for a data item in a view holder
     public static class SearchResultItemViewHolder extends RecyclerView.ViewHolder {
         public CardView cardView;
-        public TextView mTextView;
+        public TextView mTextViewTitle;
+        public TextView mTextViewSubtext;
         public ImageView mImageView;
         public SearchResultItemViewHolder(View view) {
             super(view);
@@ -41,7 +46,8 @@ public class SearchResultListRecyclerViewAdapter extends RecyclerView.Adapter<Se
 //            view.setLayoutParams(lp);
 
             cardView = (CardView) view.findViewById(R.id.card_in_search);
-            mTextView = (TextView) view.findViewById(R.id.info_text_in_search_list);
+            mTextViewTitle = (TextView) view.findViewById(R.id.title_in_list);
+            mTextViewSubtext = (TextView) view.findViewById(R.id.subtext_in_list);
             mImageView = (ImageView) view.findViewById(R.id.card_book_image_in_search_list);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -67,14 +73,27 @@ public class SearchResultListRecyclerViewAdapter extends RecyclerView.Adapter<Se
 
     @Override
     public void onBindViewHolder(final SearchResultItemViewHolder holder, int position) {
-        holder.mTextView.setText(mTitles[position]);
+//        holder.mTextView.setText(mTitles[position]);
+        holder.mTextViewTitle.setText("Title 标题");
+        holder.mTextViewSubtext.setText("Subtext 基本信息");
+
         Picasso.with(mContext)
                 .load(mTitles[position])
                 .into(holder.mImageView, new Callback.EmptyCallback() {
                     @Override
                     public void onSuccess() {
+                        //Reset the size of ImageView
+                        Drawable drawable = holder.mImageView.getDrawable();
+                        int targetWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 80, mContext.getResources().getDisplayMetrics());
+                        int targetHeight = (int) ((float) targetWidth / drawable.getMinimumWidth() * drawable.getMinimumHeight());
+                        // check if height too large there
+                        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) holder.mImageView.getLayoutParams();
+                        lp.height = targetHeight;
+                        lp.width = targetWidth;
+                        holder.mImageView.setLayoutParams(lp);
+
                         //Get palette to produce card's background color
-                        Bitmap source = ((BitmapDrawable) holder.mImageView.getDrawable()).getBitmap();
+                        Bitmap source = ((BitmapDrawable) drawable).getBitmap();
                         Palette.from(source)
                                 .maximumColorCount(32)
                                 .generate(new Palette.PaletteAsyncListener() {

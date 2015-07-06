@@ -21,6 +21,7 @@ import com.squareup.picasso.Picasso;
  * Created by mzalive on 7/3/15.
  */
 public class BookGridRecyclerViewAdapter extends RecyclerView.Adapter<BookGridRecyclerViewAdapter.BookGridViewHolder> {
+
     private final LayoutInflater mLayoutInflater;
     private final Context mContext;
     private String[] mTitles;
@@ -30,6 +31,9 @@ public class BookGridRecyclerViewAdapter extends RecyclerView.Adapter<BookGridRe
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     public static class BookGridViewHolder extends RecyclerView.ViewHolder {
+
+        private final double CARD_HEIGHT_SCALE_RATIO = 0.48;
+
         public CardView cardView;
         public TextView mTextView;
         public ImageView mImageView;
@@ -39,11 +43,11 @@ public class BookGridRecyclerViewAdapter extends RecyclerView.Adapter<BookGridRe
             DisplayMetrics dm = view.getResources().getDisplayMetrics();
             ViewGroup.LayoutParams lp = view.getLayoutParams();
 //            lp.height = (int) (lp.width * 1.2);
-            lp.height = (int) (0.45 * dm.widthPixels);
+            lp.height = (int) (CARD_HEIGHT_SCALE_RATIO * dm.widthPixels);
             view.setLayoutParams(lp);
 
             cardView = (CardView) view.findViewById(R.id.card_in_grid);
-            mTextView = (TextView) view.findViewById(R.id.info_text_in_grid);
+            mTextView = (TextView) view.findViewById(R.id.title_in_grid);
             mImageView = (ImageView) view.findViewById(R.id.card_book_image_in_grid);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
