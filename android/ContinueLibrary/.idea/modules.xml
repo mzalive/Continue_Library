@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ContinueLibrary.iml" filepath="$PROJECT_DIR$/ContinueLibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library/StackBlur/StackBlur.iml" filepath="$PROJECT_DIR$/library/StackBlur/StackBlur.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
     </modules>
   </component>
 </project>
