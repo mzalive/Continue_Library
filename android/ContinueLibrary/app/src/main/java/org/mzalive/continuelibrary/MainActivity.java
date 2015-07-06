@@ -49,10 +49,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //测试信息缓存
-        SharedPreferences sp = getSharedPreferences("UserInfo", MODE_PRIVATE);
-        Log.d("isLogin", String.valueOf(sp.getBoolean("isLogin", false)));
-        Log.d("userId", sp.getString("userId", "-1"));
-        Log.d("username", sp.getString("username", ""));
+        SharedPreferences sp = getSharedPreferences("UserInfo", LoginActivity.MODE_PRIVATE);
+        Log.d("isLogin_print", String.valueOf(sp.getBoolean("isLogin", false)));
+        Log.d("userId_print", sp.getString("userId", "-1"));
+        Log.d("username_print", sp.getString("username", ""));
 
 
         /**
@@ -206,24 +206,24 @@ public class MainActivity extends AppCompatActivity {
 //        SharedPreferences.Editor editor = sp.edit();
 //        editor.putString("userId", "2");
 //        editor.putString("username", "liuziyi");
-//        Intent intent = new Intent(this, LoginActivity.class);
-//        startActivity(intent);
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
 //        SharedPreferences sp = getSharedPreferences("UserInfo", MODE_PRIVATE);
 
         //mContent = userFragment;
         //getSupportFragmentManager().beginTransaction().hide(continueFragment).commit();
-        Thread thread=new Thread(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                Log.d("click me", "click me");
-                BookManage.borrowBook("9787302209935", "1");
-                UserInfo.getHasBorrowed("1", "9787302209935");
-                Log.d("click me", "click me finish");
-            }
-        });
-        thread.start();
+//        Thread thread=new Thread(new Runnable()
+//        {
+//            @Override
+//            public void run()
+//            {
+//                Log.d("click me", "click me");
+//                BookManage.borrowBook("9787302209935", "1");
+//                UserInfo.getHasBorrowed("1", "9787302209935");
+//                Log.d("click me", "click me finish");
+//            }
+//        });
+//        thread.start();
     }
 
     public void switchFragment(Fragment fragment) {

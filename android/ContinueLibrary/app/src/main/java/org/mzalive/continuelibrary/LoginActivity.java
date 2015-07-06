@@ -1,6 +1,7 @@
 package org.mzalive.continuelibrary;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -55,7 +56,7 @@ public class LoginActivity  extends Activity {
             btnLogin.setClickable(false);
             username = etUsername.getText().toString();
             password = MdEncode.encode(etPassword.getText().toString());
-            sp = getSharedPreferences("UserInfo", MODE_PRIVATE);
+            sp = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
             Log.d("username", username);
             Log.d("password", password);
         }
@@ -75,10 +76,14 @@ public class LoginActivity  extends Activity {
                 editor.putBoolean("isLogin", true);
                 editor.putString("userId", userId);
                 editor.putString("username", username);
+                Log.d("userId_writeSp", userId);
+                Log.d("username_writeSp", username);
             }
             else{
                 editor.putBoolean("isLogin", false);
+                Log.d("isLogin_write", "false");
             }
+            editor.commit();
             //test sharedPreferences files
 //            SharedPreferences t = getSharedPreferences("UserInfo", MODE_PRIVATE);
 //            SharedPreferences.Editor e = t.edit();
@@ -127,7 +132,7 @@ public class LoginActivity  extends Activity {
                 JSONTokener jsonTokener = new JSONTokener(loginResult);
                 JSONObject object = (JSONObject) jsonTokener.nextValue();
                 errorCode = object.getString("error_code");
-                if(errorCode == "1000"){
+                if(errorCode.equals("1000")){
                     userId = object.getString("user_id");
                 }
             }catch (JSONException e){
