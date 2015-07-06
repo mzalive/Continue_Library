@@ -94,8 +94,9 @@ public class BookGridFragment extends LibraryFragment {
         @Override
         protected BookList doInBackground(String... params)
         {
-
-            return BookManage.getBooklist(0, 20);
+            BookList bookList = BookManage.getBooklist(0,20);
+            Log.d("DIB",bookList.toString());
+            return bookList;
         }
         @Override
         protected void onProgressUpdate(Integer... values)
