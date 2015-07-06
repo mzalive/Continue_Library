@@ -6,6 +6,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -17,6 +18,8 @@ import com.enrique.stackblur.StackBlurManager;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+
+import org.mzalive.continuelibrary.Base.Book;
 
 /**
  * Created by Trigger on 2015/7/3.
@@ -35,10 +38,16 @@ public class BookDedatilActivity extends Activity{
 
     private  boolean playDaye;
 
+    private Book book;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_book);
+
+        Bundle bundle = getIntent().getExtras();
+        book = (Book) bundle.getSerializable("content");
+        Log.d("BookDetail: onCreate","Get Book From Bundle: " + book.toString());
 
         toolbar = (ImageView) findViewById(R.id.toolBar);
         ivBookBlur = (ImageView) findViewById(R.id.image_book_blur);

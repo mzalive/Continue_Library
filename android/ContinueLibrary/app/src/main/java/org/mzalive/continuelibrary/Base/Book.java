@@ -1,11 +1,12 @@
 package org.mzalive.continuelibrary.Base;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Trigger on 2015/7/3.
  */
-public class Book {
+public class Book implements Serializable {
     private String isbn;
     private String title;
     private String subTitle;

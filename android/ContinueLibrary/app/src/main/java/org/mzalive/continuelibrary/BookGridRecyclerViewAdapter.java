@@ -1,9 +1,11 @@
 package org.mzalive.continuelibrary;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -37,14 +39,14 @@ public class BookGridRecyclerViewAdapter extends RecyclerView.Adapter<BookGridRe
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-    public static class BookGridViewHolder extends RecyclerView.ViewHolder {
+    public class BookGridViewHolder extends RecyclerView.ViewHolder {
 
         private final double CARD_HEIGHT_SCALE_RATIO = 0.48;
 
         public CardView cardView;
         public TextView mTextView;
         public ImageView mImageView;
-        public BookGridViewHolder(View view) {
+        public BookGridViewHolder(final View view) {
             super(view);
 
             DisplayMetrics dm = view.getResources().getDisplayMetrics();
@@ -59,7 +61,12 @@ public class BookGridRecyclerViewAdapter extends RecyclerView.Adapter<BookGridRe
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("NormalTextViewHolder", "onClick--> position = " + getPosition());
+                    Log.d("GridViewHolder", "onClick --> position = " + getPosition());
+                    Intent intent = new Intent(view.getContext(),BookDedatilActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("content",mBooks.get(getPosition()));
+                    intent.putExtras(bundle);
+                    view.getContext().startActivity(intent);
                 }
             });
         }
