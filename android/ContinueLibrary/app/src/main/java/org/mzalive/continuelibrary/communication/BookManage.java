@@ -69,7 +69,7 @@ public class BookManage {
         }catch (JSONException e){
             e.printStackTrace();
         }
-        if(bookList.getErrorCode() != "1000"){
+        if(!bookList.getErrorCode().equals("1000")){
             bookList.setBookStart(0);
             bookList.setBookCount(0);
             bookList.setBookTotal(0);

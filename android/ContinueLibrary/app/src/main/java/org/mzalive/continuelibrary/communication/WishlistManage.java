@@ -40,7 +40,7 @@ public class WishlistManage {
         }catch (JSONException e){
             e.printStackTrace();
         }
-        if(wishList.getErrorCode() != "1000"){
+        if(!wishList.getErrorCode().equals("1000")){
             wishList.setBookStart(0);
             wishList.setBookCount(0);
             wishList.setBookTotal(0);

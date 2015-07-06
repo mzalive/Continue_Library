@@ -53,11 +53,11 @@ public class UserInfo {
             JSONTokener jsonTokener = new JSONTokener(result);
             JSONObject object = (JSONObject) jsonTokener.nextValue();
             myBorrowList.setErrorCode(object.getString("error_code"));
-            Log.d("ErrorCode_getMyBorrowlist", myBorrowList.getErrorCode());
+            Log.d("ErrorCode_MyBorrowList", myBorrowList.getErrorCode());
         }catch (JSONException e){
             e.printStackTrace();
         }
-        if(myBorrowList.getErrorCode() != "1000"){
+        if(!myBorrowList.getErrorCode().equals("1000")){
             myBorrowList.setBookStart(0);
             myBorrowList.setBookCount(0);
             myBorrowList.setBookTotal(0);
@@ -134,7 +134,7 @@ public class UserInfo {
         }catch (JSONException e){
             e.printStackTrace();
         }
-        if(myWishList.getErrorCode() != "1000"){
+        if(!myWishList.getErrorCode().equals("1000")){
             myWishList.setBookStart(0);
             myWishList.setBookCount(0);
             myWishList.setBookTotal(0);
