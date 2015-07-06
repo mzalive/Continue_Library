@@ -3,6 +3,7 @@ package org.mzalive.continuelibrary;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.AsyncTask;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +18,12 @@ import android.widget.TextView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import org.mzalive.continuelibrary.Base.Book;
+import org.mzalive.continuelibrary.Base.BookList;
+import org.mzalive.continuelibrary.communication.BookManage;
+
+import java.util.ArrayList;
+
 /**
  * Created by mzalive on 7/3/15.
  */
@@ -24,7 +31,7 @@ public class BookGridRecyclerViewAdapter extends RecyclerView.Adapter<BookGridRe
 
     private final LayoutInflater mLayoutInflater;
     private final Context mContext;
-    private String[] mTitles;
+    private ArrayList<Book> mBooks;
 
 
     // Provide a reference to the views for each data item
@@ -60,10 +67,11 @@ public class BookGridRecyclerViewAdapter extends RecyclerView.Adapter<BookGridRe
 
 
 
-    public BookGridRecyclerViewAdapter(Context context) {
-        mTitles = context.getResources().getStringArray(R.array.test_items);
+    public BookGridRecyclerViewAdapter(Context context, ArrayList<Book> books) {
+        mBooks = books;
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
+
     }
 
     @Override
@@ -73,9 +81,9 @@ public class BookGridRecyclerViewAdapter extends RecyclerView.Adapter<BookGridRe
 
     @Override
     public void onBindViewHolder(final BookGridViewHolder holder, int position) {
-        holder.mTextView.setText(mTitles[position]);
+        holder.mTextView.setText(mBooks.get(position).getTitle());
         Picasso.with(mContext)
-                .load(mTitles[position])
+                .load(mBooks.get(position).getImage())
                 .into(holder.mImageView, new Callback.EmptyCallback() {
                     @Override
                     public void onSuccess() {
@@ -90,14 +98,17 @@ public class BookGridRecyclerViewAdapter extends RecyclerView.Adapter<BookGridRe
                                             holder.cardView.setCardBackgroundColor(swatch.getRgb());
                                     }
                                 });
-                        }
-                    });
+                    }
+                });
     }
 
     @Override
     public int getItemCount() {
-        return mTitles == null ? 0 : mTitles.length;
+        return mBooks == null ? 0 : mBooks.size();
     }
+
+
+
 
 
 }
