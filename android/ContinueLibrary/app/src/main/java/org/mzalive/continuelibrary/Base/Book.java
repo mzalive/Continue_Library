@@ -21,7 +21,15 @@ public class Book implements Serializable {
     private int     heat;
     private boolean isWanted;
 
-    public Book(){}
+    public Book(){
+        this.isbn = "";
+        this.title = "";
+        this.subTitle = "";
+        this.publisher = "";
+        this.image = "";
+        this.summary = "";
+        this.publishDate = "";
+    }
 
     public Book(String isbn, String title, String subTitle, String publisher, String image, String summary, String publishDate, ArrayList<String> author, boolean isInStock, int amountTotal, int heat, boolean isWanted) {
         this.isbn = isbn;

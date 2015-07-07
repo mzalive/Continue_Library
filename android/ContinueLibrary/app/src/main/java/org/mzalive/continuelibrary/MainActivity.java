@@ -212,19 +212,19 @@ public class MainActivity extends AppCompatActivity {
 
         //mContent = userFragment;
         //getSupportFragmentManager().beginTransaction().hide(continueFragment).commit();
-        Thread thread=new Thread(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                Log.d("click me", "click me");
-                BookList book = Search.search("1", "9787302209935", 0, 20, 0, 20);
+//        Thread thread=new Thread(new Runnable()
+//        {
+//            @Override
+//            public void run()
+//            {
+//                Log.d("click me", "click me");
+//                BookList book = Search.search("1", "9787302209935", 0, 20, 0, 20);
 //                BookManage.borrowBook("9787302209935", "1");
 //                UserInfo.getHasBorrowed("1", "9787302209935");
-                Log.d("click me", "click me finish");
-            }
-        });
-        thread.start();
+//                Log.d("click me", "click me finish");
+//            }
+//        });
+//        thread.start();
     }
 
     public void switchFragment(Fragment fragment) {

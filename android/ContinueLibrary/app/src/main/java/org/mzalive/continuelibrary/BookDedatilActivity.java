@@ -73,7 +73,7 @@ public class BookDedatilActivity extends Activity{
 //      ivBookBlur
         ivBookImage.setScaleType(ImageView.ScaleType.FIT_XY);
         Picasso.with(this)
-                .load("http://img3.douban.com/lpic/s28120622.jpg")
+                .load(book.getImage())
                 .into(ivBookImage, new Callback.EmptyCallback() {
                     @Override
                     public void onSuccess() {
@@ -95,8 +95,26 @@ public class BookDedatilActivity extends Activity{
                     }
                 });
 
+        //设置书籍title
+        String title = book.getTitle();
+        if(book.getSubTitle().equals("")){
+            title = title + ":" + book.getSubTitle();
+        };
+        tvBookTitle.setText(title);
+
+        //设置出版信息（出版社，作者，出版日期放到了一起）
+        String publisher = book.getPublisher();
+        String author = book.getAuthor().get(0);
+        for(int i = 1; i < book.getAuthor().size(); i++){
+            author = author + "/" + book.getAuthor().get(i);
+        }
+        String pubDate = book.getPublishDate();
+        String pubInfo = publisher + "/" + author + "/" + pubDate;
+        tvBookPubInfo.setText(pubInfo);
+
         //设置简介
-        expTv1.setText(getString(R.string.detail_book_content));
+        tvBookContent.setText(book.getSummary());
+
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
