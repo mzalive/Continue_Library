@@ -31,6 +31,7 @@ import com.quinny898.library.persistentsearch.SearchResult;
 
 import org.mzalive.continuelibrary.Base.Book;
 import org.mzalive.continuelibrary.Base.BookList;
+import org.mzalive.continuelibrary.communication.BaseFunctions;
 import org.mzalive.continuelibrary.communication.BookManage;
 import org.mzalive.continuelibrary.communication.Search;
 import org.mzalive.continuelibrary.communication.UserInfo;
@@ -206,26 +207,26 @@ public class MainActivity extends AppCompatActivity {
 //        SharedPreferences.Editor editor = sp.edit();
 //        editor.putString("userId", "2");
 //        editor.putString("username", "liuziyi");
-        Intent intent = new Intent(this, ScanBarcodeActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(this, ScanBarcodeActivity.class);
+//        startActivity(intent);
 //        SharedPreferences sp = getSharedPreferences("UserInfo", MODE_PRIVATE);
 
         //mContent = userFragment;
         //getSupportFragmentManager().beginTransaction().hide(continueFragment).commit();
-//        Thread thread=new Thread(new Runnable()
-//        {
-//            @Override
-//            public void run()
-//            {
-//                Log.d("click me", "click me");
-//                BookList book = Search.search("1", "9787302209935", 0, 20, 0, 20);
+        Thread thread=new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                Log.d("click me", "click me");
+                BookList book = Search.searchNet("盗墓", 502, 10);
 //                BookManage.borrowBook("9787302209935", "1");
 //                UserInfo.getHasBorrowed("1", "9787302209935");
 
-//                Log.d("click me", "click me finish");
-//            }
-//        });
-//        thread.start();
+                Log.d("click me", "click me finish");
+            }
+        });
+        thread.start();
     }
 
     public void switchFragment(Fragment fragment) {

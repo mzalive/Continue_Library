@@ -90,4 +90,55 @@ public class Search {
         }
         return searchList;
     }
+
+    public static BookList searchNet(String q, int start, int count){
+        BookList netResult = new BookList();
+        ArrayList<Book> bookArray = new ArrayList<>();
+        ArrayList<String> keys_name = new ArrayList<>();
+        ArrayList<String> keys_value = new ArrayList<>();
+        keys_name.add("q");
+        keys_name.add("start");
+        keys_name.add("count");
+        keys_value.add(q);
+        keys_value.add(Integer.toString(start));
+        keys_value.add(Integer.toString(count));
+        String result = BaseFunctions.httpUrlConnectionGet(GlobalSettings.REQUEST_GET_URL, keys_name, keys_value);
+
+        try{
+            JSONTokener jsonTokener = new JSONTokener(result);
+            JSONObject object = (JSONObject)jsonTokener.nextValue();
+            netResult.setBookStart(object.getInt("start"));
+            netResult.setBookCount(object.getInt("count"));
+            netResult.setBookTotal(object.getInt("total"));
+            JSONArray books = object.getJSONArray("books");
+            for(int i = 0; i<books.length(); i++){
+                JSONObject book = (JSONObject)books.get(i);
+                String isbn = book.getString("isbn13");
+                String title = book.getString("title");
+                String subTitle = book.getString("subtitle");
+                ArrayList<String> author = new ArrayList<>();
+                JSONArray authors = book.getJSONArray("author");
+                for(int j = 0; j < authors.length(); j++){
+                    author.add(authors.get(j).toString());
+                }
+                String summary = book.getString("summary");
+                JSONObject images = book.getJSONObject("images");
+                String imageUrl = images.getString("large");
+                String publisher = book.getString("publisher");
+                String publishDate = book.getString("pubdate");
+                boolean isInStock = false;
+                int amountTotal = 0;
+                int heat = 0;
+                boolean isWanted = false;
+
+                Book newBook = new Book(isbn, title, subTitle, publisher, imageUrl, summary, publishDate, author, isInStock, amountTotal, heat, isWanted);
+                bookArray.add(newBook);
+            }
+            netResult.setBooks(bookArray);
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        return netResult;
+
+    }
 }

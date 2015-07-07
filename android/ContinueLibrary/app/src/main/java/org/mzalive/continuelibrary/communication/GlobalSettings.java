@@ -4,8 +4,11 @@ package org.mzalive.continuelibrary.communication;
  * Created by Trigger on 2015/6/26.
  */
 public class GlobalSettings {
+    //请求地址配置
     public final static String REQUEST_URL = "http://continuelibrary.mzalive.org/server/index.php";
+    public final static String REQUEST_GET_URL = "http://api.douban.com/v2/book/search";
 
+    //数据库访问接口配置
     public final  static String ACTION_LOGIN = "login";
     public final static String ACTION_GETMYBORROWLIST = "getMyBorrowList";
     public final static String ACTION_GETMYWISHLIST = "getMyWishList";
@@ -19,6 +22,10 @@ public class GlobalSettings {
     public final static String ACTION_SEARCH = "search";
     public final static String ACTION_GETHASBORROWED = "getHasBorrowed";
 
+    //网络超时配置
+    public final static int TIMEOUT = 3000;
+
+    //错误返回码配置
     public final static int UNKNOWN_ERROR = 999;
     public final static int RESULT_OK = 1000;
     public final static int NO_CONTENT = 2000;
