@@ -16,7 +16,7 @@
     <color name="text_hint_or_disabled_on_dark">#4DFFFFFF</color>
     <color name="dividers_on_dark">#1F000000</color>
 
-    <color name="translucent_dark">#80424242</color>
+    <color name="translucent_dark">#CC000000</color>
     <color name="translucent_deep_dark">#B3424242</color>
     <color name="translucent_light">#FFFFFF</color>
 

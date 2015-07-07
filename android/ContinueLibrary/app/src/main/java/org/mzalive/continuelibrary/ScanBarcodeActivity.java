@@ -110,12 +110,13 @@ public class ScanBarcodeActivity extends AppCompatActivity implements SensorEven
         toolBar = (Toolbar) findViewById(R.id.toolBarScan);
         toolBar.setTitle(R.string.title_activity_scan);
         toolBar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        toolBar.getBackground().setAlpha(80);
         setSupportActionBar(toolBar);
 
 
         bcReader = new BarCodeReader();
 
-        centerView = (View) this.findViewById(R.id.sbCenterView);
+        centerView = this.findViewById(R.id.sbCenterView);
         sfView = (SurfaceView) this.findViewById(R.id.svCamera);
         txtView = (TextView) this.findViewById(R.id.txtScanResult);
         imgView = (ImageView) this.findViewById(R.id.sbReviewImage);
@@ -189,7 +190,7 @@ public class ScanBarcodeActivity extends AppCompatActivity implements SensorEven
                     data, rotated_width,rotated_height,0,0,rotated_width,rotated_height,false);
             BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
             String scanResult = bcReader.decode(bitmap);
-            resultBarCode = scanResult=="-1"?scanUnsuccessful:scanResult;
+            resultBarCode = scanResult.equals("-1") ? scanUnsuccessful : scanResult;
             if(!resultBarCode.equals(scanUnsuccessful)) {
                 txtView.setText("扫描成功，正在搜索结果……");
                 createAndShowDialog();
@@ -341,7 +342,7 @@ public class ScanBarcodeActivity extends AppCompatActivity implements SensorEven
         @Override
         protected void onPostExecute(Integer result) {
             Toast toast;
-            switch (result.intValue()) {
+            switch (result) {
                 case 0:
                     resultBookTitle.setText(title);
                     resultBookAuthor.setText(author);
@@ -366,7 +367,7 @@ public class ScanBarcodeActivity extends AppCompatActivity implements SensorEven
             }
             txtView.setText(scanUnsuccessful);
         }
-    };
+    }
 
     class HasBorrowedBook extends  AsyncTask<Integer,Integer,Integer>{
         private int hasBorrowed(){
@@ -462,7 +463,8 @@ public class ScanBarcodeActivity extends AppCompatActivity implements SensorEven
                 String jsonStr = BookManage.borrowBook(resultBarCode, userId);
                 JSONTokener jsonTokener = new JSONTokener(jsonStr);
                 JSONObject object = (JSONObject) jsonTokener.nextValue();
-                int errorCode = Integer.parseInt(object.getString("error_code"));
+                int errorCode ;
+                errorCode = Integer.parseInt(object.getString("error_code"));
                 return errorCode;
             }catch (JSONException e){
                 e.printStackTrace();
@@ -493,7 +495,8 @@ public class ScanBarcodeActivity extends AppCompatActivity implements SensorEven
                 String jsonStr = BookManage.returnBook(resultBarCode, userId);
                 JSONTokener jsonTokener = new JSONTokener(jsonStr);
                 JSONObject object = (JSONObject) jsonTokener.nextValue();
-                int errorCode = Integer.parseInt(object.getString("error_code"));
+                int errorCode;
+                errorCode = Integer.parseInt(object.getString("error_code"));
                 return errorCode;
             }catch (JSONException e) {
                 e.printStackTrace();
@@ -576,10 +579,10 @@ class BarCodeReader{
     private MultiFormatReader reader = new MultiFormatReader();
     private boolean init = false;
     public BarCodeReader(){
-        Hashtable<DecodeHintType,Object> hints = new Hashtable<DecodeHintType, Object>();
+        Hashtable<DecodeHintType,Object> hints = new Hashtable<>();
         hints.put(DecodeHintType.TRY_HARDER, Boolean.TRUE);
 
-        Vector<BarcodeFormat> decodeFormats = new Vector<BarcodeFormat>();
+        Vector<BarcodeFormat> decodeFormats = new Vector<>();
         decodeFormats.add(BarcodeFormat.CODABAR);
 
         hints.put(DecodeHintType.POSSIBLE_FORMATS,decodeFormats);

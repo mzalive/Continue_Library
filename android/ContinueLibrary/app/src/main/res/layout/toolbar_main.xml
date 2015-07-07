@@ -2,7 +2,6 @@
     android:layout_width="fill_parent"
     android:layout_height="?attr/actionBarSize"
     android:minHeight="?attr/actionBarSize"
-    android:background="@color/colorPrimary"
-    android:titleTextAppearance="@color/text_primary_on_dark">
+    android:background="@color/colorPrimary">
 
 </android.support.v7.widget.Toolbar>

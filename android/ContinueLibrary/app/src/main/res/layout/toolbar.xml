@@ -2,7 +2,7 @@
     android:layout_width="fill_parent"
     android:layout_height="?attr/actionBarSize"
     android:minHeight="?attr/actionBarSize"
-    android:background="#000"
+    android:background="@android:color/black"
     android:elevation="4dp"
     android:layout_marginTop="24dp">
 

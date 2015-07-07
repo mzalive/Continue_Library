@@ -58,7 +58,6 @@ public class BookDedatilActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         book = (Book) bundle.getSerializable("content");
-        Log.d("BookDetail: onCreate","Get Book From Bundle: " + book.toString());
 
         toolbar = (Toolbar) findViewById(R.id.toolBarDetail);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
@@ -108,7 +107,7 @@ public class BookDedatilActivity extends AppCompatActivity {
 
                         Bitmap ivBookBitmap = ((BitmapDrawable) (ivBookImage.getDrawable())).getBitmap();
                         StackBlurManager _stackBlurManager = new StackBlurManager(ivBookBitmap);
-                        _stackBlurManager.process(200);
+                        _stackBlurManager.process(35);
                         Drawable blurDrawable = new BitmapDrawable(_stackBlurManager.returnBlurredImage());
                         ivBookBlur.setImageDrawable(blurDrawable);
                     }
@@ -158,7 +157,8 @@ public class BookDedatilActivity extends AppCompatActivity {
             String userId = params[0];
             String isbn   = params[1];
             Boolean isFromDouban = Boolean.valueOf(params[2]);
-            String result = WishlistManage.addHeat(userId, isbn, isFromDouban);
+            String result;
+            result = WishlistManage.addHeat(userId, isbn, isFromDouban);
             return result;
         }
 
