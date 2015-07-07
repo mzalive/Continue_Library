@@ -11,9 +11,9 @@ if(!is_null($_POST['keyword']) && !is_null($_POST['user_id']) && !is_null($_POST
 
 		$keyword = preprocess($keyword);
 
-		$output_book = $_POST['book_count']==='0'?array('error_code' => NO_CONTENT)
+		$output_book = $_POST['book_count']==='0'?array('error_code' => NO_CONTENT,'book_count' => 0, 'book_start' => 0, 'book_total' => 0)
 												:search_helper("book",$keyword);
-		$output_wish = $_POST['wish_count']==='0'?array('error_code' => NO_CONTENT)
+		$output_wish = $_POST['wish_count']==='0'?array('error_code' => NO_CONTENT,'wish_count' => 0, 'wish_start' => 0, 'wish_total' => 0)
 												:search_helper("wish",$keyword);
 
 		$output = array();
@@ -25,16 +25,13 @@ if(!is_null($_POST['keyword']) && !is_null($_POST['user_id']) && !is_null($_POST
 									:$output_book['error_code'];
 		if($output['error_code'] == RESULT_OK)
 		{
-			if($output_book['error_code']==RESULT_OK) 
-			{
-				$output['book_count'] = $output_book['book_count'];
-				$output['book_start'] = $output_book['book_start'];
-				$output['book_total'] = $output_book['book_total'];
-			}else{
-				$output['wish_count'] = $output_wish['wish_count'];
-				$output['wish_start'] = $output_wish['wish_start'];
-				$output['wish_total'] = $output_wish['wish_total'];
-			}
+			$output['book_count'] = $output_book['book_count'];
+			$output['book_start'] = $output_book['book_start'];
+			$output['book_total'] = $output_book['book_total'];
+			$output['wish_count'] = $output_wish['wish_count'];
+			$output['wish_start'] = $output_wish['wish_start'];
+			$output['wish_total'] = $output_wish['wish_total'];
+			
 			$output['books'] =  $output_book['error_code']==RESULT_OK
 								?($output_wish['error_code']==RESULT_OK
 									?array_merge($output_book['books'],$output_wish['books'])

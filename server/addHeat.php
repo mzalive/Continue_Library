@@ -1,6 +1,7 @@
 <?php
 include ("conn.php");
 include ("addBookHelper.php");
+include ("cleanCache.php");
 include ("logger.php");
 if(!is_null($_POST["book_isbn"]) && !is_null($_POST["user_id"]) && !is_null($_POST["is_owned"])){
 	$conn = mysql_open();
@@ -16,7 +17,7 @@ if(!is_null($_POST["book_isbn"]) && !is_null($_POST["user_id"]) && !is_null($_PO
 	echo json_encode($response,JSON_UNESCAPED_UNICODE);
 	mysql_close($conn);
 
-	clean_cache();
+	clean_wish_cache();
 }
 
 function add_heat(){
@@ -76,21 +77,8 @@ function add_heat(){
 		return DATABASE_OPERATION_ERROR;
 	}
 	mysql_query("COMMIT");
+
 	$lock -> release();
 	return RESULT_OK;
-}
-
-
-function clean_cache(){
-	require_once("cachehandler.php");
-
-	$cache = new cachehandler("getMyWishlist");
-	$cache -> remove($_POST['user_id']);
-
-	$cache = new cachehandler("getWishlist");
-	$cache -> remove($_POST['user_id']);
-	
-	$cache = new cachehandler("search_wish");
-	$cache -> clean();
 }
 ?>

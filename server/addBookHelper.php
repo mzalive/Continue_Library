@@ -43,6 +43,19 @@ function add_to_book($target){
 	mysql_query("SET AUTOCOMMIT=0");
 	mysql_query("BEGIN");
 
+	$sql_check = "select ".$target."_id from ".$target." where ".$target."_isbn = '$book_isbn'";
+	$query_check = mysql_query($sql_check);
+	if(!$query){
+		mysql_query("ROLLBACK");
+		$lock -> release();
+		return DATABASE_OPERATION_ERROR;
+	}
+	if(mysql_num_rows($query)){
+		mysql_query("ROLLBACK");
+		$lock -> release();
+		return add_heat();
+	}
+
 	$sql = "insert into ".$target."(".$target."_title,".$target."_subtitle,".$target."_isbn,"
 		.$target."_publisher,".$target."_publishdate,".$target."_imageurl,".$target."_summary"
 		.($is_book?$sql_insert_book1:"").")

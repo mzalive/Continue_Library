@@ -28,7 +28,7 @@ function build_book($result_book)
 		'image' => $book_imageurl,
 		'pubdate' => $book_publishdate,
 		'status' => array(
-			'is_in_stock' => false,
+			'is_in_stock' => true,
 			'amount_total' => $book_amout_total,
 			'heat' => 0,
 			'is_wanted' => false

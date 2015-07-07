@@ -15,7 +15,7 @@ class ServerLogger{
 
 		$fp = fopen($dir,'w+');
 
-		$prefix = "\n".'['.date("Y-m-d H:i:s", time()).'] : '.$_GET['action']."\n";
+		$prefix = "\n".'['.date("Y-m-d H:i:s", time()).'] : '.$_POST['action']."\n";
 		fwrite($fp, $prefix.$content."\n");
 		fclose($fp);
 		}
