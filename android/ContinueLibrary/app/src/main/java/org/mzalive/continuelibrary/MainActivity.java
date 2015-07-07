@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
+import com.melnykov.fab.FloatingActionButton;
 import com.mikepenz.iconics.typeface.FontAwesome;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
@@ -39,6 +40,7 @@ import org.mzalive.continuelibrary.communication.UserInfo;
 public class MainActivity extends AppCompatActivity {
 
     private SearchBox search;
+    private FloatingActionButton fab;
     private Fragment mContent;
     private Fragment continueFragment;
     private Fragment userFragment;
@@ -56,6 +58,10 @@ public class MainActivity extends AppCompatActivity {
         Log.d("username_print", sp.getString("username", ""));
 
 
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+
+
+
         /**
          * Initializing Fragments
          */
@@ -66,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         /**
          * Toolbar Configuration
          */
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolBarMain);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         setSupportActionBar(toolbar);
 
@@ -175,9 +181,6 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-//        getSupportFragmentManager().beginTransaction()
-//                .replace(R.id.content, continueFragment)
-//                .commit();
         switchFragment(continueFragment);
 
     }
@@ -203,26 +206,12 @@ public class MainActivity extends AppCompatActivity {
 
         //return super.onOptionsItemSelected(item);
     }
-    public void login(View view) {
-//        Intent intent = new Intent(this, BookDedatilActivity.class);
-//        startActivity(intent);
-//        SharedPreferences sp = getSharedPreferences("UserInfo", MODE_PRIVATE);
 
-        //mContent = userFragment;
-        //getSupportFragmentManager().beginTransaction().hide(continueFragment).commit();
-//        Thread thread=new Thread(new Runnable()
-//        {
-//            @Override
-//            public void run()
-//            {
-//                Log.d("click me", "click me");
-//                BookList book = Search.searchNet("盗墓", 502, 10);
-//                BookManage.borrowBook("9787302209935", "1");
-//                UserInfo.getHasBorrowed("1", "9787302209935");
-//                Log.d("click me", "click me finish");
-//            }
-//        });
-//        thread.start();
+
+    public void StartScanActivity(View view) {
+        Intent intent = new Intent(this, ScanBarcodeActivity.class);
+        startActivity(intent);
+
     }
 
     public void switchFragment(Fragment fragment) {

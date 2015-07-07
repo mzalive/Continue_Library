@@ -36,7 +36,7 @@
         </activity>
         <activity
             android:name=".ScanBarcodeActivity"
-            android:label="@string/title_activity_scan_barcode" >
+            android:label="@string/title_activity_scan" >
         </activity>
         <activity
             android:name=".SetPasswordActivity"

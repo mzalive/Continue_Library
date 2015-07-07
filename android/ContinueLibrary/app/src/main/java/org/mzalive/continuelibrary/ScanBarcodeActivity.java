@@ -16,6 +16,8 @@ import android.hardware.SensorManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
@@ -57,7 +59,9 @@ import org.mzalive.continuelibrary.communication.GlobalSettings;
 import org.mzalive.continuelibrary.communication.Search;
 import org.mzalive.continuelibrary.communication.UserInfo;
 
-public class ScanBarcodeActivity extends Activity implements SensorEventListener {
+public class ScanBarcodeActivity extends AppCompatActivity implements SensorEventListener {
+
+    private Toolbar toolBar;
 
     private SvCamera svCamera;
     private View centerView;
@@ -99,6 +103,15 @@ public class ScanBarcodeActivity extends Activity implements SensorEventListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_barcode);
+
+        /**
+         * Set ToolBar
+         */
+        toolBar = (Toolbar) findViewById(R.id.toolBarScan);
+        toolBar.setTitle(R.string.title_activity_scan);
+        toolBar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        setSupportActionBar(toolBar);
+
 
         bcReader = new BarCodeReader();
 

@@ -1,11 +1,15 @@
 package org.mzalive.continuelibrary;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -32,8 +36,8 @@ import org.mzalive.continuelibrary.communication.WishlistManage;
 /**
  * Created by Trigger on 2015/7/3.
  */
-public class BookDedatilActivity extends Activity{
-    private ImageView toolbar;
+public class BookDedatilActivity extends AppCompatActivity {
+    private Toolbar toolbar;
     private ImageView ivBookBlur;
     private ImageView ivBookImage;
     private TextView  tvBookTitle;
@@ -56,7 +60,12 @@ public class BookDedatilActivity extends Activity{
         book = (Book) bundle.getSerializable("content");
         Log.d("BookDetail: onCreate","Get Book From Bundle: " + book.toString());
 
-        toolbar = (ImageView) findViewById(R.id.toolBar);
+        toolbar = (Toolbar) findViewById(R.id.toolBarDetail);
+        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        toolbar.getBackground().setAlpha(80);
+        setSupportActionBar(toolbar);
+
+
         ivBookBlur = (ImageView) findViewById(R.id.image_book_blur);
         ivBookImage = (ImageView) findViewById(R.id.image_book);
         tvBookTitle = (TextView) findViewById(R.id.text_title);
