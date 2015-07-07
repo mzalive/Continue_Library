@@ -1,5 +1,6 @@
 ~$*.doc
 ~$*.docx
+~$*.xlsx
 ~*.tmp
 ~$*.~vsdx
 Thumbs.db
