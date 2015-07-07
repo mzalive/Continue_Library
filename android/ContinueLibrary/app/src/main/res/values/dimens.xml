@@ -2,5 +2,5 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="card_margin_grid">2dp</dimen>
     <dimen name="card_margin_list_left_right">6dp</dimen>
-    <dimen name="card_margin_list_top_bottom">2dp</dimen>
+    <dimen name="card_margin_list_top_bottom">4dp</dimen>
 </resources>

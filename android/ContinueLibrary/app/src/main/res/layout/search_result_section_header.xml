@@ -2,9 +2,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    android:layout_marginTop="@dimen/card_margin_list_top_bottom"
     android:layout_marginBottom="@dimen/card_margin_list_top_bottom"
-    android:padding="8dp">
+    android:padding="8dp"
+    android:elevation="4dp">
 
     <!-- TextView as a section header. -->
     <TextView
