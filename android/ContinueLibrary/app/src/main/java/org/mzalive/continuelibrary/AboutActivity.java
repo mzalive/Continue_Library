@@ -17,9 +17,5 @@ public class AboutActivity extends Activity {
     public void onCreate(Bundle savedInstanceStatus){
         super.onCreate(savedInstanceStatus);
         setContentView(R.layout.activity_about);
-
-        ivLogo = (ImageView)findViewById(R.id.image_logo);
-        tvVersion = (TextView)findViewById(R.id.text_version);
-        tvCopyright = (TextView)findViewById(R.id.text_copyright_about);
     }
 }
