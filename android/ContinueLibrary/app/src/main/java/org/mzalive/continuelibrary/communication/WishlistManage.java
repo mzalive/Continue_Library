@@ -95,8 +95,8 @@ public class WishlistManage {
     //参数说明：
     //user_id:用户ID
     //book_isbn:ISBN
-    //is_owned:wishlist是否已经有这本书了
-    public static String addHeat(String user_id, String book_isbn, boolean is_owned){
+    //is_from_douban:书籍是否从豆瓣搜索跳转到详情
+    public static String addHeat(String user_id, String book_isbn, boolean is_from_douban){
         ArrayList<String> keys_name = new ArrayList<>();
         ArrayList<String> keys_value = new ArrayList<>();
         keys_name.add("user_id");
@@ -104,7 +104,7 @@ public class WishlistManage {
         keys_name.add("is_owned");
         keys_value.add(user_id);
         keys_value.add(book_isbn);
-        keys_value.add(Boolean.toString(is_owned));
+        keys_value.add(Boolean.toString(is_from_douban));
         String result = BaseFunctions.httpConnection(keys_name, keys_value, GlobalSettings.ACTION_ADDHEAT);
         return result;
     }

@@ -148,8 +148,8 @@ public class BookDedatilActivity extends Activity{
         protected String doInBackground(String... params) {
             String userId = params[0];
             String isbn   = params[1];
-            Boolean is_wanted = Boolean.valueOf(params[2]);
-            String result = WishlistManage.addHeat(userId, isbn, is_wanted);
+            Boolean isFromDouban = Boolean.valueOf(params[2]);
+            String result = WishlistManage.addHeat(userId, isbn, isFromDouban);
             return result;
         }
 
