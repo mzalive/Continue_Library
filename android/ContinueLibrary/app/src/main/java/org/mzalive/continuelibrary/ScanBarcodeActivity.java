@@ -177,8 +177,10 @@ public class ScanBarcodeActivity extends Activity implements SensorEventListener
             BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
             String scanResult = bcReader.decode(bitmap);
             resultBarCode = scanResult=="-1"?scanUnsuccessful:scanResult;
-            if(!resultBarCode.equals(scanUnsuccessful))
+            if(!resultBarCode.equals(scanUnsuccessful)) {
+                txtView.setText("扫描成功，正在搜索结果……");
                 createAndShowDialog();
+            }
            else
                 mAutoFocus = true;
         }
@@ -349,6 +351,7 @@ public class ScanBarcodeActivity extends Activity implements SensorEventListener
                     mAutoFocus = true;
                     break;
             }
+            txtView.setText(scanUnsuccessful);
         }
     };
 
@@ -390,18 +393,21 @@ public class ScanBarcodeActivity extends Activity implements SensorEventListener
                         @Override
                         public void onClick(DialogInterface arg0, int arg1) {
                             new BorrowBook().execute();
+                            txtView.setText(scanUnsuccessful);
                             mAutoFocus = true;
                         }
                     } :new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface arg0, int arg1) {
                             new ReturnBook().execute();
+                            txtView.setText(scanUnsuccessful);
                             mAutoFocus = true;
                         }
                     });
             builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface arg0, int arg1) {
+                    txtView.setText(scanUnsuccessful);
                     mAutoFocus = true;}
             });
             builder.setNeutralButton("查看详情", new DialogInterface.OnClickListener() {
@@ -409,6 +415,7 @@ public class ScanBarcodeActivity extends Activity implements SensorEventListener
                 public void onClick(DialogInterface arg0, int arg1) {
 //                            Intent intent = new Intent(ScanBarcodeActivity.this, LoginActivity.class);
 //                            startActivity(Intent intent);
+                    txtView.setText(scanUnsuccessful);
                     Intent intent = new Intent(ScanBarcodeActivity.this,BookDedatilActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("content",searchResult);
@@ -459,6 +466,7 @@ public class ScanBarcodeActivity extends Activity implements SensorEventListener
             }else{
                 toast = Toast.makeText(getApplicationContext(), "借书的时候哪里出了点问题", Toast.LENGTH_SHORT);
             }
+            txtView.setText(scanUnsuccessful);
             toast.show();
         }
     }
@@ -489,6 +497,7 @@ public class ScanBarcodeActivity extends Activity implements SensorEventListener
             }else{
                 toast = Toast.makeText(getApplicationContext(), "还书的时候哪里出了点问题", Toast.LENGTH_SHORT);
             }
+            txtView.setText(scanUnsuccessful);
             toast.show();
         }
 
