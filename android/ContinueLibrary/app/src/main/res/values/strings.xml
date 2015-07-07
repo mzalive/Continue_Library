@@ -38,7 +38,7 @@
     <string name="detail_book_publish_info">我是出版社/我是作者/2012-12-12</string>
     <string name="detail_book_content_index">简介</string>
     <string name="button_add">添加到心愿单</string>
-    <string name="detail_book_content">我是内容我是内容我是内容我是内容我是容我是内容我是内容我是内容我是容我是内容我是内容我是内容我是容我容我是内容我是内容我是内容我是容我是内容我是内容我是内容我是容我是内容我是内容我是内容我是容我是内容我是内容我是内容我是我是内容我是内容我是内容我是容我是内容我是内容我是内容我是容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容</string>
+    <string name="detail_book_content">这本书简介很少</string>
 
     <string name="scan_barcode_hint">扫描中…</string>
     <string name="scan_barcode_title">扫码</string>
