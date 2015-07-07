@@ -1,23 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#169e49">
     <ImageView
         android:id="@+id/image_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="150dp"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/avatar2"
+        android:src="@drawable/continue_logo"
         />
 
     <TextView
         android:id="@+id/text_version"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="100dp"
         android:layout_below="@id/image_logo"
         android:layout_centerHorizontal="true"
+        android:textColor="@color/translucent_deep_dark"
         android:text="@string/about_version"/>
 
     <TextView
@@ -27,5 +29,7 @@
         android:layout_below="@id/text_version"
         android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
+        android:textColor="@color/translucent_deep_dark"
+        android:textSize="14sp"
         android:text="@string/copyright"/>
 </RelativeLayout>
