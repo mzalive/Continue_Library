@@ -3,6 +3,7 @@ package org.mzalive.continuelibrary;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
@@ -49,8 +50,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import org.mzalive.continuelibrary.Base.Book;
+import org.mzalive.continuelibrary.Base.BookList;
+import org.mzalive.continuelibrary.communication.BookManage;
 import org.mzalive.continuelibrary.communication.GlobalSettings;
 import org.mzalive.continuelibrary.communication.Search;
+import org.mzalive.continuelibrary.communication.UserInfo;
 
 public class ScanBarcodeActivity extends Activity implements SensorEventListener {
 
@@ -77,6 +82,8 @@ public class ScanBarcodeActivity extends Activity implements SensorEventListener
     private SensorManager mSensorManager;
     private Sensor mAccel;
 
+    private Book searchResult;
+
     private boolean mInitialized = false;
     private float mLastX = 0;
     private float mLastY = 0;
@@ -86,6 +93,8 @@ public class ScanBarcodeActivity extends Activity implements SensorEventListener
     private final String scanUnsuccessful = "扫描中…";
 
     private int noMovementTimeCounter = 0;
+
+    private String userId = "1";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -268,13 +277,16 @@ public class ScanBarcodeActivity extends Activity implements SensorEventListener
         return yuv;
     }
 
-    class ShowDialog extends AsyncTask<Integer,Integer,Boolean>{
+    class ShowDialog extends AsyncTask<Integer,Integer,Integer>{
         private String title;
         private String author = "";
         private String publisher;
         private String image;
         private Context mContext;
         View layout;
+
+        //用户是否借过此书
+
         @Override
         protected  void onPreExecute(){
             //建对话框
@@ -288,82 +300,200 @@ public class ScanBarcodeActivity extends Activity implements SensorEventListener
             resultBookCover = (ImageView) layout.findViewById(R.id.BookImage);
             //
         }
-
         @Override
-        protected  Boolean doInBackground(Integer... params){
+        protected  Integer doInBackground(Integer... params){
+            BookList bookList = Search.search(userId,resultBarCode,0,1,0,0);
+            int errorCode = Integer.parseInt(bookList.getErrorCode());
+            if(errorCode == GlobalSettings.RESULT_OK) {
+                searchResult = bookList.getBooks().get(0);
+                image = searchResult.getImage();
+                publisher = searchResult.getPublisher();
+                title = searchResult.getTitle();
+                ArrayList<String> authors = searchResult.getAuthor();
+                int authorAmount = authors.size();
+                for(int i = 0; i < authorAmount; i++){
+                    author+=authors.get(i);
+                    author+="\n";
+                }
+                author = author.substring(0,author.length()-1);
+            }
+            else{
+                mAutoFocus = true;
+                return 3;
+            }
+            return 0;
+        }
+        @Override
+        protected void onPostExecute(Integer result) {
+            Toast toast;
+            switch (result.intValue()) {
+                case 0:
+                    resultBookTitle.setText(title);
+                    resultBookAuthor.setText(author);
+                    resultBookPublisher.setText(publisher);
+                    Picasso.with(ScanBarcodeActivity.this).load(image).into(resultBookCover);
+
+                    builder = new AlertDialog.Builder(mContext);
+                    builder.setView(layout);
+
+                    new HasBorrowedBook().execute();
+                    break;
+                case 1:case 2:
+                    toast = Toast.makeText(getApplicationContext(), "结果解析错误", Toast.LENGTH_SHORT);
+                    toast.show();
+                    mAutoFocus = true;
+                    break;
+                case 3:
+                    toast = Toast.makeText(getApplicationContext(), "书架里没有这本书！", Toast.LENGTH_SHORT);
+                    toast.show();
+                    mAutoFocus = true;
+                    break;
+            }
+        }
+    };
+
+    class HasBorrowedBook extends  AsyncTask<Integer,Integer,Integer>{
+        private int hasBorrowed(){
             try {
-                String jsonStr = Search.search("-1",resultBarCode,0,1,0,0);
+                String jsonStr = UserInfo.getHasBorrowed(userId, resultBarCode);
                 JSONTokener jsonTokener = new JSONTokener(jsonStr);
                 JSONObject object = (JSONObject) jsonTokener.nextValue();
                 int errorCode = Integer.parseInt(object.getString("error_code"));
-                if(errorCode == GlobalSettings.RESULT_OK)
-                {
-                    JSONArray books = object.getJSONArray("books");
-                    JSONObject book = (JSONObject) books.get(0);
-                    title = book.getString("title");
-                    JSONArray authors = book.getJSONArray("author");
-                    for(int j = 0; j < authors.length(); j++){
-                        author += authors.get(j).toString();
-                        author += "\n";
-                    }
-                    author = author.substring(0,author.length()-1);
-                    publisher = book.getString("publisher");
-                    image = book.getString("image");
-
-                    //Picasso.with(resultDialog.getContext()).load(image);
+                if (errorCode == GlobalSettings.RESULT_OK) {
+                    return Boolean.parseBoolean(object.getString("has_borrowed"))?1:0;
+                }else{
+                    return 2;
                 }
-                return true;
             }catch (JSONException e){
-                mAutoFocus = true;
                 e.printStackTrace();
-
-                return false;
+                return 3;
             }catch(Exception e){
-                mAutoFocus = true;
                 e.printStackTrace();
-
-                return false;
+                return 3;
             }
         }
         @Override
-        protected void onPostExecute(Boolean result) {
-
-            resultBookTitle.setText(title);
-            resultBookAuthor.setText(author);
-            resultBookPublisher.setText(publisher);
-            Picasso.with(ScanBarcodeActivity.this).load(image).into(resultBookCover);
-
-            builder = new AlertDialog.Builder(mContext);
-            builder.setView(layout);
-            builder.setPositiveButton("借",new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface arg0, int arg1) {
-                    Toast toast = Toast.makeText(getApplicationContext(), "你选择了借", Toast.LENGTH_SHORT);
-                    toast.show();
-                    mAutoFocus = true;
-                }
-            });
+        protected  void onPreExecute(){}
+        @Override
+        protected  Integer doInBackground(Integer... params){
+            int statusCode = hasBorrowed();
+            String btnContent;
+            if(statusCode == 0)
+                btnContent = "借";
+            else if(statusCode == 1)
+                btnContent = "还";
+            else{
+                return 1;
+            }
+            builder.setPositiveButton(btnContent,
+                    statusCode==0?new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface arg0, int arg1) {
+                            new BorrowBook().execute();
+                            mAutoFocus = true;
+                        }
+                    } :new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface arg0, int arg1) {
+                            new ReturnBook().execute();
+                            mAutoFocus = true;
+                        }
+                    });
             builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface arg0, int arg1) {
-                    Toast toast = Toast.makeText(getApplicationContext(), "你选择了取消", Toast.LENGTH_SHORT);
-                    toast.show();
-                    mAutoFocus = true;
-                }
+                    mAutoFocus = true;}
             });
             builder.setNeutralButton("查看详情", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface arg0, int arg1) {
-                    Toast toast = Toast.makeText(getApplicationContext(), "你选择了查看详情", Toast.LENGTH_SHORT);
-                    toast.show();
+//                            Intent intent = new Intent(ScanBarcodeActivity.this, LoginActivity.class);
+//                            startActivity(Intent intent);
+                    Intent intent = new Intent(ScanBarcodeActivity.this,BookDedatilActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("content",searchResult);
+                    intent.putExtras(bundle);
+                    ScanBarcodeActivity.this.startActivity(intent);
                     mAutoFocus = true;
                 }
             });
-
-            resultDialog = builder.create();
-            resultDialog.show();
+            return 0;
         }
-    };
+        @Override
+        protected void onPostExecute(Integer result) {
+            Toast toast;
+            int resultCode = result;
+            if(resultCode == 0){
+                resultDialog = builder.create();
+                resultDialog.show();
+            }else {
+                toast = Toast.makeText(getApplicationContext(), "判断是否借过书时出了问题", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        }
+    }
+
+    class BorrowBook extends AsyncTask<Integer,Integer,Integer>{
+        @Override
+        protected  void onPreExecute(){}
+        @Override
+        protected  Integer doInBackground(Integer... params){
+            try {
+                String jsonStr = BookManage.borrowBook(resultBarCode, userId);
+                JSONTokener jsonTokener = new JSONTokener(jsonStr);
+                JSONObject object = (JSONObject) jsonTokener.nextValue();
+                int errorCode = Integer.parseInt(object.getString("error_code"));
+                return errorCode;
+            }catch (JSONException e){
+                e.printStackTrace();
+                return GlobalSettings.UNKNOWN_ERROR;
+            }
+        }
+        @Override
+        protected  void onPostExecute(Integer errorCode){
+            Toast toast;
+            if (errorCode == GlobalSettings.RESULT_OK) {
+                toast = Toast.makeText(getApplicationContext(), "借阅成功！", Toast.LENGTH_SHORT);
+            }else if (errorCode == GlobalSettings.BOOK_ALL_BORROWED){
+                toast = Toast.makeText(getApplicationContext(), "手慢了一点，书被人抢走了", Toast.LENGTH_SHORT);
+            }else{
+                toast = Toast.makeText(getApplicationContext(), "借书的时候哪里出了点问题", Toast.LENGTH_SHORT);
+            }
+            toast.show();
+        }
+    }
+
+    class ReturnBook extends AsyncTask<Integer,Integer,Integer>{
+        @Override
+        protected  void onPreExecute(){}
+        @Override
+        protected Integer doInBackground(Integer... params){
+            try {
+                String jsonStr = BookManage.returnBook(resultBarCode, userId);
+                JSONTokener jsonTokener = new JSONTokener(jsonStr);
+                JSONObject object = (JSONObject) jsonTokener.nextValue();
+                int errorCode = Integer.parseInt(object.getString("error_code"));
+                return errorCode;
+            }catch (JSONException e) {
+                e.printStackTrace();
+                return GlobalSettings.UNKNOWN_ERROR;
+            }
+        }
+        @Override
+        protected void onPostExecute(Integer errorCode){
+            Toast toast;
+            if (errorCode == GlobalSettings.RESULT_OK) {
+                toast = Toast.makeText(getApplicationContext(), "还书成功！", Toast.LENGTH_SHORT);
+            }else if(errorCode == GlobalSettings.BOOK_RETURNED) {
+                toast = Toast.makeText(getApplicationContext(), "书已经还过了", Toast.LENGTH_SHORT);
+            }else{
+                toast = Toast.makeText(getApplicationContext(), "还书的时候哪里出了点问题", Toast.LENGTH_SHORT);
+            }
+            toast.show();
+        }
+
+
+    }
 }
 
 class SvCamera implements SurfaceHolder.Callback {
