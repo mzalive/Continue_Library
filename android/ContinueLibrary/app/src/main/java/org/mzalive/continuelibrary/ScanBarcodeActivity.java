@@ -112,7 +112,7 @@ public class ScanBarcodeActivity extends AppCompatActivity implements SensorEven
         toolBar = (Toolbar) findViewById(R.id.toolBarScan);
         toolBar.setTitle(R.string.title_activity_scan);
         toolBar.setTitleTextColor(getResources().getColor(android.R.color.white));
-        toolBar.getBackground().setAlpha(80);
+        toolBar.getBackground().setAlpha(0x80);
         setSupportActionBar(toolBar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);

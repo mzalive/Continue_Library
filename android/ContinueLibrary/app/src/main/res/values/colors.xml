@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Material Design Base Color Settings -->
-    <color name="colorPrimary">#00BCD4</color>
-    <color name="colorPrimaryDark">#0097A7</color>
+    <color name="colorPrimary">#169E49</color>
+    <color name="colorPrimaryDark">#25864A</color>
     <color name="windowBackground">#FFFFFF</color>
-    <color name="accent">#FFFF8D</color>
+    <color name="accent">#FFEA00</color>
+    <color name="accentLight">#FFFF00</color>
+    <color name="accentLighter">#FFFF8D</color>
+    <color name="accentDark">#FFD600</color>
 
     <color name="text_primary_on_light">#DE000000</color>
     <color name="text_secondary_on_light">#8A000000</color>
@@ -18,7 +21,9 @@
 
     <color name="translucent_dark">#CC000000</color>
     <color name="translucent_deep_dark">#B3424242</color>
-    <color name="translucent_light">#FFFFFF</color>
+    <color name="translucent_light">#4DFFFFFF</color>
+    <color name="translucent_more_light">#B3FFFFFF</color>
+
 
     <color name="divider">#1F000000</color>
 

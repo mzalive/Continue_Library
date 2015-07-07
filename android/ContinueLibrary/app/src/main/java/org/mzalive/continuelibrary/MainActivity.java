@@ -3,9 +3,11 @@ package org.mzalive.continuelibrary;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -30,6 +32,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.quinny898.library.persistentsearch.SearchBox;
 import com.quinny898.library.persistentsearch.SearchResult;
 
+import org.apache.http.conn.routing.RouteInfo;
 import org.mzalive.continuelibrary.Base.Book;
 import org.mzalive.continuelibrary.Base.BookList;
 import org.mzalive.continuelibrary.communication.BaseFunctions;
@@ -59,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setImageAlpha(0xB3);
 
 
 
@@ -111,23 +115,39 @@ public class MainActivity extends AppCompatActivity {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
+                        String TAG = "DrawerItemClickListener";
+                        Log.d(TAG, "Position: "+position+" Clicked");
                         switch (position) {
                             case 0: //Continue
                                 switchFragment(continueFragment);
                                 break;
+
                             case 1: //Mine
-                                switchFragment(userFragment);
+                                SharedPreferences sp = getSharedPreferences("UserInfo", LoginActivity.MODE_PRIVATE);
+                                boolean isLogin = sp.getBoolean("isLogin", false);
+                                Log.d(TAG, "IsLogin: "+ String.valueOf(isLogin));
+
+                                if (!isLogin) {
+                                    callForLogin();
+                                }
+                                else
+                                    switchFragment(userFragment);
+
                                 break;
+
                             case 3: //Test only
                                 switchFragment(searchResultListFragment);
                                 break;
+
                             case 4: //About
                                 Intent intent = new Intent(MainActivity.this, AboutActivity.class);
                                 startActivity(intent);
                                 break;
+
                             case 5: //Test Only
                                 callForContact();
                                 break;
+
                             default :
                                 Toast.makeText(view.getContext(), ""+position,Toast.LENGTH_SHORT).show();
                         }
@@ -247,6 +267,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void callForContact() {
+        Intent intent=new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:mzalive+continuelibrary@gmail.com"));
+        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.contact_mail_subject));
+        intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.contact_mail_content));
+        try {
+            startActivity(intent);
+        } catch (android.content.ActivityNotFoundException e) {
+            Toast.makeText(this,getString(R.string.no_available_activity_error_hint),Toast.LENGTH_LONG).show();
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            Log.d("Email error:",e.toString());
+        }
+    }
+
+    private void callForLogin() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }

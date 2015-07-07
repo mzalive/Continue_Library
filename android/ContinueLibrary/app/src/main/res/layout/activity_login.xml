@@ -2,36 +2,55 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/test_background">
+    android:background="@color/colorPrimary">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginTop="@dimen/toolbar_margin_top"
+        android:background="@android:color/transparent"></android.support.v7.widget.Toolbar>
 
     <ImageView
         android:id="@+id/image_login_logo"
-        android:layout_width="192dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="105dp"
-        android:src="@drawable/login_logo"
-        android:contentDescription="@string/image_login_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="104dp"
+        android:layout_below="@id/toolbar"
+        android:src="@drawable/continue_logo"
+        android:layout_centerHorizontal="true" />
+    <ImageView
+        android:id="@+id/image_login_logo_text"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_below="@id/image_login_logo"
+        android:src="@drawable/continue_logo_text_white"
         android:layout_centerHorizontal="true" />
 
     <LinearLayout
+        android:id="@+id/credential_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
+        android:layout_centerInParent="true"
         android:orientation="vertical"
-        android:layout_centerInParent="true">
+        android:paddingTop="8dp"
+        android:layout_marginTop="48dp"
+        android:layout_below="@id/image_login_logo_text">
 
         <EditText
             android:id="@+id/text_username"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="1dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
             android:hint="@string/login_username"
             android:singleLine="true"
             android:inputType="text"
-            android:paddingStart="18dp"
-            android:textSize="12sp"
-            android:background="@color/test_edittext_background" />
+            android:textColor="@color/text_primary_on_dark"
+            android:textColorHint="@color/text_hint_or_disabled_on_dark"
+            android:textSize="14sp"
+            android:background="@color/translucent_light"/>
 
 
         <EditText
@@ -41,21 +60,29 @@
             android:hint="@string/login_password"
             android:singleLine="true"
             android:inputType="textPassword"
-            android:paddingStart="18dp"
-            android:textSize="12sp"
-            android:background="@color/test_edittext_background" />
-
-        <Button
-            android:id="@+id/button_login"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/login"
             android:textColor="@color/text_primary_on_dark"
+            android:textColorHint="@color/text_hint_or_disabled_on_dark"
+            android:paddingStart="18dp"
             android:textSize="14sp"
-            android:onClick="clickLogin" />
+            android:background="@color/translucent_light" />
+
+
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/button_login"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/credential_form"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/login"
+        android:textColor="@color/text_primary_on_light"
+        android:textSize="14sp"
+        android:onClick="clickLogin"
+        android:background="@color/translucent_more_light" />
 
     <TextView
         android:id="@+id/text_copyright"
@@ -65,7 +92,7 @@
         android:layout_marginBottom="10dp"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
-        android:textColor="@color/text_hint_or_disabled_on_dark"
-        android:textSize="12sp"/>
+        android:textColor="@color/text_hint_or_disabled_on_light"
+        android:textSize="12sp" />
 
 </RelativeLayout>

@@ -54,4 +54,8 @@
     <string name="title_activity_passwd">Change Password</string>
     <string name="title_activity_about">About</string>
 
+    <string name="contact_mail_subject">A Feedback about Continue Library Android Client</string>
+    <string name="contact_mail_content"></string>
+    <string name="no_available_activity_error_hint">No Mail App Installed</string>
+
 </resources>

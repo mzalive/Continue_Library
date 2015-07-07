@@ -62,7 +62,7 @@ public class BookDedatilActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolBarDetail);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
-        toolbar.getBackground().setAlpha(80);
+        toolbar.getBackground().setAlpha(0x80);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
