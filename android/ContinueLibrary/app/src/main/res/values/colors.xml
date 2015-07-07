@@ -21,4 +21,7 @@
     <color name="translucent_light">#FFFFFF</color>
 
     <color name="divider">#1F000000</color>
+
+    <color name="test_background">#689F38</color>
+    <color name="test_edittext_background">#F1F8E9</color>
 </resources>
