@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg">
+    android:background="@color/test_background">
 
 
     <ImageView
@@ -23,7 +23,7 @@
 
         <EditText
             android:id="@+id/text_username"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginBottom="8dp"
             android:hint="@string/login_username"
@@ -31,34 +31,31 @@
             android:inputType="text"
             android:paddingStart="18dp"
             android:textSize="12sp"
-            android:background="@drawable/text_box_h" />
+            android:background="@color/test_edittext_background" />
 
 
         <EditText
             android:id="@+id/text_password"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
             android:hint="@string/login_password"
             android:singleLine="true"
             android:inputType="textPassword"
             android:paddingStart="18dp"
             android:textSize="12sp"
-            android:background="@drawable/text_box_h" />
+            android:background="@color/test_edittext_background" />
 
         <Button
             android:id="@+id/button_login"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginTop="16dp"
             android:text="@string/login"
             android:textColor="@color/text_primary_on_dark"
             android:textSize="14sp"
-            android:background="@drawable/login_btn_act_h"
-            android:onClick="clickLogin"
-            />
+            android:onClick="clickLogin" />
 
     </LinearLayout>
-
 
     <TextView
         android:id="@+id/text_copyright"
