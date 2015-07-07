@@ -1,6 +1,5 @@
 package org.mzalive.continuelibrary;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -8,11 +7,13 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -63,6 +64,11 @@ public class BookDedatilActivity extends AppCompatActivity {
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         toolbar.getBackground().setAlpha(80);
         setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.mipmap.ic_arrow_back_white_24dp);
 
 
         ivBookBlur = (ImageView) findViewById(R.id.image_book_blur);
@@ -93,7 +99,7 @@ public class BookDedatilActivity extends AppCompatActivity {
                         int targetWidthBlur = dm.widthPixels;
                         int targetHeightBook = (int) ((float) targetWidthBook / drawable.getMinimumWidth() * drawable.getMinimumHeight());
 
-                        int blurMarginTop = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (24+56+8), getResources().getDisplayMetrics());
+                        int blurMarginTop = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (24+56+16), getResources().getDisplayMetrics());
                         int targetHeightBlur = targetHeightBook + blurMarginTop;
 
                         rlp.width =targetWidthBook;
@@ -149,6 +155,16 @@ public class BookDedatilActivity extends AppCompatActivity {
                     btnDaye.setVisibility(View.VISIBLE);
             }
         });
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     class AddHeat extends AsyncTask<String, Void, String>{

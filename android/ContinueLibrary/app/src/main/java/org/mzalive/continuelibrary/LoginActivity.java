@@ -109,9 +109,6 @@ public class LoginActivity  extends Activity {
                     break;
                 case 1000:
                     Toast.makeText(LoginActivity.this, "登录成功！",Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent();
-                    intent.setClass(LoginActivity.this, MainActivity.class);
-                    LoginActivity.this.startActivity(intent);
                     LoginActivity.this.finish();
                     break;
                 default:

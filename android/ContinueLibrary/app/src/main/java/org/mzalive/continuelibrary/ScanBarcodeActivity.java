@@ -16,10 +16,12 @@ import android.hardware.SensorManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -112,6 +114,11 @@ public class ScanBarcodeActivity extends AppCompatActivity implements SensorEven
         toolBar.setTitleTextColor(getResources().getColor(android.R.color.white));
         toolBar.getBackground().setAlpha(80);
         setSupportActionBar(toolBar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.mipmap.ic_arrow_back_white_24dp);
 
 
         bcReader = new BarCodeReader();
@@ -134,6 +141,17 @@ public class ScanBarcodeActivity extends AppCompatActivity implements SensorEven
         timeCountTask = new TimeCounterTask();
         timer.schedule(timeCountTask, 0, 1000);
     }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     class AutoFocusTimerTask extends TimerTask {
         @Override

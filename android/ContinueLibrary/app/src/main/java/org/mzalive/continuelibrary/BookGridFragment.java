@@ -109,20 +109,26 @@ public class BookGridFragment extends LibraryFragment {
                     switch (mSectionCategory) {
                         case BOOKLIST_SECTION_CATEGORY:
                             bookList = BookManage.getBooklist(0, 20);
+                            Log.d("BGF","CONTINUE: BOOKLIST");
                             break;
                         case WISHLIST_SECTION_CATEGORY:
                             bookList = WishlistManage.getWishlist(uid, 0, 20);
+                            Log.d("BGF","CONTINUE: WISHLIST, UID = " + uid );
                             break;
                     }
+                    break;
                 case USER_FRAGMENT_CATEGORY:
                     switch (mSectionCategory) {
                         case BOOKLIST_SECTION_CATEGORY:
-                            UserInfo.getMyBorrowlist(uid, 0, 20);
+                            bookList = UserInfo.getMyBorrowlist(uid, 0, 20);
+                            Log.d("BGF","USER: BOOKLIST, UID = " + uid );
                             break;
                         case WISHLIST_SECTION_CATEGORY:
-                            UserInfo.getMyWishlist(uid, 0, 20);
+                            bookList = UserInfo.getMyWishlist(uid, 0, 20);
+                            Log.d("BGF","USER: WISHLIST, UID = " + uid );
                             break;
                     }
+                    break;
             }
             return bookList;
         }

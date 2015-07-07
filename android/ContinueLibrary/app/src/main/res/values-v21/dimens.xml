@@ -2,4 +2,5 @@
     <dimen name="card_margin_grid">4dp</dimen>
     <dimen name="card_margin_list_left_right">8dp</dimen>
     <dimen name="card_margin_list_top_bottom">8dp</dimen>
+    <dimen name="toolbar_margin_top">25dp</dimen>
 </resources>

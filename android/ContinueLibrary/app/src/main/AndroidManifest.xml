@@ -28,11 +28,13 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:launchMode="singleTask" >
+            android:launchMode="singleTask"
+            android:label="@string/title_activity_login" >
         </activity>
         <activity
             android:name=".BookDedatilActivity"
-            android:launchMode="singleTask" >
+            android:launchMode="singleTask"
+            android:label="@string/title_activity_detail" >
         </activity>
         <activity
             android:name=".ScanBarcodeActivity"
@@ -41,11 +43,12 @@
         <activity
             android:name=".SetPasswordActivity"
             android:launchMode="singleTask"
-            >
+            android:label="@string/title_activity_passwd" >
         </activity>
         <activity
             android:name=".AboutActivity"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:label="@string/title_activity_about" >
         </activity>
     </application>
 

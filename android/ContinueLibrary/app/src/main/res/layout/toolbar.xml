@@ -4,6 +4,6 @@
     android:minHeight="?attr/actionBarSize"
     android:background="@android:color/black"
     android:elevation="4dp"
-    android:layout_marginTop="24dp">
+    android:layout_marginTop="@dimen/toolbar_margin_top">
 
 </android.support.v7.widget.Toolbar>

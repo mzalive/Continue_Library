@@ -7,28 +7,11 @@
     android:orientation="vertical"
     android:fitsSystemWindows="false">
 
-    <include
-        android:id="@+id/toolBarMain"
-        layout="@layout/toolbar_main"
-        android:background="@color/colorPrimary"/>
-
-    <com.quinny898.library.persistentsearch.SearchBox
-        android:id="@+id/searchbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
-
     <FrameLayout
         android:id="@+id/content"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@id/toolBarMain"></FrameLayout>
-
-    <TextView
-        android:id="@+id/toolbar_search_result"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_marginTop="80dp"/>
+        android:layout_below="@+id/toolBarMain"></FrameLayout>
 
 
     <com.melnykov.fab.FloatingActionButton
@@ -43,6 +26,23 @@
         fab:fab_colorPressed="@color/colorPrimaryDark"
         fab:fab_colorRipple="@color/translucent_light"
         android:onClick="StartScanActivity"/>
+
+    <include
+        android:id="@id/toolBarMain"
+        layout="@layout/toolbar_main"
+        android:background="@color/colorPrimary"/>
+
+    <com.quinny898.library.persistentsearch.SearchBox
+        android:id="@+id/searchbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:id="@+id/toolbar_search_result"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="80dp"/>
 
 
 </RelativeLayout>
