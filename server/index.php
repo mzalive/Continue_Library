@@ -18,7 +18,7 @@ define("FILE_LOCK_PATH","tmp/lock/");
 define("DOUBAN_API","https://api.douban.com/v2/book/isbn/");
 //define url for server logger
 define("LOGGER_PATH","tmp/log/");
-
+header('Access-Control-Allow-Origin: *');
 $action = "";
 if($_POST['action'] != ''){
 	$action= $_POST['action'];

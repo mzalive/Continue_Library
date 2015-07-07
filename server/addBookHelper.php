@@ -1,6 +1,7 @@
 <?php
 function add_to_book($target){
 	require_once("lock.php");
+	require_once("dieError.php");
 
 	$is_book = false;
 
@@ -45,16 +46,10 @@ function add_to_book($target){
 
 	$sql_check = "select ".$target."_id from ".$target." where ".$target."_isbn = '$book_isbn'";
 	$query_check = mysql_query($sql_check);
-	if(!$query){
-		mysql_query("ROLLBACK");
-		$lock -> release();
-		return DATABASE_OPERATION_ERROR;
-	}
-	if(mysql_num_rows($query)){
-		mysql_query("ROLLBACK");
-		$lock -> release();
-		return add_heat();
-	}
+	if(!$query_check)
+		return die_with_message($lock,DATABASE_OPERATION_ERROR);
+	if(mysql_num_rows($query_check))
+		return die_with_message($lock,$is_book?ALREADY_ADDED:add_heat());
 
 	$sql = "insert into ".$target."(".$target."_title,".$target."_subtitle,".$target."_isbn,"
 		.$target."_publisher,".$target."_publishdate,".$target."_imageurl,".$target."_summary"
@@ -62,40 +57,28 @@ function add_to_book($target){
 		values('$book_title','$book_subtitle','$book_isbn','$book_publisher'
 		,'$book_publishdate','$book_imageurl','$book_summary'".($is_book?$sql_insert_book2:"").")";
 	$query = mysql_query($sql);
-	if(!$query){
-		mysql_query("ROLLBACK");
-		$lock -> release();
-		return DATABASE_OPERATION_ERROR;
-	}
+	if(!$query)
+		return die_with_message($lock,DATABASE_OPERATION_ERROR);
 
 	$book_id = mysql_insert_id();
 
 	if(!$is_book){
 		$sql_heat = "insert into wish_heat(wish_id,wish_heat) values('$book_id',1)";
 		$query_heat = mysql_query($sql_heat);
-		if(!$query_heat){
-			mysql_query("ROLLBACK");
-			$lock -> release();
-			return DATABASE_OPERATION_ERROR;
-		}
+		if(!$query_heat)
+			return die_with_message($lock,DATABASE_OPERATION_ERROR);
 
 		$sql_want = "insert into user_".$target."list(user_Id,".$target."_Id) values('$user_id','$book_id')";
 		$query_want = mysql_query($sql_want);
-		if(!$query_want){
-			mysql_query("ROLLBACK");
-			$lock -> release();
-			return DATABASE_OPERATION_ERROR;
-		}
+		if(!$query_want)
+			return die_with_message($lock,DATABASE_OPERATION_ERROR);
 	}else{
 		$book_amount_available = $book_amount_total;
 		$sql_set_amount_available = "insert into book_amount(book_id,book_amount_available) values('$book_id',
 			'$book_amount_available')";
 		$query_set_amount_available = mysql_query($sql_set_amount_available);
-		if(!$query_set_amount_available){
-			mysql_query("ROLLBACK");
-			$lock -> release();
-			return DATABASE_OPERATION_ERROR;
-		}
+		if(!$query_set_amount_available)
+			return die_with_message($lock,DATABASE_OPERATION_ERROR);
 	}
 
 
@@ -107,11 +90,8 @@ function add_to_book($target){
 		if(!mysql_num_rows($query_does_tag_exists)){
 			$sql_tag = "insert into tag_index(tag_Content) values('$tag_name')";
 			$query_tag = mysql_query($sql_tag);
-			if(!$query_tag){
-				mysql_query("ROLLBACK");
-				$lock -> release();
-				return DATABASE_OPERATION_ERROR;
-			}
+			if(!$query_tag)
+				return die_with_message($lock,DATABASE_OPERATION_ERROR);
 			$tag_id = mysql_insert_id();
 		}else{
 			$tag_id = mysql_fetch_object($query_does_tag_exists) -> tag_id;
@@ -119,21 +99,15 @@ function add_to_book($target){
 
 		$sql_book_tag = "insert into tag_".$target."(tag_id,".$target."_id) values('$tag_id','$book_id')";
 		$query_book_tag = mysql_query($sql_book_tag);
-		if(!$query_book_tag){
-			mysql_query("ROLLBACK");
-			$lock -> release();
-			return DATABASE_OPERATION_ERROR;
-		}
+		if(!$query_book_tag)
+			return die_with_message($lock,DATABASE_OPERATION_ERROR);
 	}
 
 	foreach ($book_author as $author) {
 		$sql_author = "insert into ".$target."_author(".$target."_id,author) values('$book_id','$author')";
 		$query_author = mysql_query($sql_author);
-		if(!$query_author){
-			mysql_query("ROLLBACK");
-			$lock -> release();
-			return DATABASE_OPERATION_ERROR;
-		}
+		if(!$query_author)
+			return die_with_message($lock,DATABASE_OPERATION_ERROR);
 	}
 
 	mysql_query("COMMIT");

@@ -20,4 +20,4 @@ function clean_wish_cache(){
 	$cache = new cachehandler("search_wish");
 	$cache -> clean();
 }
-}
+?>

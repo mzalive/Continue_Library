@@ -75,7 +75,7 @@ function foo(){
 		}
 		$query_book = get_book_info($bId);
 		while($result_book = mysql_fetch_object($query_book)){
-			$book = buildBook($result_book);
+			$book = build_book($result_book);
 			array_push($books, $book);
 		}
 

@@ -37,7 +37,8 @@ class filelock{
 	}
 
 	public function release(){
-		fclose($this->fp);
+		if($this->fp)
+				fclose($this->fp);
 		$this->fp = NULL;
 	}
 }
