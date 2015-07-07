@@ -192,17 +192,17 @@ public class ScanBarcodeActivity extends AppCompatActivity implements SensorEven
             data = rotateYUV420Degree90(data, previewSize.width, previewSize.height);
             int rotated_width = previewSize.height;
             int rotated_height = previewSize.width;
-            YuvImage yuvimage=new YuvImage(data, ImageFormat.NV21, rotated_width,rotated_height, null);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            yuvimage.compressToJpeg(new Rect(0, 0, rotated_width,rotated_height), 100, baos);
-            byte[] jdata = baos.toByteArray();
+//            YuvImage yuvimage=new YuvImage(data, ImageFormat.NV21, rotated_width,rotated_height, null);
+//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//            yuvimage.compressToJpeg(new Rect(0, 0, rotated_width,rotated_height), 100, baos);
+//            byte[] jdata = baos.toByteArray();
+//
+//            Bitmap bmp = BitmapFactory.decodeByteArray(jdata, 0, jdata.length);
 
-            Bitmap bmp = BitmapFactory.decodeByteArray(jdata, 0, jdata.length);
-
-            if(bmp != null)
-                imgView.setImageBitmap(bmp);
-            else
-                Log.e("bitmap","not able to show");
+//            if(bmp != null)
+//                imgView.setImageBitmap(bmp);
+//            else
+//                Log.e("bitmap","not able to show");
 
             PlanarYUVLuminanceSource source = new PlanarYUVLuminanceSource(
                     data, rotated_width,rotated_height,0,0,rotated_width,rotated_height,false);
