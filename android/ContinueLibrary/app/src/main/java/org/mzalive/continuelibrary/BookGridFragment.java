@@ -7,6 +7,7 @@ package org.mzalive.continuelibrary;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.hardware.display.DisplayManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -23,6 +24,8 @@ import android.widget.TextView;
 import org.mzalive.continuelibrary.Base.Book;
 import org.mzalive.continuelibrary.Base.BookList;
 import org.mzalive.continuelibrary.communication.BookManage;
+import org.mzalive.continuelibrary.communication.UserInfo;
+import org.mzalive.continuelibrary.communication.WishlistManage;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -70,16 +73,20 @@ public class BookGridFragment extends LibraryFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        new MyAsyncTask(getActivity(), mRecyclerView).execute();
+        new MyAsyncTask(getActivity(), mRecyclerView, mFragmentCategory, mSectionCategory).execute();
         Log.d("test","excuted");
     }
 
     public class MyAsyncTask extends AsyncTask<String, Integer, BookList>
     {
+        int mFragmentCategory = 0;
+        int mSectionCategory = 0;
         Activity mContext;
         RecyclerView mRecyclerView;
 
-        public MyAsyncTask(Activity context, RecyclerView recyclerView) {
+        public MyAsyncTask(Activity context, RecyclerView recyclerView, int fragmentCategory, int sectionCategory) {
+            mFragmentCategory = fragmentCategory;
+            mSectionCategory = sectionCategory;
             mContext = context;
             mRecyclerView = recyclerView;
         }
@@ -94,8 +101,29 @@ public class BookGridFragment extends LibraryFragment {
         @Override
         protected BookList doInBackground(String... params)
         {
-            BookList bookList = BookManage.getBooklist(0,20);
-            Log.d("DIB",bookList.toString());
+            BookList bookList = new BookList();
+            SharedPreferences preferences = getActivity().getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
+            String uid = preferences.getString("userId","-1");
+            switch (mFragmentCategory) {
+                case CONTINUE_FRAGMENT_CATEGORY:
+                    switch (mSectionCategory) {
+                        case BOOKLIST_SECTION_CATEGORY:
+                            bookList = BookManage.getBooklist(0, 20);
+                            break;
+                        case WISHLIST_SECTION_CATEGORY:
+                            bookList = WishlistManage.getWishlist(uid, 0, 20);
+                            break;
+                    }
+                case USER_FRAGMENT_CATEGORY:
+                    switch (mSectionCategory) {
+                        case BOOKLIST_SECTION_CATEGORY:
+                            UserInfo.getMyBorrowlist(uid, 0, 20);
+                            break;
+                        case WISHLIST_SECTION_CATEGORY:
+                            UserInfo.getMyWishlist(uid, 0, 20);
+                            break;
+                    }
+            }
             return bookList;
         }
         @Override
