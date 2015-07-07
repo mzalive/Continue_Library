@@ -41,7 +41,7 @@ public class BookGridRecyclerViewAdapter extends RecyclerView.Adapter<BookGridRe
     // you provide access to all the views for a data item in a view holder
     public class BookGridViewHolder extends RecyclerView.ViewHolder {
 
-        private final double CARD_HEIGHT_SCALE_RATIO = 0.48;
+        private final double CARD_HEIGHT_SCALE_RATIO = 0.5;
 
         public CardView cardView;
         public TextView mTextView;
@@ -100,7 +100,7 @@ public class BookGridRecyclerViewAdapter extends RecyclerView.Adapter<BookGridRe
                                 .maximumColorCount(32)
                                 .generate(new Palette.PaletteAsyncListener() {
                                     public void onGenerated(Palette p) {
-                                        Palette.Swatch swatch = p.getDarkVibrantSwatch();
+                                        Palette.Swatch swatch = p.getVibrantSwatch();
                                         if (swatch != null)
                                             holder.cardView.setCardBackgroundColor(swatch.getRgb());
                                     }

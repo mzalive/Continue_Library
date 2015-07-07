@@ -206,8 +206,8 @@ public class MainActivity extends AppCompatActivity {
 //        SharedPreferences.Editor editor = sp.edit();
 //        editor.putString("userId", "2");
 //        editor.putString("username", "liuziyi");
-//        Intent intent = new Intent(this, LoginActivity.class);
-//        startActivity(intent);
+        Intent intent = new Intent(this, ScanBarcodeActivity.class);
+        startActivity(intent);
 //        SharedPreferences sp = getSharedPreferences("UserInfo", MODE_PRIVATE);
 
         //mContent = userFragment;
@@ -221,6 +221,7 @@ public class MainActivity extends AppCompatActivity {
 //                BookList book = Search.search("1", "9787302209935", 0, 20, 0, 20);
 //                BookManage.borrowBook("9787302209935", "1");
 //                UserInfo.getHasBorrowed("1", "9787302209935");
+
 //                Log.d("click me", "click me finish");
 //            }
 //        });
