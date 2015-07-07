@@ -206,24 +206,25 @@ public class MainActivity extends AppCompatActivity {
 //        SharedPreferences.Editor editor = sp.edit();
 //        editor.putString("userId", "2");
 //        editor.putString("username", "liuziyi");
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(this, LoginActivity.class);
+//        startActivity(intent);
 //        SharedPreferences sp = getSharedPreferences("UserInfo", MODE_PRIVATE);
 
         //mContent = userFragment;
         //getSupportFragmentManager().beginTransaction().hide(continueFragment).commit();
-//        Thread thread=new Thread(new Runnable()
-//        {
-//            @Override
-//            public void run()
-//            {
-//                Log.d("click me", "click me");
+        Thread thread=new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                Log.d("click me", "click me");
+                BookList book = Search.search("1", "9787302209935", 0, 20, 0, 20);
 //                BookManage.borrowBook("9787302209935", "1");
 //                UserInfo.getHasBorrowed("1", "9787302209935");
-//                Log.d("click me", "click me finish");
-//            }
-//        });
-//        thread.start();
+                Log.d("click me", "click me finish");
+            }
+        });
+        thread.start();
     }
 
     public void switchFragment(Fragment fragment) {
