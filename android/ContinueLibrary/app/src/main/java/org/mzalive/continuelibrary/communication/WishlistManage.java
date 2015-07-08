@@ -98,7 +98,8 @@ public class WishlistManage {
     //user_id:用户ID
     //book_isbn:ISBN
     //is_from_douban:书籍是否从豆瓣搜索跳转到详情
-    public static String addHeat(String user_id, String book_isbn, boolean is_from_douban){
+    public static int addHeat(String user_id, String book_isbn, boolean is_from_douban){
+        int errorCode;
         ArrayList<String> keys_name = new ArrayList<>();
         ArrayList<String> keys_value = new ArrayList<>();
         keys_name.add("user_id");
@@ -108,7 +109,15 @@ public class WishlistManage {
         keys_value.add(book_isbn);
         keys_value.add(Boolean.toString(is_from_douban));
         String result = BaseFunctions.httpConnection(keys_name, keys_value, GlobalSettings.ACTION_ADDHEAT);
-        return result;
+        try{
+            JSONTokener jsonTokener = new JSONTokener(result);
+            JSONObject object = (JSONObject)jsonTokener.nextValue();
+            errorCode = object.getInt("error_code");
+        }catch (JSONException e){
+            errorCode = GlobalSettings.JSON_EXCEPTION_ERROR;
+            e.printStackTrace();
+        }
+        return errorCode;
     }
 
 }

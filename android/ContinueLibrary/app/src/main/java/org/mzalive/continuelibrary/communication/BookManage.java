@@ -19,7 +19,8 @@ public class BookManage {
     //参数说明：
     //book_isbn:书籍的ISBN
     //user_id:用户ID
-    public static String borrowBook(String book_isbn, String user_id){
+    public static int borrowBook(String book_isbn, String user_id){
+        int errorCode;
         ArrayList<String> keys_name = new ArrayList<>();
         ArrayList<String> keys_value = new ArrayList<>();
         keys_name.add("user_id");
@@ -27,14 +28,23 @@ public class BookManage {
         keys_value.add(user_id);
         keys_value.add(book_isbn);
         String result = BaseFunctions.httpConnection(keys_name, keys_value, GlobalSettings.ACTION_BORROWBOOK);
-        return result;
+        try{
+            JSONTokener jsonTokener = new JSONTokener(result);
+            JSONObject object = (JSONObject)jsonTokener.nextValue();
+            errorCode = object.getInt("error_code");
+        }catch (JSONException e){
+            errorCode = GlobalSettings.JSON_EXCEPTION_ERROR;
+            e.printStackTrace();
+        }
+        return errorCode;
     }
 
     //returnBook方法，还书
     //参数说明：
     //book_isbn:书籍的ISBN
     //user_id:用户ID
-    public static String returnBook(String book_isbn, String user_id){
+    public static int returnBook(String book_isbn, String user_id){
+        int errorCode;
         ArrayList<String> keys_name = new ArrayList<>();
         ArrayList<String> keys_value = new ArrayList<>();
         keys_name.add("user_id");
@@ -42,7 +52,15 @@ public class BookManage {
         keys_value.add(user_id);
         keys_value.add(book_isbn);
         String result = BaseFunctions.httpConnection(keys_name, keys_value, GlobalSettings.ACTION_RETURNBOOK);
-        return result;
+        try{
+            JSONTokener jsonTokener = new JSONTokener(result);
+            JSONObject object = (JSONObject)jsonTokener.nextValue();
+            errorCode = object.getInt("error_code");
+        }catch (JSONException e){
+            errorCode = GlobalSettings.JSON_EXCEPTION_ERROR;
+            e.printStackTrace();
+        }
+        return errorCode;
     }
 
     //getBooklist方法，获取书库的书籍信息
@@ -124,13 +142,27 @@ public class BookManage {
     //getBookCount方法，获取书籍的库存
     //参数说明：
     //book_id:书籍的ID
-    public static String getBookCount(String book_isbn){
+    //如果返回结果不成功，则结果为-1
+    public static int getBookCount(String book_isbn){
+        int count = -1;
+        int errorCode;
         ArrayList<String> keys_name = new ArrayList<>();
         ArrayList<String> keys_value = new ArrayList<>();
         keys_name.add("book_isbn");
         keys_value.add(book_isbn);
         String result = BaseFunctions.httpConnection(keys_name, keys_value, GlobalSettings.ACTION_GETBOOKCOUNT);
-        return result;
+
+        try{
+            JSONTokener jsonTokener = new JSONTokener(result);
+            JSONObject object = (JSONObject)jsonTokener.nextValue();
+            errorCode = object.getInt("error_code");
+            if(errorCode == GlobalSettings.RESULT_OK){
+                count = object.getInt("amount_available");
+            }
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        return count;
     }
 
 
