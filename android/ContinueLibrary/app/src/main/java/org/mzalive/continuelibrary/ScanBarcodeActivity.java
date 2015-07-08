@@ -23,7 +23,9 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -103,10 +105,8 @@ public class ScanBarcodeActivity extends AppCompatActivity implements SensorEven
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_scan_barcode);
-
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 
         /**
@@ -116,6 +116,10 @@ public class ScanBarcodeActivity extends AppCompatActivity implements SensorEven
         toolBar.setTitle(R.string.title_activity_scan);
         toolBar.setTitleTextColor(getResources().getColor(android.R.color.white));
         toolBar.getBackground().setAlpha(80);
+        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(toolBar.getLayoutParams());
+        lp.setMargins(0, 0, 0, 0);
+        toolBar.setLayoutParams(lp);
+
         setSupportActionBar(toolBar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
