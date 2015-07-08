@@ -70,7 +70,7 @@ public class SetPasswordActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    class setPassword extends AsyncTask<Integer, Integer, String>{
+    class setPassword extends AsyncTask<Integer, Integer, Integer>{
         private String userId;
         private String oldPassword;
         private String newPassword;
@@ -90,16 +90,15 @@ public class SetPasswordActivity extends AppCompatActivity {
             etConfirmPasswordContent.setText("");
         }
         @Override
-        protected String doInBackground(Integer...params){
-            String result = getSetPassword(userId, oldPassword, newPassword);
+        protected Integer doInBackground(Integer...params){
+            int result = UserInfo.setPassword(oldPassword, newPassword, userId);
             return result;
         }
         @Override
-        protected void onPostExecute(String result){
+        protected void onPostExecute(Integer result){
             btnModify.setClickable(true);
             btnModify.setText(getString(R.string.modify));
-            int errorCode = Integer.valueOf(result);
-            switch (errorCode){
+            switch (result){
                 case GlobalSettings.JSON_EXCEPTION_ERROR:
                     Toast.makeText(SetPasswordActivity.this, "未知错误，请重试！",Toast.LENGTH_SHORT).show();
                     break;
@@ -112,18 +111,4 @@ public class SetPasswordActivity extends AppCompatActivity {
             }
         }
     }
-
-    private static String getSetPassword(String userId, String oldPassword, String newPassword){
-        String result = "-1";
-        String setResult = UserInfo.setPassword(oldPassword, newPassword,userId);
-        try{
-            JSONTokener jsonTokener = new JSONTokener(setResult);
-            JSONObject object = (JSONObject)jsonTokener.nextValue();
-            result = object.getString("error_code");
-        }catch (JSONException e){
-            e.printStackTrace();
-        }
-        return result;
-    }
-
 }

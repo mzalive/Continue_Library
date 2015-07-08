@@ -21,8 +21,6 @@ public class UserInfo {
     //username:用户名称
     //password:用户密码
     public static String login(String username, String password){
-        String userId = "-1";
-        int errorCode;
         ArrayList<String> keys_name = new ArrayList<>();
         ArrayList<String> keys_value = new ArrayList<>();
         keys_name.add("username");
@@ -30,17 +28,7 @@ public class UserInfo {
         keys_value.add(username);
         keys_value.add(password);
         String result = BaseFunctions.httpConnection(keys_name, keys_value, GlobalSettings.ACTION_LOGIN);
-        try{
-            JSONTokener jsonTokener = new JSONTokener(result);
-            JSONObject object = (JSONObject)jsonTokener.nextValue();
-            errorCode = object.getInt("error_code");
-            if(errorCode == GlobalSettings.RESULT_OK){
-                userId = object.getString("user_id");
-            }
-        }catch (JSONException e){
-            e.printStackTrace();
-        }
-        return userId;
+        return result;
     }
 
     //getMyBorrowlist方法，获取用户的借阅列表
