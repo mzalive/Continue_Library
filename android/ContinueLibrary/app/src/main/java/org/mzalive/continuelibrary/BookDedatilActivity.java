@@ -238,7 +238,7 @@ public class BookDedatilActivity extends AppCompatActivity {
         //title
         String title = book.getTitle();
         if(!book.getSubTitle().equals("")){
-            title = title + ":" + book.getSubTitle();
+            title = title + ": " + book.getSubTitle();
         }
         tvBookTitle.setText(title);
 

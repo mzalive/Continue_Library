@@ -19,15 +19,17 @@
             android:id="@+id/card_book_image_in_search_list"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
             android:layout_alignParentRight="true"/>
 
         <TextView
             android:id="@+id/title_in_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/card_book_image_in_search_list"
             android:gravity="left"
             android:textColor="@color/text_primary_on_dark"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:visibility="visible"
             />
 
@@ -35,9 +37,11 @@
             android:id="@+id/subtext_in_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/card_book_image_in_search_list"
             android:layout_below="@id/title_in_list"
+            android:layout_marginTop="8dp"
             android:gravity="left"
-            android:textColor="@color/text_primary_on_dark"
+            android:textColor="@color/text_secondary_on_dark"
             android:textSize="14sp"
             android:visibility="visible"
             />

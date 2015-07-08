@@ -73,4 +73,8 @@
     <string name="contact_mail_content"></string>
     <string name="no_available_activity_error_hint">No Mail App Installed</string>
 
+    <string name="search_section_continue">Continue</string>
+    <string name="search_section_wishlist">Wishlist</string>
+    <string name="search_section_internet">Internet</string>
+
 </resources>

@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
          */
         continueFragment = LibraryFragment.newInstance(LibraryFragment.CONTINUE_FRAGMENT_CATEGORY);
         userFragment = LibraryFragment.newInstance(LibraryFragment.USER_FRAGMENT_CATEGORY);
-        searchResultListFragment = SearchResultListFragment.newInstance();
+        //searchResultListFragment = SearchResultListFragment.newInstance();
 
         /**
          * Toolbar Configuration
@@ -198,7 +198,9 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSearch(String searchTerm) {
-                Toast.makeText(MainActivity.this, searchTerm +" Searched", Toast.LENGTH_LONG).show();
+                //Toast.makeText(MainActivity.this, searchTerm +" Searched", Toast.LENGTH_LONG).show();
+                searchResultListFragment = SearchResultListFragment.newInstance(searchTerm);
+                switchFragment(searchResultListFragment);
 
             }
 

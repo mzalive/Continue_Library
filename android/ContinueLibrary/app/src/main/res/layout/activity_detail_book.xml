@@ -98,14 +98,13 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/book_status"
                         android:layout_marginTop="8dp"
-                        android:layout_marginBottom="16dp"
                         android:text="Sub Status"/>
 
                     <Button
                         android:id="@+id/button_want_to_read"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/book_sub_status"
+                        android:layout_below="@id/book_sub_status"
                         android:layout_alignParentBottom="true"
                         style="@style/Widget.AppCompat.Button.Borderless.Colored"
                         android:text="Want to read"/>

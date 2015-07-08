@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import org.mzalive.continuelibrary.Base.Book;
 import org.mzalive.continuelibrary.Base.BookList;
 import org.mzalive.continuelibrary.communication.BookManage;
+import org.mzalive.continuelibrary.communication.Search;
 import org.mzalive.continuelibrary.communication.UserInfo;
 import org.mzalive.continuelibrary.communication.WishlistManage;
 
@@ -32,14 +33,17 @@ import java.util.List;
  */
 public class SearchResultListFragment extends Fragment {
 
+    private String query;
+
     private RecyclerView mRecyclerView;
     private SearchResultListRecyclerViewAdapter mAdapter;
 
     public SearchResultListFragment() { }
 
-    public static Fragment newInstance() {
+    public static Fragment newInstance(String query) {
         SearchResultListFragment fragment = new SearchResultListFragment();
         Bundle bundle = new Bundle();
+        bundle.putString("query", query);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -49,60 +53,92 @@ public class SearchResultListFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         Bundle args = getArguments();
+        query = args.getString("query");
 
         View rootView = inflater.inflate(R.layout.fragment_search_result_list, container, false);
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_search_result_list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        mAdapter = new SearchResultListRecyclerViewAdapter(getActivity());
-
         //This is the code to provide a sectioned list
-        List<SectionedRecyclerViewAdapter.Section> sections = new ArrayList<SectionedRecyclerViewAdapter.Section>();
-        //Sections
-        sections.add(new SectionedRecyclerViewAdapter.Section(0,"Section 1"));
-        sections.add(new SectionedRecyclerViewAdapter.Section(3,"Section 2"));
-        sections.add(new SectionedRecyclerViewAdapter.Section(6,"Section 3"));
+        List<SectionedRecyclerViewAdapter.Section> sections = new ArrayList<>();
 
-        //Add your adapter to the sectionAdapter
-        SectionedRecyclerViewAdapter.Section[] dummy = new SectionedRecyclerViewAdapter.Section[sections.size()];
-        SectionedRecyclerViewAdapter mSectionedAdapter = new SectionedRecyclerViewAdapter(getActivity(),R.layout.search_result_section_header,R.id.text,mAdapter);
-        mSectionedAdapter.setSections(sections.toArray(dummy));
-
-        mRecyclerView.setAdapter(mSectionedAdapter);
+        new SearchAsyncTask(getActivity(), mRecyclerView, sections).execute(query);
 
         return rootView;
     }
 
-    /*public class MyAsyncTask extends AsyncTask<String, Integer, BookList>
+    public class SearchAsyncTask extends AsyncTask<String, Integer, ArrayList<Book>>
     {
-        int mFragmentCategory = 0;
-        int mSectionCategory = 0;
         Activity mContext;
         RecyclerView mRecyclerView;
+        List<SectionedRecyclerViewAdapter.Section> mSections;
 
-        public MyAsyncTask(Activity context, RecyclerView recyclerView, int fragmentCategory, int sectionCategory) {
-            mFragmentCategory = fragmentCategory;
-            mSectionCategory = sectionCategory;
+        int offset_continue;
+        int offset_wishlist;
+        int offset_internet;
+
+        public SearchAsyncTask (Activity context, RecyclerView recyclerView, List<SectionedRecyclerViewAdapter.Section> sections) {
             mContext = context;
             mRecyclerView = recyclerView;
+            mSections = sections;
         }
 
         @Override
         protected void onPreExecute()
         {
             super.onPreExecute();
-            Log.d("MAT", "PreExceute");
 
         }
         @Override
-        protected BookList doInBackground(String... params)
+        protected ArrayList<Book> doInBackground(String... params)
         {
-            BookList bookList = new BookList();
+            String query = params[0];
+            BookList continueBookList;
+            BookList doubanBookList;
+            ArrayList<Book> bookList = new ArrayList<>();
+
             SharedPreferences preferences = getActivity().getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
             String uid = preferences.getString("userId","-1");
 
-            return bookList;
+            continueBookList = Search.search(uid, query, 0, 10, 0, 10);
+            doubanBookList = Search.searchNet(query, 0, 10);
+
+            offset_continue = 0;
+            offset_wishlist = continueBookList.getBookCount();
+            offset_internet = offset_wishlist + continueBookList.getWishCount();
+
+            int cursor_continue = 0;
+            int cursor_wishlist = 0;
+
+            if (continueBookList.getBooks() != null) {
+                for (int i = 0; i < continueBookList.getBooks().size(); ++i) {
+                    Book book = continueBookList.getBooks().get(i);
+                    switch (book.getLocation()) {
+                        case Book.LOCATION_CONTINUE:
+                            bookList.add(cursor_continue, book);
+                            cursor_continue++;
+                            cursor_wishlist++;
+                            break;
+                        case Book.LOCATION_WISHLIST:
+                            bookList.add(cursor_wishlist, book);
+                            cursor_wishlist++;
+                            break;
+                    }
+                }
+                if (offset_wishlist != cursor_continue)
+                    Log.d("Search result composer", "Continue Book count conflict!");
+                if (continueBookList.getWishCount() != cursor_wishlist - cursor_continue)
+                    Log.d("Search result composer", "Wishlist Book count conflict!");
+            }
+
+            if (doubanBookList.getBooks() != null) {
+                bookList.addAll(doubanBookList.getBooks());
+                if (doubanBookList.getBookCount() != doubanBookList.getBooks().size())
+                    Log.d("Search result composer", "Douban Book count conflict!");
+            }
+
+                return bookList;
         }
         @Override
         protected void onProgressUpdate(Integer... values)
@@ -111,16 +147,33 @@ public class SearchResultListFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(BookList result)
+        protected void onPostExecute(ArrayList<Book> result)
         {
             super.onPostExecute(result);
-            Log.d("MAT","Done");
-            ArrayList<Book> mBooks = result.getBooks();
-            BookGridRecyclerViewAdapter mAdapter = new BookGridRecyclerViewAdapter(getActivity(), mBooks);
-            mRecyclerView.setAdapter(mAdapter);
+
+            int[] offset = new int[3];
+
+            offset[0] = offset_continue;
+            offset[1] = offset_wishlist;
+            offset[2] = offset_internet;
+
+            mAdapter = new SearchResultListRecyclerViewAdapter(getActivity(), result, offset);
+
+            //Sections
+            mSections.add(new SectionedRecyclerViewAdapter.Section(offset_continue, getString(R.string.search_section_continue)));
+            mSections.add(new SectionedRecyclerViewAdapter.Section(offset_wishlist, getString(R.string.search_section_wishlist)));
+            mSections.add(new SectionedRecyclerViewAdapter.Section(offset_internet, getString(R.string.search_section_internet)));
+
+            //Add your adapter to the sectionAdapter
+            SectionedRecyclerViewAdapter.Section[] dummy = new SectionedRecyclerViewAdapter.Section[mSections.size()];
+            SectionedRecyclerViewAdapter mSectionedAdapter = new SectionedRecyclerViewAdapter(getActivity(),R.layout.search_result_section_header,R.id.text,mAdapter);
+            mSectionedAdapter.setSections(mSections.toArray(dummy));
+
+            mRecyclerView.setAdapter(mSectionedAdapter);
+
 
         }
-    }*/
+    }
 
 
 }

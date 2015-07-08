@@ -1,9 +1,11 @@
 package org.mzalive.continuelibrary;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -21,24 +23,29 @@ import android.widget.TextView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import org.mzalive.continuelibrary.Base.Book;
+
+import java.util.ArrayList;
+
 /**
  * Created by mzalive on 7/3/15.
  */
 public class SearchResultListRecyclerViewAdapter extends RecyclerView.Adapter<SearchResultListRecyclerViewAdapter.SearchResultItemViewHolder> {
     private final LayoutInflater mLayoutInflater;
     private final Context mContext;
-    private String[] mTitles;
+    private ArrayList<Book> mBookList;
+    private int[] mOffset;
 
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-    public static class SearchResultItemViewHolder extends RecyclerView.ViewHolder {
+    public class SearchResultItemViewHolder extends RecyclerView.ViewHolder {
         public CardView cardView;
         public TextView mTextViewTitle;
         public TextView mTextViewSubtext;
         public ImageView mImageView;
-        public SearchResultItemViewHolder(View view) {
+        public SearchResultItemViewHolder(final View view) {
             super(view);
 
 //            ViewGroup.LayoutParams lp = view.getLayoutParams();
@@ -52,7 +59,17 @@ public class SearchResultListRecyclerViewAdapter extends RecyclerView.Adapter<Se
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("NormalTextViewHolder", "onClick--> position = " + getPosition());
+                    int position = getLayoutPosition() - 1;
+                    if (position > mOffset[2])
+                        position -= 2;
+                    else if (position > mOffset[1])
+                        position --;
+                    Log.d("NormalTextViewHolder", "onClick--> position = " + getLayoutPosition());
+                    Intent intent = new Intent(view.getContext(),BookDedatilActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("content",mBookList.get(position));
+                    intent.putExtras(bundle);
+                    view.getContext().startActivity(intent);
                 }
             });
         }
@@ -60,10 +77,11 @@ public class SearchResultListRecyclerViewAdapter extends RecyclerView.Adapter<Se
 
 
 
-    public SearchResultListRecyclerViewAdapter(Context context) {
-        mTitles = context.getResources().getStringArray(R.array.test_items);
+    public SearchResultListRecyclerViewAdapter(Context context, ArrayList<Book> bookList, int[] offset) {
+        mBookList = bookList;
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
+        mOffset = offset;
     }
 
     @Override
@@ -73,12 +91,27 @@ public class SearchResultListRecyclerViewAdapter extends RecyclerView.Adapter<Se
 
     @Override
     public void onBindViewHolder(final SearchResultItemViewHolder holder, int position) {
-//        holder.mTextView.setText(mTitles[position]);
-        holder.mTextViewTitle.setText("Title 标题");
-        holder.mTextViewSubtext.setText("Subtext 基本信息");
+        Book item = mBookList.get(position);
+
+        //title
+        String title = item.getTitle();
+        if(!item.getSubTitle().equals("")){
+            title = title + ": " + item.getSubTitle();
+        }
+        holder.mTextViewTitle.setText(title);
+
+        //设置出版信息（出版社，作者，出版日期放到了一起）
+        String publisher = item.getPublisher();
+        String author = item.getAuthor().get(0);
+        for(int i = 1; i < item.getAuthor().size(); i++){
+            author = author + ", " + item.getAuthor().get(i);
+        }
+        String pubDate = item.getPublishDate();
+        String pubInfo = author + " / " + publisher + " / " + pubDate;
+        holder.mTextViewSubtext.setText(pubInfo);
 
         Picasso.with(mContext)
-                .load(mTitles[position])
+                .load(mBookList.get(position).getImage())
                 .into(holder.mImageView, new Callback.EmptyCallback() {
                     @Override
                     public void onSuccess() {
@@ -103,13 +136,13 @@ public class SearchResultListRecyclerViewAdapter extends RecyclerView.Adapter<Se
                                             holder.cardView.setCardBackgroundColor(swatch.getRgb());
                                     }
                                 });
-                        }
-                    });
+                    }
+                });
     }
 
     @Override
     public int getItemCount() {
-        return mTitles == null ? 0 : mTitles.length;
+        return mBookList == null ? 0 : mBookList.size();
     }
 
 
