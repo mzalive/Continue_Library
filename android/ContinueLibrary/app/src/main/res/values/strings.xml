@@ -19,7 +19,7 @@
     <string name="continue_wishlist_section">WishList</string>
     <string name="user_booklist_section">MY BookList</string>
     <string name="user_wishlist_section">MY WishList</string>
-    <string name="dummy_section_text">Section %1d is just a dummy section.</string>
+    <string name="dummy_section_text">Section %%1d is just a dummy section.</string>
 
     <string name="image_login_logo">Image Logo</string>
     <string name="login_username">username</string>
@@ -34,12 +34,22 @@
     <string name="modify">修改</string>
     <string name="modify_status">修改中</string>
 
-    <string name="detail_book_title">我是书名</string>
-    <string name="detail_book_publish_info">我是出版社/我是作者/2012-12-12</string>
-    <string name="detail_book_content_index">简介</string>
-    <string name="detail_button_add">添加到心愿单</string>
-    <string name="detail_book_content">这本书简介很少</string>
+    <string name="detail_book_title">Title</string>
+    <string name="detail_book_publish_info">Author  Publisher  Date</string>
+    <string name="detail_book_content_index">Intro</string>
+    <string name="detail_book_content">Lack of introduction</string>
     <string name="detail_button_borrow">Rent</string>
+    <string name="detail_status_in_stock_true">:) Available in Continue.</string>
+    <string name="detail_status_in_stock_false">:( </string>
+    <string name="detail_sub_status_stock">％%1d Total, %%2d Available.</string>
+    <string name="detail_sub_status_heat_wo_me">%1d person%%2s want%%3s to read this book.</string>
+    <string name="detail_sub_status_heat_w_me">You and %%1d other%%2s want to read this book.</string>
+    <string name="detail_sub_status_heat_only_me">You want to read this book.</string>
+    <string name="detail_sub_status_heat_none"></string>
+    <string name="detail_sub_status_heat_button">Want to read</string>
+    <string name="detail_sub_status_heat_button_first_time">Add to Wishlist</string>
+
+
 
     <string name="scan_barcode_hint">扫描中…</string>
     <string name="scan_barcode_title">扫码</string>

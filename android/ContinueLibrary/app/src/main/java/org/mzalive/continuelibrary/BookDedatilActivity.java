@@ -1,6 +1,8 @@
 package org.mzalive.continuelibrary;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -39,30 +41,52 @@ import org.mzalive.continuelibrary.communication.WishlistManage;
  * Created by Trigger on 2015/7/3.
  */
 public class BookDedatilActivity extends AppCompatActivity {
+
     private Toolbar toolbar;
+
     private ImageView ivBookBlur;
     private ImageView ivBookImage;
-    private TextView  tvBookTitle;
-    private TextView  tvBookPubInfo;
-    private TextView  tvBookContentIndex;
-    private Button    btnAdd;
+    private TextView tvBookTitle;
+    private TextView tvBookStatus;
+    private TextView tvBookSubStatus;
     private ExpandableTextView expTv1;
-    private Button   btnDaye;
+    private TextView  tvBookInfo;
+    private Button    btnWantToRead;
+    private Button   btnRent;
 
-    private  boolean playDaye;
+    private boolean islogin;
+    private String uid;
+
+    private boolean isCalledByScan = false;
 
     private Book book;
+    private boolean isUserWanted = false;
+    private int amount_available = -1;
+    private int book_location = 3;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_book);
 
+        /**
+         * Extract Bundle
+         */
         Bundle bundle = getIntent().getExtras();
         book = (Book) bundle.getSerializable("content");
+        isCalledByScan = bundle.getBoolean("called_by_scan", false);
 
-        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        /**
+         * Exam user login status
+         */
+        SharedPreferences sp = getSharedPreferences("UserInfo", LoginActivity.MODE_PRIVATE);
+        islogin = sp.getBoolean("isLogin", false);
+        uid = sp.getString("userId", "-1");
 
+        /**
+         * Set Toolbar
+         */
         toolbar = (Toolbar) findViewById(R.id.toolBarDetail);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         toolbar.getBackground().setAlpha(80);
@@ -74,17 +98,69 @@ public class BookDedatilActivity extends AppCompatActivity {
         actionBar.setHomeAsUpIndicator(R.mipmap.ic_arrow_back_white_24dp);
 
 
+        /**
+         * Bind views
+         */
         ivBookBlur = (ImageView) findViewById(R.id.image_book_blur);
         ivBookImage = (ImageView) findViewById(R.id.image_book);
-        tvBookTitle = (TextView) findViewById(R.id.text_title);
-        tvBookPubInfo = (TextView) findViewById(R.id.text_publish_info);
-        tvBookContentIndex = (TextView) findViewById(R.id.text_content_index);
-        btnAdd = (Button) findViewById(R.id.button_add);
-        expTv1 = (ExpandableTextView)findViewById(R.id.expand_text_view);
-        btnDaye = (Button)findViewById(R.id.button_borrow);
 
-        //动态设置背景的大小
-//      ivBookBlur
+        tvBookTitle = (TextView) findViewById(R.id.text_title);
+        tvBookInfo = (TextView) findViewById(R.id.text_publish_info);
+        expTv1 = (ExpandableTextView)findViewById(R.id.expand_text_view);
+
+        tvBookStatus = (TextView) findViewById(R.id.book_status);
+        tvBookSubStatus = (TextView) findViewById(R.id.book_sub_status);
+
+        btnWantToRead = (Button) findViewById(R.id.button_want_to_read);
+        btnRent = (Button)findViewById(R.id.button_borrow);
+
+        btnWantToRead.setVisibility(View.INVISIBLE);
+        btnRent.setVisibility(View.INVISIBLE);
+
+
+        /**
+         * Additional Info retrieve
+         */
+        //Location
+        book_location = book.getLocation();
+        switch (book_location){
+            case Book.LOCATION_CONTINUE:
+                //Book is in Continue, retrieve amount_available
+
+                if (isCalledByScan) {
+                    //Called by scan, amount_available should exist.
+                    // -1 stands for scan-activity not retrieve that data,
+                    //should retrieve manually.
+                    amount_available = bundle.getInt("amount_available", -1);
+                }
+                if (!isCalledByScan || amount_available == -1) {
+                    //Retrieve manually.
+
+                }
+                break;
+
+            case Book.LOCATION_WISHLIST:
+                //Book is in Wishlist
+
+                break;
+
+            case  Book.LOCATION_DOUBAN:
+                //Book is in Douban
+
+                break;
+
+        }
+
+
+
+
+
+
+
+        /**
+         * Inflate data into views
+         */
+        //Book image & background blur
         ivBookImage.setScaleType(ImageView.ScaleType.FIT_XY);
         Picasso.with(this)
                 .load(book.getImage())
@@ -121,7 +197,8 @@ public class BookDedatilActivity extends AppCompatActivity {
                         ivBookBlur.setImageDrawable(blurDrawable);
                     }
                 });
-        //设置书籍title
+
+        //title
         String title = book.getTitle();
         if(book.getSubTitle().equals("")){
             title = title + ":" + book.getSubTitle();
@@ -132,13 +209,14 @@ public class BookDedatilActivity extends AppCompatActivity {
         String publisher = book.getPublisher();
         String author = book.getAuthor().get(0);
         for(int i = 1; i < book.getAuthor().size(); i++){
-            author = author + "/" + book.getAuthor().get(i);
+            author = author + "; " + book.getAuthor().get(i);
         }
         String pubDate = book.getPublishDate();
-        String pubInfo = publisher + "/" + author + "/" + pubDate;
-        tvBookPubInfo.setText(pubInfo);
 
-        //设置按钮文字
+        String pubInfo = author + " / " + publisher + " / " + pubDate;
+        tvBookInfo.setText(pubInfo);
+
+        //Book Status
 
         //设置简介
         String summary = book.getSummary();
@@ -147,15 +225,11 @@ public class BookDedatilActivity extends AppCompatActivity {
         }
         expTv1.setText(summary);
 
-        btnAdd.setOnClickListener(new View.OnClickListener() {
+        btnWantToRead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new AddHeat().execute("1", "9787508652849", "false");
-                playDaye = !playDaye;
-                if(playDaye)
-                    btnDaye.setVisibility(View.GONE);
-                else
-                    btnDaye.setVisibility(View.VISIBLE);
+
             }
         });
     }
@@ -216,5 +290,35 @@ public class BookDedatilActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+    class GetBookAmountAsyncTask extends AsyncTask<String, Integer, String>
+    {
+
+        @Override
+        protected void onPreExecute()
+        {
+            super.onPreExecute();
+//            BookDedatilActivity.this.tvBookSubStatus
+
+        }
+        @Override
+        protected String doInBackground(String... params)
+        {
+            return "0";
+        }
+        @Override
+        protected void onProgressUpdate(Integer... values)
+        {
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected void onPostExecute(String result)
+        {
+            super.onPostExecute(result);
+
+
+        }
     }
 }
