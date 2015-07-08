@@ -49,6 +49,7 @@ if(!is_null($_POST["user_id"]) && !is_null($_POST["start"]) && !is_null($_POST["
 function foo(){
 	require_once("getBookInfo.php");
 	require_once("buildBook.php");
+	require_once("dieError.php");
 	$response = array();
 
 	$user_id = $_POST["user_id"];
@@ -57,6 +58,9 @@ function foo(){
 
 	$sql = "select book_id from borrowlist where user_id = '$user_id'";
 	$query = mysql_query($sql);
+
+	if(!$query)
+		return die_with_response(DATABASE_OPERATION_ERROR,$response);
 
 	$total_amount = mysql_num_rows($query);
 
@@ -69,6 +73,9 @@ function foo(){
 		$bId = $result -> book_id;
 		$sql_author = "select author from book_author where book_Id = '$bId'";
 		$query_author = mysql_query($sql_author);
+		if(!$query_author)
+		return die_with_response(DATABASE_OPERATION_ERROR,$response);
+		
 		$author = array();
 		while($result_author = mysql_fetch_object($query_author)){
 			array_push($author, $result_author -> author);

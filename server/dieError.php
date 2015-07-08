@@ -4,4 +4,9 @@ function die_with_message($lock,$message){
 		$lock -> release();
 		return $message;
 }
+
+function die_with_response($message,$response){
+		$response['error_code'] = $message;
+		return json_encode($response,JSON_UNESCAPED_UNICODE);;
+}
 ?>

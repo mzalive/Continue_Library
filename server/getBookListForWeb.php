@@ -28,7 +28,6 @@ function foo($book){
 	$sql = "select book_amount_available from book_amount where book_id in(select book_id from book where book_isbn='$book_isbn')";
 	$query = mysql_query($sql);
 	if(!$query || !mysql_num_rows($query)){
-		echo $sql;
 		return null;
 	}
 	$result =  mysql_fetch_object($query);

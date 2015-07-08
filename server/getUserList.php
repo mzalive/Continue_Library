@@ -7,6 +7,7 @@ if(!is_null($_POST['start']) && !is_null($_POST['count'])){
 }
 
 function foo(){
+	require_once("dieError.php");
 	$response = array();
 
 	$start = $_POST['start'];
@@ -14,10 +15,8 @@ function foo(){
 
 	$sql = "select * from user";
 	$query = mysql_query($sql);
-	if(!$query){
-		$response['error_code'] = DATABASE_OPERATION_ERROR;
-		return $response;
-	}
+	if(!$query)
+		return die_with_response(DATABASE_OPERATION_ERROR,$response);	
 
 	$response['error_code'] = mysql_num_rows($query)?RESULT_OK:NO_CONTENT;
 	$response['start'] = $_POST['start'];

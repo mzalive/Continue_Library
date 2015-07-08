@@ -47,6 +47,7 @@ if(!is_null($_POST["start"]) && !is_null($_POST["count"]) && !is_null($_POST["us
 }
 function foo(){
 	require_once("buildBook.php");
+	require_once("dieError.php");
 	$response = array();
 
 	$start = $_POST["start"];
@@ -54,6 +55,8 @@ function foo(){
 
 	$sql_wish = "select * from wish";
 	$query_wish =  mysql_query($sql_wish);
+	if(!$query_wish)
+		return	die_with_response(DATABASE_OPERATION_ERROR,$response);		
 
 	$total_amount = mysql_num_rows($query_wish);
 
@@ -64,7 +67,10 @@ function foo(){
 
 	while($result_wish = mysql_fetch_object($query_wish)){
 		$wish = build_wish($result_wish);
-		array_push($wishs, $wish);
+		if(!is_null($wish))
+			array_push($wishs, $wish);
+		else
+			return die_with_response(DATABASE_OPERATION_ERROR,$response);			
 	}
 	$response["books"] = $wishs;
 	$output = json_encode($response);

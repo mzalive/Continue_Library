@@ -81,6 +81,7 @@ function search_helper($target,$keyword){
 }
 
 function foo($target,$keywords){
+	require_once("dieError.php");
 
 	$response = array();
 
@@ -126,10 +127,8 @@ function foo($target,$keywords){
 
 	$query_search = mysql_query($sql_union);
 
-	if(!$query_search){
-		$response['error_code'] = DATABASE_OPERATION_ERROR;
-	return json_encode($response,JSON_UNESCAPED_UNICODE);
-	}
+	if(!$query_search)
+		return die_with_response(DATABASE_OPERATION_ERROR,$response);
 
 	$total = mysql_num_rows($query_search);
 
@@ -144,12 +143,12 @@ function foo($target,$keywords){
 		if($target == "book")
 		{
 			if(!books_handler($target,$result -> book_id, $response))
-				return $response;
+				return die_with_response(DATABASE_OPERATION_ERROR,$response);
 		}
 		else if($target == "wish")
 		{
 			if(!books_handler($target,$result -> wish_id, $response))
-				return $response;
+				return die_with_response(DATABASE_OPERATION_ERROR,$response);
 		}
 	}
 	$response['error_code'] = $total==0?NO_CONTENT:RESULT_OK;
@@ -159,14 +158,15 @@ function foo($target,$keywords){
 function books_handler($target, $book_id, &$response){
 
 	$query = call_user_func("get_".$target."_info",$book_id);
-	if(!$query || !mysql_num_rows($query)){
-		$response['error_code'] = DATABASE_OPERATION_ERROR;
-		return false;
-	}
+	if(!$query || !mysql_num_rows($query))
+		return false;	
 
 	while($result = mysql_fetch_object($query)){
 		$book = call_user_func("build_".$target,$result);
-		array_push($response['books'],$book);
+		if(!is_null($book))
+			array_push($response['books'],$book);
+		else
+			return false;
 	}
 	return true;
 }

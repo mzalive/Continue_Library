@@ -14,6 +14,7 @@ if(!is_null($_POST['book_isbn']) && !is_null($_POST['user_id'])){
 
 function foo(){
 	require_once("lock.php");
+	require_once("dieError.php");
 
 	$book_isbn = $_POST['book_isbn'];
 	$user_id = $_POST['user_id'];
@@ -29,41 +30,25 @@ function foo(){
 	$sql = "select book_Id from book where book_isbn = '$book_isbn'";
 	$query = mysql_query($sql);
 	if(!$query)
-	{
-		mysql_query("ROLLBACK");
-		$lock -> release();
-		return NO_CONTENT;
-	}
+		return die_with_message($lock,NO_CONTENT);
 	$result = mysql_fetch_object($query);
 	$book_Id = $result -> book_Id;
 
 	$sql_amount = "select book_Amount_Available from book_amount where book_Id = '$book_Id'";
 	$query_amount = mysql_query($sql_amount);
 	if(!$query_amount)
-	{
-		mysql_query("ROLLBACK");
-		$lock -> release();
-		return DATABASE_OPERATION_ERROR;
-	}
+		return die_with_message($lock,DATABASE_OPERATION_ERROR);
 	$result_amount = mysql_fetch_object($query_amount);
 	$count = $result_amount -> book_Amount_Available;
 
 	if($count<=0)
-	{
-		mysql_query("ROLLBACK");
-		$lock -> release();
-		return BOOK_ALL_BORROWED;
-	}
+		return die_with_message($lock,BOOK_ALL_BORROWED);
 
 	//update book amount.
 	$sql_book = "update book_amount set book_Amount_Available = $count-1 where book_id = '$book_Id'";
 	$query_book = mysql_query($sql_book);
 	if(!$query_book)
-	{
-		mysql_query("ROLLBACK");
-		$lock -> release();
-		return DATABASE_OPERATION_ERROR;
-	}
+		return die_with_message($lock,DATABASE_OPERATION_ERROR);
 
 	//insert new borrow records into tables.
 	$sql_borrowlist = "insert into borrowlist(book_Id,user_Id) values('$book_Id','$user_id')";
@@ -71,23 +56,10 @@ function foo(){
 	$query_borrowlist = mysql_query($sql_borrowlist);
 	$query_user_borrowlist = mysql_query($sql_user_borrowlist);
 	if(!$query_borrowlist && !$query_user_borrowlist)
-	{
-		mysql_query("ROLLBACK");
-		$lock -> release();
-		return DATABASE_OPERATION_ERROR;
-	}
-
+		return die_with_message($lock,DATABASE_OPERATION_ERROR);
 	mysql_query("COMMIT");
 
 	$lock -> release();
 	return RESULT_OK;
 }
-
-function clean_cache(){
-	require_once("cachehandler.php");
-
-	$cache = new cachehandler($_POST['action']);
-	$cache -> remove($_POST['user_id']);
-}
-
 ?>

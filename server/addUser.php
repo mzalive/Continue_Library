@@ -7,6 +7,7 @@ if(!is_null($_POST['username']) && !is_null($_POST['password']) ){
 }
 
 function foo(){
+	require_once("dieError.php");
 	$response = array();
 
 	$username = $_POST['username'];
@@ -15,10 +16,8 @@ function foo(){
 
 	$sql = "insert into user(user_Name, user_Password, user_Avatar) values('$username','$password','$avatar')"
 	$query = mysql_query($sql);
-	if(!$query){
-		$response['error_code'] =  DATABASE_OPERATION_ERROR;
-		return $response;
-	}
+	if(!$query)
+		die_with_response(DATABASE_OPERATION_ERROR,$response);
 	else{
 		$response['error_code'] =  RESULT_OK;
 		$response['user_id'] = mysql_insert_id();

@@ -58,10 +58,8 @@ function foo(){
 
 	$sql = "select wish_id from user_wishlist where user_id = '$user_id'";
 	$query = mysql_query($sql);
-	if(!$query){
-		$response["error_code"] = DATABASE_OPERATION_ERROR;
-		return json_encode($response,JSON_UNESCAPED_UNICODE);
-	}
+	if(!$query)
+		return die_with_response(DATABASE_OPERATION_ERROR,$response);	
 
 	$total_amount = mysql_num_rows($query);
 
@@ -74,11 +72,12 @@ function foo(){
 		$query_wish = get_wish_info($result -> wish_id);
 		if($result_wish = mysql_fetch_object($query_wish)){
 			$wish = build_wish($result_wish);
-			array_push($wishs, $wish);
-		}else{
-			$response["error_code"] = DATABASE_OPERATION_ERROR;
-			return json_encode($response,JSON_UNESCAPED_UNICODE);
-		}
+			if(!is_null($wish))
+				array_push($wishs, $wish);
+			else
+				return die_with_response(DATABASE_OPERATION_ERROR,$response);	
+		}else
+			return die_with_response(DATABASE_OPERATION_ERROR,$response);	
 
 	}
 	$response["books"] = $wishs;

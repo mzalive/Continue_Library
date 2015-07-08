@@ -22,6 +22,7 @@ if(!is_null($_POST["book_isbn"]) && !is_null($_POST["user_id"]) && !is_null($_PO
 
 function add_heat(){
 	require_once("lock.php");
+	require_once("dieError.php");
 
 	$book_isbn = $_POST['book_isbn'];
 	$user_id = $_POST['user_id'];
@@ -35,47 +36,32 @@ function add_heat(){
 	mysql_query("BEGIN");
 	$sql = "select wish_Id from wish where wish_isbn = '$book_isbn'";
 	$query = mysql_query($sql);
-	if(!$query){
-		mysql_query("ROLLBACK");
-		$lock -> release();
-		return DATABASE_OPERATION_ERROR;
-	}
+	if(!$query)
+		return die_with_message($lock,DATABASE_OPERATION_ERROR);
 	if(!mysql_num_rows($query)){
 		mysql_query("ROLLBACK");
 		$lock -> release();
-		return add_to_wish();
+		return add_to_book("wish");
 	}
 
 	$wish_id = mysql_fetch_object($query) -> wish_Id;
 
 	$sql_check = "select uwish_id from user_wishlist where user_id = '$user_id' and wish_Id = '$wish_id'";
 	$query_check = mysql_query($sql_check);
-	if(!$query_check){
-		mysql_query("ROLLBACK");
-		$lock -> release();
-		return DATABASE_OPERATION_ERROR;
-	}
-	if(mysql_num_rows($query_check)){
-		mysql_query("ROLLBACK");
-		$lock -> release();
-		return ALREADY_ADDED;
-	}
+	if(!$query_check)
+		return die_with_message($lock,DATABASE_OPERATION_ERROR);
+	if(mysql_num_rows($query_check))
+		return die_with_message($lock,ALREADY_ADDED);
 
 	$sql_add = "insert into user_wishlist(user_Id,wish_Id) values('$user_id','$wish_id')";
 	$query_add = mysql_query($sql_add);
-	if(!$query_add){
-		mysql_query("ROLLBACK");
-		$lock -> release();
-		return DATABASE_OPERATION_ERROR;
-	}
+	if(!$query_add)
+		return die_with_message($lock,DATABASE_OPERATION_ERROR);
 
 	$sql_heat = "update wish_heat set wish_heat = wish_heat+1 where wish_id = '$wish_id'";
 	$query_heat = mysql_query($sql_heat);
-	if(!$query_heat){
-		mysql_query("ROLLBACK");
-		$lock -> release();
-		return DATABASE_OPERATION_ERROR;
-	}
+	if(!$query_heat)
+		return die_with_message($lock,DATABASE_OPERATION_ERROR);
 	mysql_query("COMMIT");
 
 	$lock -> release();

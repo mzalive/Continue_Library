@@ -47,6 +47,7 @@ if(!is_null($_POST["start"]) && !is_null($_POST["count"])){
 function foo(){
 	require_once("getBookInfo.php");
 	require_once("buildBook.php");
+	require_once("dieError.php");
 
 	$response = array();
 	$books = array();
@@ -56,6 +57,8 @@ function foo(){
 
 	$sql_book = "select * from book";
 	$query_book =  mysql_query($sql_book);
+	if(!$query_book)
+		return die_with_response(DATABASE_OPERATION_ERROR,$response);
 
 	$total_amount = mysql_num_rows($query_book);
 	$response["error_code"] = $total_amount?RESULT_OK:NO_CONTENT;
@@ -64,7 +67,10 @@ function foo(){
 
 	while($result_book = mysql_fetch_object($query_book)){
 		$book = build_book($result_book);
-		array_push($books, $book);
+		if(!is_null($book))
+			array_push($books, $book);
+		else
+			return die_with_response(DATABASE_OPERATION_ERROR,$response);
 	}
 	$response["books"] = $books;
 	$output = json_encode($response,JSON_UNESCAPED_UNICODE);
