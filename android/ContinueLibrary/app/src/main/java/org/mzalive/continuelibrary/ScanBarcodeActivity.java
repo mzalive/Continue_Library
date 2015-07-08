@@ -300,6 +300,7 @@ public class ScanBarcodeActivity extends AppCompatActivity implements SensorEven
 
     @Override
     protected  void onDestroy(){
+        svCamera.releaseCamera();
         super.onDestroy();
     }
 
@@ -558,128 +559,103 @@ public class ScanBarcodeActivity extends AppCompatActivity implements SensorEven
             txtView.setText(scanUnsuccessful);
             toast.show();
         }
-
-
-    }
-}
-
-class SvCamera implements SurfaceHolder.Callback {
-    private SurfaceHolder holder;
-    private Camera mCamera;
-    private Camera.AutoFocusCallback myAutoFocusCallback;
-    private int sfvWidth;
-    private int sfvHeight;
-
-    public SvCamera(SurfaceHolder holder, Camera.AutoFocusCallback myAutoFocusCallback) {
-        this.holder = holder;
-        this.holder.addCallback(this);
-        this.holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-        this.myAutoFocusCallback = myAutoFocusCallback;
     }
 
-//    public void getBestSize(){
-//        Camera.Parameters parameters = mCamera.getParameters();
-//        List<Size> supportedPreviewSizes = parameters.getSupportedPreviewSizes();
-//        int sizeCount = supportedPreviewSizes.size();
-//
-//        int bestWidth = 0;
-//        int bestHeight = 0;
-//
-//        int deltaWidth = 9999
-//        int deltaHeight = 9999;
-//
-//        for(int i = 0; i < sizeCount; i++) {
-//            Size size = supportedPreviewSizes.get(i);
-//            int sWidth = size.width;
-//            int sHeight = size.height;
-//
-//            int delta =  Math.abs(sWidth-sfvWidth);
-//            if(deltaWidth > delta){
-//                deltaWidth = delta;
-//                bestWidth = sWidth;
-//                bestHeight = sHeight;
-//            }else if(deltaWidth == delta){
-//                if((double)(sWidth-sfvWidth)/(double)(sHeight-sfvHeight)
-//                        <
-//                        (double)(bestWidth-sfvWidth)/(double)(bestHeight-sfvHeight))
-//            }
-//        }
-//    }
+    class BarCodeReader{
+        private Result result;
+        private MultiFormatReader reader = new MultiFormatReader();
+        private boolean init = false;
+        public BarCodeReader(){
+            Hashtable<DecodeHintType,Object> hints = new Hashtable<>();
+            hints.put(DecodeHintType.TRY_HARDER, Boolean.TRUE);
 
-    @Override
-    public void surfaceCreated(SurfaceHolder arg0) {
-        try{
-            mCamera = Camera.open();//启动服务
-        }catch(Exception e){
-            mCamera.stopPreview();
-            mCamera.release();
-            mCamera = null;
-            e.printStackTrace();
+            Vector<BarcodeFormat> decodeFormats = new Vector<>();
+            decodeFormats.add(BarcodeFormat.CODABAR);
+
+            hints.put(DecodeHintType.POSSIBLE_FORMATS,decodeFormats);
+            reader.setHints(hints);
         }
-        Camera.Parameters parameters = mCamera.getParameters();
 
-        mCamera.setDisplayOrientation(90);
-        mCamera.setParameters(parameters);
-        try {
-            mCamera.setPreviewDisplay(holder);//设置预览
-            Log.e("Camera", "surfaceCreated");
-        } catch (IOException e) {
-            mCamera.release();//释放
-            mCamera = null;
+        public String decode(BinaryBitmap bitmap){
+            try{
+                result = reader.decode(bitmap);
+                return result.getText();
+            }catch (Exception e)
+            {
+                return "-1";
+            }
         }
     }
 
-    @Override
-    public void surfaceChanged(SurfaceHolder arg0, int format, int width, int height) {
-        Camera.Parameters parameters = mCamera.getParameters();
+    class SvCamera implements SurfaceHolder.Callback {
+        private SurfaceHolder holder;
+        private Camera mCamera;
+        private Camera.AutoFocusCallback myAutoFocusCallback;
+        private int sfvWidth;
+        private int sfvHeight;
+        public void releaseCamera(){
+            if(mCamera != null) {
+                mCamera.stopPreview();//停止预览
+                mCamera.setPreviewCallback(null);
+                mCamera.release();
+                mCamera = null;
+            }
+        }
 
-        Log.e("sfv width:height",width+":"+height);
+        public SvCamera(SurfaceHolder holder, Camera.AutoFocusCallback myAutoFocusCallback) {
+            this.holder = holder;
+            this.holder.addCallback(this);
+            this.holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+            this.myAutoFocusCallback = myAutoFocusCallback;
+        }
 
-        parameters.setPreviewSize(height,width);//设置尺寸
-        mCamera.setDisplayOrientation(90);
-        mCamera.setParameters(parameters);
-        mCamera.startPreview();//开始预览
-        mCamera.autoFocus(myAutoFocusCallback);
-        Log.e("Camera", "surfaceChanged");
-    }
+        @Override
+        public void surfaceCreated(SurfaceHolder arg0) {
+            try{
+                mCamera = Camera.open();//启动服务
+            }catch(Exception e){
+                mCamera.stopPreview();
+                mCamera.release();
+                mCamera = null;
+                e.printStackTrace();
+            }
+            Camera.Parameters parameters = mCamera.getParameters();
 
-    @Override
-    public void surfaceDestroyed(SurfaceHolder arg0) {
-        Log.e("Camera", "surfaceDestroyed");
-        mCamera.stopPreview();//停止预览
-        mCamera.setPreviewCallback(null);
-        mCamera.release();
-        mCamera = null;
-    }
+            mCamera.setDisplayOrientation(90);
+            mCamera.setParameters(parameters);
+            try {
+                mCamera.setPreviewDisplay(holder);//设置预览
+                Log.e("Camera", "surfaceCreated");
+            } catch (IOException e) {
+                mCamera.release();//释放
+                mCamera = null;
+            }
+        }
 
-    public void AutoFocusAndPreviewCallback() {
-        if (mCamera != null)
+        @Override
+        public void surfaceChanged(SurfaceHolder arg0, int format, int width, int height) {
+            Camera.Parameters parameters = mCamera.getParameters();
+
+            Log.e("sfv width:height",width+":"+height);
+
+            parameters.setPreviewSize(height,width);//设置尺寸
+            mCamera.setDisplayOrientation(90);
+            mCamera.setParameters(parameters);
+            mCamera.startPreview();//开始预览
             mCamera.autoFocus(myAutoFocusCallback);
-    }
-}
+            Log.e("Camera", "surfaceChanged");
+        }
 
-class BarCodeReader{
-    private Result result;
-    private MultiFormatReader reader = new MultiFormatReader();
-    private boolean init = false;
-    public BarCodeReader(){
-        Hashtable<DecodeHintType,Object> hints = new Hashtable<>();
-        hints.put(DecodeHintType.TRY_HARDER, Boolean.TRUE);
+        @Override
+        public void surfaceDestroyed(SurfaceHolder arg0) {
+            Log.e("Camera", "surfaceDestroyed");
+           releaseCamera();
+        }
 
-        Vector<BarcodeFormat> decodeFormats = new Vector<>();
-        decodeFormats.add(BarcodeFormat.CODABAR);
-
-        hints.put(DecodeHintType.POSSIBLE_FORMATS,decodeFormats);
-        reader.setHints(hints);
-    }
-
-    public String decode(BinaryBitmap bitmap){
-        try{
-            result = reader.decode(bitmap);
-            return result.getText();
-        }catch (Exception e)
-        {
-            return "-1";
+        public void AutoFocusAndPreviewCallback() {
+            if (mCamera != null)
+                mCamera.autoFocus(myAutoFocusCallback);
         }
     }
 }
+
