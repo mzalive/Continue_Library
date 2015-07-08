@@ -3,6 +3,7 @@ package org.mzalive.continuelibrary;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.hardware.Camera;
 import android.hardware.Camera.Size;
 import android.hardware.Sensor;
@@ -20,6 +21,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.hardware.SensorEvent;
@@ -114,6 +116,8 @@ public class ScanBarcodeActivity extends AppCompatActivity implements SensorEven
         actionBar.setHomeButtonEnabled(true);
         actionBar.setHomeAsUpIndicator(R.mipmap.ic_arrow_back_white_24dp);
 
+        SharedPreferences sp = getSharedPreferences("UserInfo",LoginActivity.MODE_PRIVATE);
+        userId = sp.getString("userId","2");
 
         bcReader = new BarCodeReader();
 
@@ -338,6 +342,7 @@ public class ScanBarcodeActivity extends AppCompatActivity implements SensorEven
         }
         @Override
         protected  Integer doInBackground(Integer... params){
+            Log.e("search","next");
             BookList bookList = Search.search(userId,resultBarCode,0,1,0,0);
             int errorCode = Integer.parseInt(bookList.getErrorCode());
             if(errorCode == GlobalSettings.RESULT_OK) {
@@ -377,19 +382,23 @@ public class ScanBarcodeActivity extends AppCompatActivity implements SensorEven
                 case 1:case 2:
                     toast = Toast.makeText(getApplicationContext(), "结果解析错误", Toast.LENGTH_SHORT);
                     toast.show();
+                    txtView.setText(scanUnsuccessful);
                     mAutoFocus = true;
                     break;
                 case 3:
                     toast = Toast.makeText(getApplicationContext(), "书架里没有这本书！", Toast.LENGTH_SHORT);
                     toast.show();
+                    txtView.setText(scanUnsuccessful);
                     mAutoFocus = true;
                     break;
             }
-            txtView.setText(scanUnsuccessful);
         }
     }
 
     class HasBorrowedBook extends  AsyncTask<Integer,Integer,Integer>{
+        private int amountAvailable = -1;
+        private boolean availableForBorrow = false;
+        private int statusCode;
         private int hasBorrowed(){
             try {
                 String jsonStr = UserInfo.getHasBorrowed(userId, resultBarCode);
@@ -413,7 +422,8 @@ public class ScanBarcodeActivity extends AppCompatActivity implements SensorEven
         protected  void onPreExecute(){}
         @Override
         protected  Integer doInBackground(Integer... params){
-            int statusCode = hasBorrowed();
+            Log.e("hasBorrowed","next");
+            statusCode = hasBorrowed();
             String btnContent;
             if(statusCode == 0)
                 btnContent = "借";
@@ -422,6 +432,26 @@ public class ScanBarcodeActivity extends AppCompatActivity implements SensorEven
             else{
                 return 1;
             }
+
+            try {
+                String jsonStr = BookManage.getBookCount(resultBarCode);
+                JSONTokener jsonTokener = new JSONTokener(jsonStr);
+                JSONObject object = (JSONObject) jsonTokener.nextValue();
+                int errorCode = Integer.parseInt(object.getString("error_code"));
+                if (errorCode == GlobalSettings.RESULT_OK) {
+                    amountAvailable = Integer.parseInt(object.getString("amount_available"));
+                    availableForBorrow = amountAvailable>0;
+                }else{
+                    return 1;
+                }
+            }catch (JSONException e){
+                e.printStackTrace();
+                return 1;
+            }catch(Exception e){
+                e.printStackTrace();
+                return 1;
+            }
+
             builder.setPositiveButton(btnContent,
                     statusCode==0?new DialogInterface.OnClickListener() {
                         @Override
@@ -442,7 +472,8 @@ public class ScanBarcodeActivity extends AppCompatActivity implements SensorEven
                 @Override
                 public void onClick(DialogInterface arg0, int arg1) {
                     txtView.setText(scanUnsuccessful);
-                    mAutoFocus = true;}
+                    mAutoFocus = true;
+                }
             });
             builder.setNeutralButton("查看详情", new DialogInterface.OnClickListener() {
                 @Override
@@ -452,7 +483,9 @@ public class ScanBarcodeActivity extends AppCompatActivity implements SensorEven
                     txtView.setText(scanUnsuccessful);
                     Intent intent = new Intent(ScanBarcodeActivity.this,BookDedatilActivity.class);
                     Bundle bundle = new Bundle();
+                    bundle.putSerializable("called_by_scan",true);
                     bundle.putSerializable("content",searchResult);
+                    bundle.putSerializable("amount_available",amountAvailable);
                     intent.putExtras(bundle);
                     ScanBarcodeActivity.this.startActivity(intent);
                     mAutoFocus = true;
@@ -467,9 +500,16 @@ public class ScanBarcodeActivity extends AppCompatActivity implements SensorEven
             if(resultCode == 0){
                 resultDialog = builder.create();
                 resultDialog.show();
+
+                if(statusCode == 0 && !availableForBorrow) {
+                    final Button positiveButton = (((AlertDialog) resultDialog).getButton(AlertDialog.BUTTON_POSITIVE));
+                    positiveButton.setEnabled(false);
+                    positiveButton.setText("书已借完");
+                }
             }else {
                 toast = Toast.makeText(getApplicationContext(), "判断是否借过书时出了问题", Toast.LENGTH_SHORT);
                 toast.show();
+                txtView.setText(scanUnsuccessful);
             }
         }
     }
