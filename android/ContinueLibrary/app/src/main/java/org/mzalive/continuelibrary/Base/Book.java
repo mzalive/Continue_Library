@@ -7,6 +7,11 @@ import java.util.ArrayList;
  * Created by Trigger on 2015/7/3.
  */
 public class Book implements Serializable {
+
+    public static final int LOCATION_CONTINUE = 0;
+    public static final int LOCATION_WISHLIST = 1;
+    public static final int LOCATION_DOUBAN = 2;
+
     private String isbn;
     private String title;
     private String subTitle;
@@ -16,7 +21,7 @@ public class Book implements Serializable {
     private String publishDate;
     private ArrayList<String> author = new ArrayList<>();
 
-    private boolean isInStock;
+    private int location;
     private int     amountTotal;
     private int     heat;
     private boolean isWanted;
@@ -31,7 +36,7 @@ public class Book implements Serializable {
         this.publishDate = "";
     }
 
-    public Book(String isbn, String title, String subTitle, String publisher, String image, String summary, String publishDate, ArrayList<String> author, boolean isInStock, int amountTotal, int heat, boolean isWanted) {
+    public Book(String isbn, String title, String subTitle, String publisher, String image, String summary, String publishDate, ArrayList<String> author, int location, int amountTotal, int heat, boolean isWanted) {
         this.isbn = isbn;
         this.title = title;
         this.subTitle = subTitle;
@@ -40,7 +45,7 @@ public class Book implements Serializable {
         this.summary = summary;
         this.publishDate = publishDate;
         this.author = author;
-        this.isInStock = isInStock;
+        this.location = location;
         this.amountTotal = amountTotal;
         this.heat = heat;
         this.isWanted = isWanted;
@@ -78,8 +83,8 @@ public class Book implements Serializable {
         return author;
     }
 
-    public boolean isInStock() {
-        return isInStock;
+    public int getLocation() {
+        return location;
     }
 
     public int getAmountTotal() {
@@ -126,8 +131,8 @@ public class Book implements Serializable {
         this.author = author;
     }
 
-    public void setIsInStock(boolean isInStock) {
-        this.isInStock = isInStock;
+    public void setLocation(int isInStock) {
+        this.location = isInStock;
     }
 
     public void setAmountTotal(int amountTotal) {
