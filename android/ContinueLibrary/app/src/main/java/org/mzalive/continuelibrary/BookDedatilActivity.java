@@ -1,5 +1,6 @@
 package org.mzalive.continuelibrary;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -29,6 +30,7 @@ import com.squareup.picasso.Picasso;
 import org.mzalive.continuelibrary.Base.Book;
 import org.mzalive.continuelibrary.communication.BookManage;
 import org.mzalive.continuelibrary.communication.WishlistManage;
+import org.mzalive.continuelibrary.communication.GlobalSettings;
 
 /**
  * Created by Trigger on 2015/7/3.
@@ -48,7 +50,7 @@ public class BookDedatilActivity extends AppCompatActivity {
     private Button   btnRent;
     private ImageView ivBtnRentWrapper;
 
-    private boolean islogin;
+    private boolean isLogin;
     private String uid;
 
     private boolean isCalledByScan = false;
@@ -57,6 +59,7 @@ public class BookDedatilActivity extends AppCompatActivity {
     private boolean isUserWanted = false;
     private int amount_available = -1;
     private int book_location = 3;
+    private int heat = 0;
 
 
     @Override
@@ -75,7 +78,7 @@ public class BookDedatilActivity extends AppCompatActivity {
          * Exam user login status
          */
         SharedPreferences sp = getSharedPreferences("UserInfo", LoginActivity.MODE_PRIVATE);
-        islogin = sp.getBoolean("isLogin", false);
+        isLogin = sp.getBoolean("isLogin", false);
         uid = sp.getString("userId", "-1");
 
         /**
@@ -110,7 +113,23 @@ public class BookDedatilActivity extends AppCompatActivity {
         ivBtnRentWrapper = (ImageView) findViewById(R.id.button_borrow_wrapper);
 
         btnWantToRead.setVisibility(View.GONE);
+        btnWantToRead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isLogin) {
+                    callForLogin();
+                    return;
+                }
+                new AddHeat().execute(uid, book.getIsbn(), (book_location == 3) ? "true" : "false");
+            }
+        });
         btnRent.setVisibility(View.GONE);
+        btnRent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
         ivBtnRentWrapper.setVisibility(View.GONE);
 
 
@@ -119,6 +138,8 @@ public class BookDedatilActivity extends AppCompatActivity {
          */
         //Location
         book_location = book.getLocation();
+
+
         switch (book_location){
             case Book.LOCATION_CONTINUE:
                 //Main Status
@@ -151,36 +172,21 @@ public class BookDedatilActivity extends AppCompatActivity {
 
             case Book.LOCATION_WISHLIST:
                 Log.d("Book Status","Location: Wishlist");
-                isUserWanted = book.isWanted();
-                String mainStatus;
-                String subString = "";
-
-                mainStatus = getResources().getString(R.string.detail_status_in_stock_false);
-                int heat = book.getHeat();
-
-                if (!isUserWanted) {
-                    btnWantToRead.setVisibility(View.VISIBLE);
-                    mainStatus += getResources().getString(R.string.detail_status_suffix_user_want_false);
-                    if (heat > 1)
-                        subString = getResources().getString(R.string.detail_sub_status_heat_wo_me, heat, "s", "");
-                    else
-                        subString = getResources().getString(R.string.detail_sub_status_heat_wo_me, heat, "", "s");
-                }
-                else {
-                    mainStatus += getResources().getString(R.string.detail_status_suffix_user_want_true);
-                    if (heat > 2)
-                        subString = getResources().getString(R.string.detail_sub_status_heat_w_me, heat-1, "s");
-                    else if (heat > 1)
-                        subString = getResources().getString(R.string.detail_sub_status_heat_w_me, heat-1, "");
-                    else
-                        subString = getResources().getString(R.string.detail_sub_status_heat_only_me);
-                }
-                tvBookStatus.setText(mainStatus);
-                tvBookSubStatus.setText(subString);
+                updateSubStatusInWishlist();
 
                 break;
 
             case  Book.LOCATION_DOUBAN:
+                String mainStatus;
+                String subString = "";
+                btnWantToRead.setText(getString(R.string.detail_status_heat_button_first_time));
+                btnWantToRead.setVisibility(View.VISIBLE);
+
+                mainStatus = getResources().getString(R.string.detail_status_in_stock_false) + " "
+                        + getResources().getString(R.string.detail_status_suffix_user_want_false);
+
+                tvBookStatus.setText(mainStatus);
+                tvBookSubStatus.setText(subString);
 
                 break;
 
@@ -240,7 +246,7 @@ public class BookDedatilActivity extends AppCompatActivity {
         String publisher = book.getPublisher();
         String author = book.getAuthor().get(0);
         for(int i = 1; i < book.getAuthor().size(); i++){
-            author = author + "; " + book.getAuthor().get(i);
+            author = author + ", " + book.getAuthor().get(i);
         }
         String pubDate = book.getPublishDate();
 
@@ -256,14 +262,9 @@ public class BookDedatilActivity extends AppCompatActivity {
         }
         expTv1.setText(summary);
 
-        btnWantToRead.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new AddHeat().execute("1", "9787508652849", "false");
 
-            }
-        });
     }
+
 
     @Override
     protected void onStop() {
@@ -283,6 +284,11 @@ public class BookDedatilActivity extends AppCompatActivity {
 
     class AddHeat extends AsyncTask<String, Void, Integer>{
         @Override
+        protected  void onPreExecute() {
+            btnWantToRead.setEnabled(false);
+        }
+
+        @Override
         protected Integer doInBackground(String... params) {
             String userId = params[0];
             String isbn   = params[1];
@@ -295,24 +301,89 @@ public class BookDedatilActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Integer result){
             switch (result){
-                case -1:
-                    Toast.makeText(BookDedatilActivity.this, "服务器遇到错误，请重试!", Toast.LENGTH_SHORT).show();
-                    break;
                 case 1000:
                     Toast.makeText(BookDedatilActivity.this, "添加成功！", Toast.LENGTH_SHORT).show();
+                    btnWantToRead.setVisibility(View.GONE);
+                    isUserWanted = true;
+                    heat++;
+                    updateSubStatusInWishlist();
+                    break;
+                case -1:
+                    Toast.makeText(BookDedatilActivity.this, "服务器遇到错误，请重试!", Toast.LENGTH_SHORT).show();
+                    btnWantToRead.setEnabled(true);
                     break;
                 case 9999:
                     Toast.makeText(BookDedatilActivity.this, "网络连接失败，请检查网络！", Toast.LENGTH_SHORT).show();
+                    btnWantToRead.setEnabled(true);
                     break;
                 case 5001:
                     Toast.makeText(BookDedatilActivity.this, "您已经添加过了!", Toast.LENGTH_SHORT).show();
+                    btnWantToRead.setVisibility(View.GONE);
+                    isUserWanted = true;
+                    heat++;
+                    updateSubStatusInWishlist();
                     break;
                 case 4001:
                     Toast.makeText(BookDedatilActivity.this, "服务器遇到错误，请重试!", Toast.LENGTH_SHORT).show();
+                    btnWantToRead.setEnabled(true);
                     break;
             }
         }
 
+    }
+
+    class BorrowBookAsyncTask extends AsyncTask<String, Integer, Integer>
+    {
+
+        @Override
+        protected void onPreExecute()
+        {
+            super.onPreExecute();
+            btnRent.setEnabled(false);
+
+        }
+        @Override
+        protected Integer doInBackground(String... params)
+        {
+            int result;
+            String isbn = params[0];
+            String uid = params[1];
+            result= BookManage.borrowBook(isbn, uid);
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(Integer result)
+        {
+            super.onPostExecute(result);
+            switch (result){
+                case GlobalSettings.RESULT_OK:
+                    Toast.makeText(BookDedatilActivity.this, "借阅成功！", Toast.LENGTH_SHORT).show();
+                    btnRent.setVisibility(View.GONE);
+                    amount_available--;
+                    updateSubStatusInContinue();
+                    break;
+                case GlobalSettings.JSON_EXCEPTION_ERROR:
+                    Toast.makeText(BookDedatilActivity.this, "服务器遇到错误，请重试!", Toast.LENGTH_SHORT).show();
+                    btnRent.setEnabled(true);
+                    break;
+                case GlobalSettings.NETWORK_ERROR:
+                    Toast.makeText(BookDedatilActivity.this, "网络连接失败，请检查网络！", Toast.LENGTH_SHORT).show();
+                    btnRent.setEnabled(true);
+                    break;
+                case GlobalSettings.BOOK_ALL_BORROWED:
+                    Toast.makeText(BookDedatilActivity.this, "您已经借过了!", Toast.LENGTH_SHORT).show();
+                    btnRent.setVisibility(View.GONE);
+                    amount_available--;
+                    updateSubStatusInContinue();
+                    break;
+                case GlobalSettings.DATABASE_OPERATION_ERROR:
+                    Toast.makeText(BookDedatilActivity.this, "服务器遇到错误，请重试!", Toast.LENGTH_SHORT).show();
+                    btnRent.setEnabled(true);
+                    break;
+            }
+
+        }
     }
 
     class GetBookAmountAsyncTask extends AsyncTask<String, Integer, Integer>
@@ -332,11 +403,6 @@ public class BookDedatilActivity extends AppCompatActivity {
             result= BookManage.getBookCount(params[0]);
             return result;
         }
-        @Override
-        protected void onProgressUpdate(Integer... values)
-        {
-            super.onProgressUpdate(values);
-        }
 
         @Override
         protected void onPostExecute(Integer result)
@@ -352,5 +418,40 @@ public class BookDedatilActivity extends AppCompatActivity {
 
     private void updateSubStatusInContinue() {
         tvBookSubStatus.setText(getResources().getString(R.string.detail_sub_status_stock, book.getAmountTotal(), amount_available));
+    }
+
+    private void updateSubStatusInWishlist() {
+        String mainStatus;
+        String subString = "";
+        isUserWanted = book.isWanted();
+
+        mainStatus = getResources().getString(R.string.detail_status_in_stock_false) + " ";
+        heat = book.getHeat();
+
+        if (!isUserWanted) {
+            btnWantToRead.setText(getString(R.string.detail_status_heat_button));
+            btnWantToRead.setVisibility(View.VISIBLE);
+            mainStatus += getResources().getString(R.string.detail_status_suffix_user_want_false);
+            if (heat > 1)
+                subString = getResources().getString(R.string.detail_sub_status_heat_wo_me, heat, "s", "");
+            else
+                subString = getResources().getString(R.string.detail_sub_status_heat_wo_me, heat, "", "s");
+        }
+        else {
+            mainStatus += getResources().getString(R.string.detail_status_suffix_user_want_true);
+            if (heat > 2)
+                subString = getResources().getString(R.string.detail_sub_status_heat_w_me, heat-1, "s");
+            else if (heat > 1)
+                subString = getResources().getString(R.string.detail_sub_status_heat_w_me, heat-1, "");
+            else
+                subString = getResources().getString(R.string.detail_sub_status_heat_only_me);
+        }
+        tvBookStatus.setText(mainStatus);
+        tvBookSubStatus.setText(subString);
+    }
+
+    private void callForLogin() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
     }
 }

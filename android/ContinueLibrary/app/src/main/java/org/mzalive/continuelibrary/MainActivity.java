@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("isLogin_print", String.valueOf(sp.getBoolean("isLogin", false)));
         Log.d("userId_print", sp.getString("userId", "-1"));
         Log.d("username_print", sp.getString("username", ""));
+        sp.edit().clear().commit(); //Debug only, reset sp every time
 
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
