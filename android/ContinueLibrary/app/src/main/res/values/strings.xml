@@ -77,4 +77,6 @@
     <string name="search_section_wishlist">Wishlist</string>
     <string name="search_section_internet">Internet</string>
 
+    <string name="username_placeholder">Anonymous</string>
+
 </resources>

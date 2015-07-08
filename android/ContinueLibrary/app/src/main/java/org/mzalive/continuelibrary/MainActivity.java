@@ -1,5 +1,6 @@
 package org.mzalive.continuelibrary;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -15,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
@@ -29,8 +31,10 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.quinny898.library.persistentsearch.SearchBox;
 import com.quinny898.library.persistentsearch.SearchResult;
+import com.squareup.picasso.Picasso;
 
 import org.apache.http.conn.routing.RouteInfo;
 import org.mzalive.continuelibrary.Base.Book;
@@ -49,13 +53,20 @@ public class MainActivity extends AppCompatActivity {
     private Fragment userFragment;
     private Fragment searchResultListFragment;
 
+    private AccountHeader headerResult;
+    private Drawer naviDrawer;
+
+    private SharedPreferences sp;
+
+    private int currentDrawerItem = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         //测试信息缓存
-        SharedPreferences sp = getSharedPreferences("UserInfo", LoginActivity.MODE_PRIVATE);
+        sp = getSharedPreferences("UserInfo", LoginActivity.MODE_PRIVATE);
         Log.d("isLogin_print", String.valueOf(sp.getBoolean("isLogin", false)));
         Log.d("userId_print", sp.getString("userId", "-1"));
         Log.d("username_print", sp.getString("username", ""));
@@ -63,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setImageAlpha(0xB3);
+        //fab.setImageAlpha(0xB3);
 
 
         /**
@@ -83,13 +94,16 @@ public class MainActivity extends AppCompatActivity {
         /**
          * Navigation Drawer Configuration
          */
+
         // Create the AccountHeader
-        AccountHeader headerResult = new AccountHeaderBuilder()
+        headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
-                .withHeaderBackground(R.drawable.background_profile_default)
-                .addProfiles(
-                        new ProfileDrawerItem().withName("Matthew Mi").withEmail("mzalive@gmail.com").withIcon(getResources().getDrawable(R.drawable.ayanami))
-                )
+                .withSelectionListEnabled(false)
+                .withProfileImagesClickable(false)
+//                .withHeaderBackground(R.drawable.background_profile_default)
+//                .addProfiles(
+//                        new ProfileDrawerItem().withName("Matthew Mi").withEmail("mzalive@gmail.com").withIcon(getResources().getDrawable(R.drawable.ayanami))
+//                )
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                     @Override
                     public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
@@ -99,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
 
-        final Drawer naviDrawer = new DrawerBuilder()
+        naviDrawer = new DrawerBuilder()
                 .withActivity(this)
                 .withToolbar(toolbar)
                 .withAccountHeader(headerResult)
@@ -110,33 +124,37 @@ public class MainActivity extends AppCompatActivity {
                         new DividerDrawerItem(),
                         new SecondaryDrawerItem().withName(R.string.drawer_item_guide).withIcon(FontAwesome.Icon.faw_info_circle),
                         new SecondaryDrawerItem().withName(R.string.drawer_item_about).withIcon(FontAwesome.Icon.faw_info_circle),
-                        new SecondaryDrawerItem().withName(R.string.drawer_item_contact).withIcon(FontAwesome.Icon.faw_paper_plane)
-                )
+                        new SecondaryDrawerItem().withName(R.string.drawer_item_contact).withIcon(FontAwesome.Icon.faw_paper_plane),
+                        new DividerDrawerItem(),
+                        new SecondaryDrawerItem().withName(R.string.drawer_item_passwd),
+                        new SecondaryDrawerItem()
+                        )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
                         String TAG = "DrawerItemClickListener";
-                        Log.d(TAG, "Position: "+position+" Clicked");
+                        Log.d(TAG, "Position: " + position + " Clicked");
                         switch (position) {
                             case 0: //Continue
+                                currentDrawerItem = 0;
                                 switchFragment(continueFragment);
                                 break;
 
                             case 1: //Mine
+                                currentDrawerItem = 1;
                                 SharedPreferences sp = getSharedPreferences("UserInfo", LoginActivity.MODE_PRIVATE);
                                 boolean isLogin = sp.getBoolean("isLogin", false);
-                                Log.d(TAG, "IsLogin: "+ String.valueOf(isLogin));
+                                Log.d(TAG, "IsLogin: " + String.valueOf(isLogin));
 
                                 if (!isLogin) {
                                     callForLogin();
-                                }
-                                else
+                                } else
                                     switchFragment(userFragment);
 
                                 break;
 
                             case 3: //Test only
-                                switchFragment(searchResultListFragment);
+
                                 break;
 
                             case 4: //About
@@ -148,13 +166,29 @@ public class MainActivity extends AppCompatActivity {
                                 callForContact();
                                 break;
 
-                            default :
-                                Toast.makeText(view.getContext(), ""+position,Toast.LENGTH_SHORT).show();
+                            case 7: //Passwd
+                                callForPasswd();
+                                break;
+
+                            case 8: //Login & Logout
+                                SharedPreferences _sp = getSharedPreferences("UserInfo", MODE_PRIVATE);
+                                if (_sp.getBoolean("isLogin", false))
+                                    callForLogout();
+                                else
+                                    callForLogin();
+                                break;
+
+                            default:
+                                Toast.makeText(view.getContext(), "" + position, Toast.LENGTH_SHORT).show();
                         }
+                        parent.setSelection(currentDrawerItem);
                         return false;
                     }
                 })
                 .build();
+        updateLoginInfo();
+
+
 
         /**
          * Inset Search Box Configuration
@@ -213,6 +247,13 @@ public class MainActivity extends AppCompatActivity {
 
         switchFragment(continueFragment);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateLoginInfo();
+        naviDrawer.setSelection(currentDrawerItem, false);
     }
 
 
@@ -287,4 +328,72 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
+
+    protected void callForLogout() {
+        sp.edit().clear().commit();
+        updateLoginInfo();
+    }
+
+    protected void callForPasswd() {
+        Intent intent = new Intent(this, SetPasswordActivity.class);
+        startActivity(intent);
+    }
+
+    public void updateLoginInfo() {
+        //Retrieve login info
+        boolean isLogin = sp.getBoolean("isLogin", false);
+        String username = sp.getString("username","");
+        String uid = sp.getString("userId", "-1");
+        String avatarUrl = "https://cdn3.mindmeister.com/images/avatars/personal_avatar.png";
+        String backgroundUrl = "https://m2.behance.net/rendition/pm/18526001/disp/6bc3dbcbf00ce6fa41d9349020f63d4f.png";
+
+        DrawerImageLoader.init(new DrawerImageLoader.IDrawerImageLoader() {
+            @Override
+            public void set(ImageView imageView, Uri uri, Drawable placeholder) {
+                Picasso.with(imageView.getContext()).load(uri).placeholder(placeholder).into(imageView);
+            }
+
+            @Override
+            public void cancel(ImageView imageView) {
+                Picasso.with(imageView.getContext()).cancelRequest(imageView);
+            }
+
+            @Override
+            public Drawable placeholder(Context ctx) {
+                return null;
+            }
+        });
+
+        headerResult.clear();
+        if (isLogin) {
+            //Picasso.with(this).load(backgroundUrl).into(headerResult.getHeaderBackgroundView());
+            int[] src = {R.drawable.profile_background_0, R.drawable.profile_background_1, R.drawable.profile_background_2,
+                        R.drawable.profile_background_3, R.drawable.profile_background_4};
+            int random = ((int) (Math.random() * 4)) + 1;
+
+            Log.d("Logint", "random = "+random);
+
+            headerResult.setBackgroundRes(src[random]);
+
+            headerResult.addProfiles(new ProfileDrawerItem()
+                    .withName(username)
+                    .withEmail(username+"@continue.com")
+                    .withIcon(Uri.parse(avatarUrl)));
+            naviDrawer.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_passwd).setEnabled(true), 7);
+            naviDrawer.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_logout), 8);
+
+        }
+        else {
+            headerResult.setBackgroundRes(R.drawable.profile_background_0);
+            headerResult.addProfiles(new ProfileDrawerItem()
+                    .withName(getString(R.string.username_placeholder))
+                    .withIcon(getResources().getDrawable(R.drawable.profile_avatar_default)));
+            naviDrawer.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_passwd).setEnabled(false), 7);
+            naviDrawer.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_login), 8);
+
+        }
+
+    }
+
+
 }

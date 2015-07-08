@@ -21,7 +21,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="16dp"
-        android:src="@mipmap/ic_flip_black_24dp"
+        android:src="@mipmap/ic_flip_white_24dp"
         fab:fab_colorNormal="@color/accent"
         fab:fab_colorPressed="@color/accentDark"
         fab:fab_colorRipple="@color/accentLighter"

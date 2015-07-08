@@ -21,6 +21,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.melnykov.fab.FloatingActionButton;
+
 import org.mzalive.continuelibrary.Base.Book;
 import org.mzalive.continuelibrary.Base.BookList;
 import org.mzalive.continuelibrary.communication.BookManage;
@@ -146,6 +148,10 @@ public class BookGridFragment extends LibraryFragment {
             ArrayList<Book> mBooks = result.getBooks();
             BookGridRecyclerViewAdapter mAdapter = new BookGridRecyclerViewAdapter(getActivity(), mBooks);
             mRecyclerView.setAdapter(mAdapter);
+
+            FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+            fab.show();
+            fab.attachToRecyclerView(mRecyclerView);
 
         }
     }

@@ -18,6 +18,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.melnykov.fab.FloatingActionButton;
+
 import org.mzalive.continuelibrary.Base.Book;
 import org.mzalive.continuelibrary.Base.BookList;
 import org.mzalive.continuelibrary.communication.BookManage;
@@ -170,6 +172,10 @@ public class SearchResultListFragment extends Fragment {
             mSectionedAdapter.setSections(mSections.toArray(dummy));
 
             mRecyclerView.setAdapter(mSectionedAdapter);
+
+            FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+            fab.show();
+            fab.attachToRecyclerView(mRecyclerView);
 
 
         }
