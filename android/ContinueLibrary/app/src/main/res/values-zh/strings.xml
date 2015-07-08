@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Continue 图书馆</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="drawer_open">Navigation Drawer Open</string>
+    <string name="drawer_close">Navigation Drawer Close</string>
+    <string name="toolbar_search">Search</string>
+    <string name="drawer_item_continue">Continue</string>
+    <string name="drawer_item_user">我的</string>
+    <string name="drawer_item_guide">Guide</string>
+    <string name="drawer_item_about">About</string>
+    <string name="drawer_item_contact">Feedback</string>
+    <string name="drawer_item_passwd">Change Password</string>
+    <string name="drawer_item_login">Sign In</string>
+    <string name="drawer_item_logout">Sign Out</string>
+
+
+    <string name="continue_booklist_section">BookList</string>
+    <string name="continue_wishlist_section">WishList</string>
+    <string name="user_booklist_section">MY BookList</string>
+    <string name="user_wishlist_section">MY WishList</string>
+    <string name="dummy_section_text">Section %1$d is just a dummy section.</string>
+
+    <string name="image_login_logo">Image Logo</string>
+    <string name="login_username">username</string>
+    <string name="login_password">password</string>
+    <string name="login">登录</string>
+    <string name="login_status">登录中</string>
+    <string name="copyright">Copyright © Continue.</string>
+
+    <string name="old_password">当前密码</string>
+    <string name="new_password">新密码</string>
+    <string name="confirm_password">确认密码</string>
+    <string name="modify">修改</string>
+    <string name="modify_status">修改中</string>
+
+    <string name="detail_book_title">Title</string>
+    <string name="detail_book_publish_info">Author  Publisher  Date</string>
+    <string name="detail_book_content_index">Intro</string>
+    <string name="detail_book_content">Lack of introduction</string>
+    <string name="detail_button_borrow">Rent</string>
+    <string name="detail_status_in_stock_true">: ) Available in Continue.</string>
+    <string name="detail_status_in_stock_false">: ( Not in stock yet. </string>
+    <string name="detail_status_suffix_user_want_false">Want to read?</string>
+    <string name="detail_status_suffix_user_want_true">We will buy it ASAP</string>
+    <string name="detail_sub_status_stock">%1$d Total, %2$d Available.</string>
+    <string name="detail_sub_status_heat_wo_me">☆ %1$d person%2$s want%3$s to read this book.</string>
+    <string name="detail_sub_status_heat_w_me">★ You and %1$d other%2$s want to read this book.</string>
+    <string name="detail_sub_status_heat_only_me">★ You want to read this book.</string>
+    <string name="detail_sub_status_heat_none"></string>
+    <string name="detail_status_heat_button">Want to read</string>
+    <string name="detail_status_heat_button_first_time">Add to Wishlist</string>
+
+
+
+    <string name="scan_barcode_hint">扫描中…</string>
+    <string name="scan_barcode_title">扫码</string>
+    <string name="scan_barcode_back">返回</string>
+
+    <string name="scan_result_title">刘大爷</string>
+    <string name="scan_result_author">我是大爷</string>
+    <string name="scan_result_publisher">大爷的出版社</string>
+
+    <string name="about_version">Version 1.1</string>
+
+    <string name="title_activity_scan">Scan Bar Codes</string>
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_detail">Book Detail</string>
+    <string name="title_activity_passwd">Change Password</string>
+    <string name="title_activity_about">About</string>
+
+    <string name="contact_mail_subject">A Feedback about Continue Library Android Client</string>
+    <string name="contact_mail_content"></string>
+    <string name="no_available_activity_error_hint">No Mail App Installed</string>
+
+    <string name="search_section_continue">Continue</string>
+    <string name="search_section_wishlist">Wishlist</string>
+    <string name="search_section_internet">Internet</string>
+
+</resources>
