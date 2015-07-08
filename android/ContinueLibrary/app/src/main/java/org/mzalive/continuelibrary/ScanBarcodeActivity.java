@@ -117,7 +117,7 @@ public class ScanBarcodeActivity extends AppCompatActivity implements SensorEven
         actionBar.setHomeAsUpIndicator(R.mipmap.ic_arrow_back_white_24dp);
 
         SharedPreferences sp = getSharedPreferences("UserInfo",LoginActivity.MODE_PRIVATE);
-        userId = sp.getString("userId","2");
+        userId = sp.getString("userId","-1");
 
         bcReader = new BarCodeReader();
 
@@ -137,7 +137,7 @@ public class ScanBarcodeActivity extends AppCompatActivity implements SensorEven
         timer = new Timer();
         autoFocusTask = new AutoFocusTimerTask();
         timeCountTask = new TimeCounterTask();
-        timer.schedule(timeCountTask, 0, 1000);
+        timer.schedule(timeCountTask, 0, 500);
     }
 
 
@@ -188,6 +188,7 @@ public class ScanBarcodeActivity extends AppCompatActivity implements SensorEven
     }
 
     public void createAndShowDialog(){
+        Log.e("create and show diaglog","next");
         new ShowDialog().execute();
     }
 
@@ -255,7 +256,7 @@ public class ScanBarcodeActivity extends AppCompatActivity implements SensorEven
         float deltaY = Math.abs(mLastY - y);
         float deltaZ = Math.abs(mLastZ - z);
 
-        if ((deltaX > 0.5||deltaY > 0.5||deltaZ > 0.5) && mAutoFocus){ //AUTOFOCUS (while it is not autofocusing)
+        if ((deltaX > 0.25||deltaY > 0.25||deltaZ > 0.25) && mAutoFocus){ //AUTOFOCUS (while it is not autofocusing)
             noMovementTimeCounter = 0;
             if(mAutoFocus) {
                 mAutoFocus = false;
@@ -433,24 +434,11 @@ public class ScanBarcodeActivity extends AppCompatActivity implements SensorEven
                 return 1;
             }
 
-            try {
-                String jsonStr = BookManage.getBookCount(resultBarCode);
-                JSONTokener jsonTokener = new JSONTokener(jsonStr);
-                JSONObject object = (JSONObject) jsonTokener.nextValue();
-                int errorCode = Integer.parseInt(object.getString("error_code"));
-                if (errorCode == GlobalSettings.RESULT_OK) {
-                    amountAvailable = Integer.parseInt(object.getString("amount_available"));
+                amountAvailable = BookManage.getBookCount(resultBarCode);
+                if (amountAvailable != -1)
                     availableForBorrow = amountAvailable>0;
-                }else{
+                else
                     return 1;
-                }
-            }catch (JSONException e){
-                e.printStackTrace();
-                return 1;
-            }catch(Exception e){
-                e.printStackTrace();
-                return 1;
-            }
 
             builder.setPositiveButton(btnContent,
                     statusCode==0?new DialogInterface.OnClickListener() {
@@ -519,17 +507,8 @@ public class ScanBarcodeActivity extends AppCompatActivity implements SensorEven
         protected  void onPreExecute(){}
         @Override
         protected  Integer doInBackground(Integer... params){
-            try {
-                String jsonStr = BookManage.borrowBook(resultBarCode, userId);
-                JSONTokener jsonTokener = new JSONTokener(jsonStr);
-                JSONObject object = (JSONObject) jsonTokener.nextValue();
-                int errorCode ;
-                errorCode = Integer.parseInt(object.getString("error_code"));
+                int errorCode = BookManage.borrowBook(resultBarCode, userId);
                 return errorCode;
-            }catch (JSONException e){
-                e.printStackTrace();
-                return GlobalSettings.UNKNOWN_ERROR;
-            }
         }
         @Override
         protected  void onPostExecute(Integer errorCode){
@@ -551,17 +530,8 @@ public class ScanBarcodeActivity extends AppCompatActivity implements SensorEven
         protected  void onPreExecute(){}
         @Override
         protected Integer doInBackground(Integer... params){
-            try {
-                String jsonStr = BookManage.returnBook(resultBarCode, userId);
-                JSONTokener jsonTokener = new JSONTokener(jsonStr);
-                JSONObject object = (JSONObject) jsonTokener.nextValue();
-                int errorCode;
-                errorCode = Integer.parseInt(object.getString("error_code"));
+                int errorCode = BookManage.returnBook(resultBarCode, userId);
                 return errorCode;
-            }catch (JSONException e) {
-                e.printStackTrace();
-                return GlobalSettings.UNKNOWN_ERROR;
-            }
         }
         @Override
         protected void onPostExecute(Integer errorCode){
