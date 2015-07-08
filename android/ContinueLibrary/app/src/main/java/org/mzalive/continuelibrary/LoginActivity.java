@@ -71,6 +71,7 @@ public class LoginActivity  extends AppCompatActivity {
         @Override
         protected void onPreExecute(){
             btnLogin.setClickable(false);
+            btnLogin.setText(getString(R.string.login_status));
             username = etUsername.getText().toString();
             password = MdEncode.encode(etPassword.getText().toString());
             sp = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
@@ -101,13 +102,9 @@ public class LoginActivity  extends AppCompatActivity {
                 Log.d("isLogin_write", "false");
             }
             editor.commit();
-            //test sharedPreferences files
-//            SharedPreferences t = getSharedPreferences("UserInfo", MODE_PRIVATE);
-//            SharedPreferences.Editor e = t.edit();
-//            boolean value = t.getBoolean("isLogin", false);
-//            Log.d("isLogin", String.valueOf(value));
 
             btnLogin.setClickable(true);
+            btnLogin.setText(getString(R.string.login));
             switch (errorCode){
                 case GlobalSettings.USER_NAME_PASSWORD_NULL:
                     Toast.makeText(LoginActivity.this, "用户名密码不能为空",Toast.LENGTH_SHORT).show();
@@ -149,7 +146,7 @@ public class LoginActivity  extends AppCompatActivity {
         String errorCode = "";
         String userId = "";
         if(username.equals("") || password.equals("")){
-            errorCode =  "0";
+            errorCode =  String.valueOf(GlobalSettings.USER_NAME_PASSWORD_NULL);
         }
         else{
             String loginResult = UserInfo.login(username, password);
@@ -157,12 +154,12 @@ public class LoginActivity  extends AppCompatActivity {
                 JSONTokener jsonTokener = new JSONTokener(loginResult);
                 JSONObject object = (JSONObject) jsonTokener.nextValue();
                 errorCode = object.getString("error_code");
-                if(errorCode.equals("1000")){
+                if(errorCode.equals(String.valueOf(GlobalSettings.RESULT_OK))){
                     userId = object.getString("user_id");
                 }
             }catch (JSONException e){
                 e.printStackTrace();
-                errorCode = "-1";
+                errorCode = String.valueOf(GlobalSettings.JSON_EXCEPTION_ERROR);
             }
         }
         result.add(errorCode);

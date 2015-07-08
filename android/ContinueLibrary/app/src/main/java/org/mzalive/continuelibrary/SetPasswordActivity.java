@@ -77,6 +77,7 @@ public class SetPasswordActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute(){
             btnModify.setClickable(false);
+            btnModify.setText(getString(R.string.modify_status));
             SharedPreferences sp = getSharedPreferences("UserInfo", MODE_PRIVATE);
             userId = sp.getString("userId", "");
             oldPassword = MdEncode.encode(etOldPasswordContent.getText().toString());
@@ -96,6 +97,7 @@ public class SetPasswordActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result){
             btnModify.setClickable(true);
+            btnModify.setText(getString(R.string.modify));
             int errorCode = Integer.valueOf(result);
             switch (errorCode){
                 case GlobalSettings.JSON_EXCEPTION_ERROR:
