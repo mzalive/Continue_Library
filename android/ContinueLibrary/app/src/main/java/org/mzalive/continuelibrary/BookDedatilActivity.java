@@ -1,11 +1,7 @@
 package org.mzalive.continuelibrary;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -19,7 +15,6 @@ import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -31,12 +26,8 @@ import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
 import org.mzalive.continuelibrary.Base.Book;
 import org.mzalive.continuelibrary.communication.BookManage;
-import org.mzalive.continuelibrary.communication.UserInfo;
 import org.mzalive.continuelibrary.communication.WishlistManage;
 
 /**
