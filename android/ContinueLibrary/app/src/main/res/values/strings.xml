@@ -19,7 +19,7 @@
     <string name="continue_wishlist_section">WishList</string>
     <string name="user_booklist_section">MY BookList</string>
     <string name="user_wishlist_section">MY WishList</string>
-    <string name="dummy_section_text">Section %%1d is just a dummy section.</string>
+    <string name="dummy_section_text">Section %1$d is just a dummy section.</string>
 
     <string name="image_login_logo">Image Logo</string>
     <string name="login_username">username</string>
@@ -40,10 +40,12 @@
     <string name="detail_book_content">Lack of introduction</string>
     <string name="detail_button_borrow">Rent</string>
     <string name="detail_status_in_stock_true">:) Available in Continue.</string>
-    <string name="detail_status_in_stock_false">:( </string>
-    <string name="detail_sub_status_stock">％%1d Total, %%2d Available.</string>
-    <string name="detail_sub_status_heat_wo_me">%1d person%%2s want%%3s to read this book.</string>
-    <string name="detail_sub_status_heat_w_me">You and %%1d other%%2s want to read this book.</string>
+    <string name="detail_status_in_stock_false">:( Not in stock yet.\ </string>
+    <string name="detail_status_suffix_user_want_false">Want to read?</string>
+    <string name="detail_status_suffix_user_want_true">We will buy it ASAP</string>
+    <string name="detail_sub_status_stock">%1$d Total, %2$d Available.</string>
+    <string name="detail_sub_status_heat_wo_me">%1$d person%2$s want%3$s to read this book.</string>
+    <string name="detail_sub_status_heat_w_me">You and %1$d other%2$s want to read this book.</string>
     <string name="detail_sub_status_heat_only_me">You want to read this book.</string>
     <string name="detail_sub_status_heat_none"></string>
     <string name="detail_sub_status_heat_button">Want to read</string>

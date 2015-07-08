@@ -6,6 +6,7 @@
     xmlns:expandableTextView="http://schemas.android.com/tools">
 
     <ImageView
+        android:id="@+id/button_borrow_wrapper"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_alignParentBottom="true"

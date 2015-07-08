@@ -2,6 +2,7 @@ package org.mzalive.continuelibrary;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -34,6 +35,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.mzalive.continuelibrary.Base.Book;
+import org.mzalive.continuelibrary.communication.BookManage;
 import org.mzalive.continuelibrary.communication.UserInfo;
 import org.mzalive.continuelibrary.communication.WishlistManage;
 
@@ -53,6 +55,7 @@ public class BookDedatilActivity extends AppCompatActivity {
     private TextView  tvBookInfo;
     private Button    btnWantToRead;
     private Button   btnRent;
+    private ImageView ivBtnRentWrapper;
 
     private boolean islogin;
     private String uid;
@@ -113,9 +116,11 @@ public class BookDedatilActivity extends AppCompatActivity {
 
         btnWantToRead = (Button) findViewById(R.id.button_want_to_read);
         btnRent = (Button)findViewById(R.id.button_borrow);
+        ivBtnRentWrapper = (ImageView) findViewById(R.id.button_borrow_wrapper);
 
-        btnWantToRead.setVisibility(View.INVISIBLE);
-        btnRent.setVisibility(View.INVISIBLE);
+        btnWantToRead.setVisibility(View.GONE);
+        btnRent.setVisibility(View.GONE);
+        ivBtnRentWrapper.setVisibility(View.GONE);
 
 
         /**
@@ -125,35 +130,70 @@ public class BookDedatilActivity extends AppCompatActivity {
         book_location = book.getLocation();
         switch (book_location){
             case Book.LOCATION_CONTINUE:
-                //Book is in Continue, retrieve amount_available
+                //Main Status
+                tvBookStatus.setText(getResources().getString(R.string.detail_status_in_stock_true));
 
+                //Sub Status & Rent Button
+                //Book is in Continue, retrieve amount_available
                 if (isCalledByScan) {
                     //Called by scan, amount_available should exist.
                     // -1 stands for scan-activity not retrieve that data,
                     //should retrieve manually.
                     amount_available = bundle.getInt("amount_available", -1);
+                    if (amount_available > 0) {
+                        ivBtnRentWrapper.setVisibility(View.VISIBLE);
+                        btnRent.setVisibility(View.VISIBLE);
+                        updateSubStatusInContinue();
+                    }
+                    else if (amount_available == 0) {
+                        ivBtnRentWrapper.setVisibility(View.VISIBLE);
+                        btnRent.setVisibility(View.VISIBLE);
+                        btnRent.setEnabled(false);
+                        updateSubStatusInContinue();
+                    }
+                    else
+                        new GetBookAmountAsyncTask().execute(book.getIsbn());
                 }
-                if (!isCalledByScan || amount_available == -1) {
-                    //Retrieve manually.
+                else new GetBookAmountAsyncTask().execute(book.getIsbn());
 
-                }
                 break;
 
             case Book.LOCATION_WISHLIST:
-                //Book is in Wishlist
+                Log.d("Book Status","Location: Wishlist");
+                isUserWanted = book.isWanted();
+                String mainStatus;
+                String subString = "";
+
+                mainStatus = getResources().getString(R.string.detail_status_in_stock_false);
+                int heat = book.getHeat();
+
+                if (!isUserWanted) {
+                    btnWantToRead.setVisibility(View.VISIBLE);
+                    mainStatus += getResources().getString(R.string.detail_status_suffix_user_want_false);
+                    if (heat > 1)
+                        subString = getResources().getString(R.string.detail_sub_status_heat_wo_me, heat, "s", "");
+                    else
+                        subString = getResources().getString(R.string.detail_sub_status_heat_wo_me, heat, "", "s");
+                }
+                else {
+                    mainStatus += getResources().getString(R.string.detail_status_suffix_user_want_true);
+                    if (heat > 2)
+                        subString = getResources().getString(R.string.detail_sub_status_heat_w_me, heat-1, "s");
+                    else if (heat > 1)
+                        subString = getResources().getString(R.string.detail_sub_status_heat_w_me, heat-1, "");
+                    else
+                        subString = getResources().getString(R.string.detail_sub_status_heat_only_me);
+                }
+                tvBookStatus.setText(mainStatus);
+                tvBookSubStatus.setText(subString);
 
                 break;
 
             case  Book.LOCATION_DOUBAN:
-                //Book is in Douban
 
                 break;
 
         }
-
-
-
-
 
 
 
@@ -250,28 +290,20 @@ public class BookDedatilActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    class AddHeat extends AsyncTask<String, Void, String>{
+    class AddHeat extends AsyncTask<String, Void, Integer>{
         @Override
-        protected String doInBackground(String... params) {
+        protected Integer doInBackground(String... params) {
             String userId = params[0];
             String isbn   = params[1];
             Boolean isFromDouban = Boolean.valueOf(params[2]);
-            String result;
+            Integer result;
             result = WishlistManage.addHeat(userId, isbn, isFromDouban);
             return result;
         }
 
         @Override
-        protected void onPostExecute(String result){
-            int errorCode = -1;
-            try{
-                JSONTokener jsonTokener = new JSONTokener(result);
-                JSONObject object = (JSONObject)jsonTokener.nextValue();
-                errorCode = object.getInt("error_code");
-            }catch (JSONException e){
-                e.printStackTrace();
-            }
-            switch (errorCode){
+        protected void onPostExecute(Integer result){
+            switch (result){
                 case -1:
                     Toast.makeText(BookDedatilActivity.this, "服务器遇到错误，请重试!", Toast.LENGTH_SHORT).show();
                     break;
@@ -292,7 +324,7 @@ public class BookDedatilActivity extends AppCompatActivity {
 
     }
 
-    class GetBookAmountAsyncTask extends AsyncTask<String, Integer, String>
+    class GetBookAmountAsyncTask extends AsyncTask<String, Integer, Integer>
     {
 
         @Override
@@ -303,9 +335,11 @@ public class BookDedatilActivity extends AppCompatActivity {
 
         }
         @Override
-        protected String doInBackground(String... params)
+        protected Integer doInBackground(String... params)
         {
-            return "0";
+            int result;
+            result= BookManage.getBookCount(params[0]);
+            return result;
         }
         @Override
         protected void onProgressUpdate(Integer... values)
@@ -314,11 +348,18 @@ public class BookDedatilActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(String result)
+        protected void onPostExecute(Integer result)
         {
             super.onPostExecute(result);
-
+            if (result != -1) {
+                BookDedatilActivity.this.amount_available = result;
+                BookDedatilActivity.this.updateSubStatusInContinue();
+            }
 
         }
+    }
+
+    private void updateSubStatusInContinue() {
+        tvBookSubStatus.setText(getResources().getString(R.string.detail_sub_status_stock, book.getAmountTotal(), amount_available));
     }
 }
