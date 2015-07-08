@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:expandableTextView="http://schemas.android.com/tools">
 
     <Button
         android:id="@+id/button_daye"
@@ -33,9 +34,9 @@
                     android:id="@+id/image_book_blur"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:minHeight="200dp"
                     android:layout_alignParentTop="true"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ayanami"
                     />
 
                 <ImageView
@@ -44,7 +45,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
-                    android:src="@drawable/avatar2"
                     />
             </RelativeLayout>
 
@@ -52,24 +52,22 @@
                 android:id="@+id/book_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="20dp">
+                android:padding="16dp">
                 <TextView
                     android:id="@+id/text_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/detail_book_title"
-                    android:textSize="20sp"/>
+                    android:textColor="@color/text_primary_on_light"
+                    android:textSize="24sp"/>
                 <TextView
                     android:id="@+id/text_publish_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/text_title"
-                    android:layout_marginTop="10dp"
                     android:text="@string/detail_book_publish_info"
-                    android:textSize="16sp"/>
+                    android:textColor="@color/text_secondary_on_light"
+                    android:textSize="14sp"/>
 
                 <Button
                     android:id="@+id/button_add"
@@ -86,11 +84,10 @@
                     android:layout_below="@id/text_publish_info"
                     android:layout_marginTop="70dp"
                     android:text="@string/detail_book_content_index"
-                    android:textSize="16dp"/>
+                    android:textColor="@color/text_hint_or_disabled_on_light"
+                    android:textSize="14dp"/>
 
                 <com.ms.square.android.expandabletextview.ExpandableTextView
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/expand_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -98,12 +95,13 @@
                     android:layout_marginTop="10dp"
                     expandableTextView:maxCollapsedLines="4"
                     expandableTextView:animDuration="200">
+
                     <TextView
                         android:id="@id/expandable_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:textColor="#666666" />
+                        android:textSize="14sp"
+                        android:textColor="@color/text_secondary_on_light" />
                     <ImageButton
                         android:id="@id/expand_collapse"
                         android:layout_width="wrap_content"
