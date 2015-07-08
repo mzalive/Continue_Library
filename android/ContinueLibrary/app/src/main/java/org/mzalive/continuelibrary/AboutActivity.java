@@ -1,7 +1,9 @@
 package org.mzalive.continuelibrary;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,5 +19,6 @@ public class AboutActivity extends Activity {
     public void onCreate(Bundle savedInstanceStatus){
         super.onCreate(savedInstanceStatus);
         setContentView(R.layout.activity_about);
+
     }
 }

@@ -1,21 +1,14 @@
 package org.mzalive.continuelibrary;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.ImageFormat;
-import android.graphics.Rect;
-import android.graphics.YuvImage;
 import android.hardware.Camera;
 import android.hardware.Camera.Size;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Looper;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -26,6 +19,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.hardware.SensorEvent;
@@ -33,7 +27,6 @@ import android.hardware.SensorEventListener;
 import android.content.DialogInterface;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -50,7 +43,6 @@ import com.google.zxing.PlanarYUVLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -106,13 +98,15 @@ public class ScanBarcodeActivity extends AppCompatActivity implements SensorEven
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_barcode);
 
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+
         /**
          * Set ToolBar
          */
         toolBar = (Toolbar) findViewById(R.id.toolBarScan);
         toolBar.setTitle(R.string.title_activity_scan);
         toolBar.setTitleTextColor(getResources().getColor(android.R.color.white));
-        toolBar.getBackground().setAlpha(0x80);
+        toolBar.getBackground().setAlpha(80);
         setSupportActionBar(toolBar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
@@ -140,6 +134,14 @@ public class ScanBarcodeActivity extends AppCompatActivity implements SensorEven
         autoFocusTask = new AutoFocusTimerTask();
         timeCountTask = new TimeCounterTask();
         timer.schedule(timeCountTask, 0, 1000);
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {

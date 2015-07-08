@@ -65,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
         fab.setImageAlpha(0xB3);
 
 
-
         /**
          * Initializing Fragments
          */

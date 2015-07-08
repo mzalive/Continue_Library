@@ -16,6 +16,7 @@ import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -60,9 +61,11 @@ public class BookDedatilActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         book = (Book) bundle.getSerializable("content");
 
+        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+
         toolbar = (Toolbar) findViewById(R.id.toolBarDetail);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
-        toolbar.getBackground().setAlpha(0x80);
+        toolbar.getBackground().setAlpha(80);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
@@ -155,6 +158,12 @@ public class BookDedatilActivity extends AppCompatActivity {
                     btnDaye.setVisibility(View.VISIBLE);
             }
         });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
