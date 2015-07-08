@@ -77,9 +77,7 @@ public class BookDedatilActivity extends AppCompatActivity {
         /**
          * Exam user login status
          */
-        SharedPreferences sp = getSharedPreferences("UserInfo", LoginActivity.MODE_PRIVATE);
-        isLogin = sp.getBoolean("isLogin", false);
-        uid = sp.getString("userId", "-1");
+        refreshLoginStatus();
 
         /**
          * Set Toolbar
@@ -116,6 +114,7 @@ public class BookDedatilActivity extends AppCompatActivity {
         btnWantToRead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                refreshLoginStatus();
                 if (!isLogin) {
                     callForLogin();
                     return;
@@ -127,6 +126,7 @@ public class BookDedatilActivity extends AppCompatActivity {
         btnRent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                new BorrowBookAsyncTask().execute(book.getIsbn(), uid);
 
             }
         });
@@ -453,5 +453,11 @@ public class BookDedatilActivity extends AppCompatActivity {
     private void callForLogin() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+    }
+
+    private void refreshLoginStatus() {
+        SharedPreferences sp = getSharedPreferences("UserInfo", LoginActivity.MODE_PRIVATE);
+        isLogin = sp.getBoolean("isLogin", false);
+        uid = sp.getString("userId", "-1");
     }
 }
