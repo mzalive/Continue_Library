@@ -105,11 +105,13 @@ public class BookManage {
                 String publishDate = book.getString("pubdate");
                 JSONObject status = book.getJSONObject("status");
                 boolean isInStock = status.getBoolean("is_in_stock");
+                int location = Book.LOCATION_WISHLIST;
+                if(isInStock) location = Book.LOCATION_CONTINUE;
                 int amountTotal = status.getInt("amount_total");
                 int heat = status.getInt("heat");
                 boolean isWanted = status.getBoolean("is_wanted");
 
-                Book newBook = new Book(isbn, title, subTitle, publisher, image, summary, publishDate, author, isInStock, amountTotal, heat, isWanted);
+                Book newBook = new Book(isbn, title, subTitle, publisher, image, summary, publishDate, author, location, amountTotal, heat, isWanted);
                 booksArray.add(newBook);
             }
             bookList.setBooks(booksArray);

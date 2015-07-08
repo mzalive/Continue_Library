@@ -77,11 +77,13 @@ public class Search {
                 String publishDate = book.getString("pubdate");
                 JSONObject status = book.getJSONObject("status");
                 boolean isInStock = status.getBoolean("is_in_stock");
+                int loction = Book.LOCATION_WISHLIST;
+                if(isInStock) loction = Book.LOCATION_CONTINUE;
                 int amountTotal = status.getInt("amount_total");
                 int heat = status.getInt("heat");
                 boolean isWanted = status.getBoolean("is_wanted");
 
-                Book newBook = new Book(isbn, title, subTitle, publisher, image, summary, publishDate, author, isInStock, amountTotal, heat, isWanted);
+                Book newBook = new Book(isbn, title, subTitle, publisher, image, summary, publishDate, author, loction, amountTotal, heat, isWanted);
                 bookArray.add(newBook);
             }
             searchList.setBooks(bookArray);
@@ -126,12 +128,12 @@ public class Search {
                 String imageUrl = images.getString("large");
                 String publisher = book.getString("publisher");
                 String publishDate = book.getString("pubdate");
-                boolean isInStock = false;
+                int location = Book.LOCATION_DOUBAN;
                 int amountTotal = 0;
                 int heat = 0;
                 boolean isWanted = false;
 
-                Book newBook = new Book(isbn, title, subTitle, publisher, imageUrl, summary, publishDate, author, isInStock, amountTotal, heat, isWanted);
+                Book newBook = new Book(isbn, title, subTitle, publisher, imageUrl, summary, publishDate, author, location, amountTotal, heat, isWanted);
                 bookArray.add(newBook);
             }
             netResult.setBooks(bookArray);
