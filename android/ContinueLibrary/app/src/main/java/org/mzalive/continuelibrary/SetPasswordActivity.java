@@ -1,28 +1,30 @@
 package org.mzalive.continuelibrary;
 
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Editable;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.text.TextWatcher;
 import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import org.mzalive.continuelibrary.communication.GlobalSettings;
 import org.mzalive.continuelibrary.communication.MdEncode;
 import org.mzalive.continuelibrary.communication.UserInfo;
 
 /**
  * Created by Trigger on 2015/7/6.
  */
-public class SetPasswordActivity extends Activity{
+public class SetPasswordActivity extends AppCompatActivity {
+    private Toolbar toolbarSP;
     private EditText etOldPasswordContent;
     private EditText etNewPasswordContent;
     private EditText etConfirmPasswordContent;
@@ -33,16 +35,19 @@ public class SetPasswordActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_password);
 
+        toolbarSP                = (Toolbar) findViewById(R.id.toolbar_setpw);
         etOldPasswordContent     = (EditText)findViewById(R.id.text_old_password_content);
         etNewPasswordContent     = (EditText)findViewById(R.id.text_new_password_content);
         etConfirmPasswordContent = (EditText)findViewById(R.id.text_confirm_password_content);
         btnModify                = (Button)findViewById(R.id.button_modify);
 
-//        SharedPreferences sp = getSharedPreferences("UserInfo", MODE_PRIVATE);
-//        String username = sp.getString("username", "");
-//        tvUsernameContent.setText(username);
-
-
+        toolbarSP.setTitle("");
+        setSupportActionBar(toolbarSP);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.mipmap.ic_arrow_back_white_24dp);
     }
     public void clickModify(View v){
         if(etOldPasswordContent.getText().toString().equals("")){
@@ -56,6 +61,15 @@ public class SetPasswordActivity extends Activity{
         new setPassword().execute();
     }
 
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
     class setPassword extends AsyncTask<Integer, Integer, String>{
         private String userId;
         private String oldPassword;
@@ -84,13 +98,13 @@ public class SetPasswordActivity extends Activity{
             btnModify.setClickable(true);
             int errorCode = Integer.valueOf(result);
             switch (errorCode){
-                case -1:
+                case GlobalSettings.JSON_EXCEPTION_ERROR:
                     Toast.makeText(SetPasswordActivity.this, "未知错误，请重试！",Toast.LENGTH_SHORT).show();
                     break;
-                case 1000:
+                case GlobalSettings.RESULT_OK:
                     Toast.makeText(SetPasswordActivity.this, "修改成功！",Toast.LENGTH_SHORT).show();
                     break;
-                case 2001:
+                case GlobalSettings.AUTHORIZATION_ERROR:
                     Toast.makeText(SetPasswordActivity.this, "修改失败！",Toast.LENGTH_SHORT).show();
                     break;
             }
