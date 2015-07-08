@@ -49,7 +49,7 @@ public class BaseFunctions {
                 in.close();
             }
             else{
-                result = "{\"error_code\":\"9999\"}";
+                result = "{\"error_code\":\"" + String.valueOf(GlobalSettings.NETWORK_ERROR) + "\"}";
             }
             conn.disconnect();
         } catch (MalformedURLException e) {
@@ -59,7 +59,7 @@ public class BaseFunctions {
         }catch(Exception e){
             e.printStackTrace();
         }
-        Log.d("Result_HttpResponse", result);
+        Log.d("Result_HttpPost", result);
         return result;
     }
 
@@ -91,7 +91,7 @@ public class BaseFunctions {
                 in.close();
             }
             else{
-                result = "{\"error_code\":\"9999\"}";
+                result = "{\"error_code\":\"" + String.valueOf(GlobalSettings.NETWORK_ERROR) + "\"}";
             }
             conn.disconnect();
         }catch (MalformedURLException e){
@@ -112,6 +112,7 @@ public class BaseFunctions {
         }catch (UnsupportedEncodingException e){
             e.printStackTrace();
         }
+        Log.d("encode_content_result", result);
         return result;
     }
 
@@ -124,8 +125,9 @@ public class BaseFunctions {
                 result = result +"&" + keys_name.get(i) + "=" + URLEncoder.encode(keys_value.get(i),"utf-8");
             }
         }catch (UnsupportedEncodingException e){
-            Log.d("encode params error", e.getMessage());
+            e.printStackTrace();
         }
+        Log.d("encode_params_result", result);
         return result;
     }
 }

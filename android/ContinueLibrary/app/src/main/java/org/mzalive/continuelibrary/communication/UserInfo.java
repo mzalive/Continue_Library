@@ -57,7 +57,7 @@ public class UserInfo {
         }catch (JSONException e){
             e.printStackTrace();
         }
-        if(!myBorrowList.getErrorCode().equals("1000")){
+        if(!myBorrowList.getErrorCode().equals(String.valueOf(GlobalSettings.RESULT_OK))){
             myBorrowList.setBookStart(0);
             myBorrowList.setBookCount(0);
             myBorrowList.setBookTotal(0);
@@ -134,7 +134,7 @@ public class UserInfo {
         }catch (JSONException e){
             e.printStackTrace();
         }
-        if(!myWishList.getErrorCode().equals("1000")){
+        if(!myWishList.getErrorCode().equals(String.valueOf(GlobalSettings.RESULT_OK))){
             myWishList.setBookStart(0);
             myWishList.setBookCount(0);
             myWishList.setBookTotal(0);

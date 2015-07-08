@@ -27,6 +27,8 @@ public class GlobalSettings {
     public final static int TIMEOUT = 3000;
 
     //错误返回码配置
+    public final static int USER_NAME_PASSWORD_NULL = 0;
+    public final static int JSON_EXCEPTION_ERROR = -1;
     public final static int UNKNOWN_ERROR = 999;
     public final static int RESULT_OK = 1000;
     public final static int NO_CONTENT = 2000;

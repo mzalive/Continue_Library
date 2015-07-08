@@ -19,6 +19,7 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import org.mzalive.continuelibrary.communication.GlobalSettings;
 import org.mzalive.continuelibrary.communication.MdEncode;
 import org.mzalive.continuelibrary.communication.UserInfo;
 
@@ -88,7 +89,7 @@ public class LoginActivity  extends AppCompatActivity {
             SharedPreferences.Editor editor = sp.edit();
             int errorCode = Integer.valueOf(result.get(0));
             String userId = result.get(1);
-            if(errorCode == 1000){
+            if(errorCode == GlobalSettings.RESULT_OK){
                 editor.putBoolean("isLogin", true);
                 editor.putString("userId", userId);
                 editor.putString("username", username);
@@ -108,22 +109,22 @@ public class LoginActivity  extends AppCompatActivity {
 
             btnLogin.setClickable(true);
             switch (errorCode){
-                case 0:
+                case GlobalSettings.USER_NAME_PASSWORD_NULL:
                     Toast.makeText(LoginActivity.this, "用户名密码不能为空",Toast.LENGTH_SHORT).show();
                     break;
-                case -1:
+                case GlobalSettings.JSON_EXCEPTION_ERROR:
                     Toast.makeText(LoginActivity.this, "未知错误1，请重试！",Toast.LENGTH_SHORT).show();
                     break;
-                case 999:
+                case GlobalSettings.UNKNOWN_ERROR:
                     Toast.makeText(LoginActivity.this, "未知错误2，请重试！",Toast.LENGTH_SHORT).show();
                     break;
-                case 9999:
+                case GlobalSettings.NETWORK_ERROR:
                     Toast.makeText(LoginActivity.this, "网络错误，请重试！",Toast.LENGTH_SHORT).show();
                     break;
-                case 2001:
+                case GlobalSettings.AUTHORIZATION_ERROR:
                     Toast.makeText(LoginActivity.this, "用户名或密码错误，请重试！",Toast.LENGTH_SHORT).show();
                     break;
-                case 1000:
+                case GlobalSettings.RESULT_OK:
                     Toast.makeText(LoginActivity.this, "登录成功！",Toast.LENGTH_SHORT).show();
                     LoginActivity.this.finish();
                     break;
