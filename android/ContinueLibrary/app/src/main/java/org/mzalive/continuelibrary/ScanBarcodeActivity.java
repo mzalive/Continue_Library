@@ -20,6 +20,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -31,7 +32,9 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Vector;
@@ -97,7 +100,11 @@ public class ScanBarcodeActivity extends AppCompatActivity implements SensorEven
     private String userId = "1";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_scan_barcode);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
@@ -196,6 +203,7 @@ public class ScanBarcodeActivity extends AppCompatActivity implements SensorEven
         @Override
         public void onPreviewFrame(byte[] data, Camera camera){
             Size previewSize = camera.getParameters().getPreviewSize();
+            Log.e("sf width:height",""+previewSize.width+":"+previewSize.height);
             data = rotateYUV420Degree90(data, previewSize.width, previewSize.height);
             int rotated_width = previewSize.height;
             int rotated_height = previewSize.width;
@@ -555,6 +563,8 @@ class SvCamera implements SurfaceHolder.Callback {
     private SurfaceHolder holder;
     private Camera mCamera;
     private Camera.AutoFocusCallback myAutoFocusCallback;
+    private int sfvWidth;
+    private int sfvHeight;
 
     public SvCamera(SurfaceHolder holder, Camera.AutoFocusCallback myAutoFocusCallback) {
         this.holder = holder;
@@ -563,10 +573,47 @@ class SvCamera implements SurfaceHolder.Callback {
         this.myAutoFocusCallback = myAutoFocusCallback;
     }
 
+//    public void getBestSize(){
+//        Camera.Parameters parameters = mCamera.getParameters();
+//        List<Size> supportedPreviewSizes = parameters.getSupportedPreviewSizes();
+//        int sizeCount = supportedPreviewSizes.size();
+//
+//        int bestWidth = 0;
+//        int bestHeight = 0;
+//
+//        int deltaWidth = 9999
+//        int deltaHeight = 9999;
+//
+//        for(int i = 0; i < sizeCount; i++) {
+//            Size size = supportedPreviewSizes.get(i);
+//            int sWidth = size.width;
+//            int sHeight = size.height;
+//
+//            int delta =  Math.abs(sWidth-sfvWidth);
+//            if(deltaWidth > delta){
+//                deltaWidth = delta;
+//                bestWidth = sWidth;
+//                bestHeight = sHeight;
+//            }else if(deltaWidth == delta){
+//                if((double)(sWidth-sfvWidth)/(double)(sHeight-sfvHeight)
+//                        <
+//                        (double)(bestWidth-sfvWidth)/(double)(bestHeight-sfvHeight))
+//            }
+//        }
+//    }
+
     @Override
     public void surfaceCreated(SurfaceHolder arg0) {
-        mCamera = Camera.open();//启动服务
+        try{
+            mCamera = Camera.open();//启动服务
+        }catch(Exception e){
+            mCamera.stopPreview();
+            mCamera.release();
+            mCamera = null;
+            e.printStackTrace();
+        }
         Camera.Parameters parameters = mCamera.getParameters();
+
         mCamera.setDisplayOrientation(90);
         mCamera.setParameters(parameters);
         try {
@@ -581,7 +628,10 @@ class SvCamera implements SurfaceHolder.Callback {
     @Override
     public void surfaceChanged(SurfaceHolder arg0, int format, int width, int height) {
         Camera.Parameters parameters = mCamera.getParameters();
-        parameters.setPreviewSize(width, height);//设置尺寸
+
+        Log.e("sfv width:height",width+":"+height);
+
+        parameters.setPreviewSize(height,width);//设置尺寸
         mCamera.setDisplayOrientation(90);
         mCamera.setParameters(parameters);
         mCamera.startPreview();//开始预览
