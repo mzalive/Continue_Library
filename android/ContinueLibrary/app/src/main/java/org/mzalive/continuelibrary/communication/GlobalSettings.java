@@ -24,7 +24,7 @@ public class GlobalSettings {
     public final static String ACTION_GETHASBORROWED = "getHasBorrowed";
 
     //网络超时配置
-    public final static int TIMEOUT = 3000;
+    public final static int TIMEOUT = 10000;
 
     //错误返回码配置
     public final static int USER_NAME_PASSWORD_NULL = 0;

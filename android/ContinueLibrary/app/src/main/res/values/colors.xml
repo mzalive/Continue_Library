@@ -4,10 +4,10 @@
     <color name="colorPrimary">#169E49</color>
     <color name="colorPrimaryDark">#25864A</color>
     <color name="windowBackground">#FFFFFF</color>
-    <color name="accent">#FFEA00</color>
-    <color name="accentLight">#FFFF00</color>
-    <color name="accentLighter">#FFFF8D</color>
-    <color name="accentDark">#FFD600</color>
+    <color name="accentLighter">#FFE57F</color>
+    <color name="accentLight">#FFD740</color>
+    <color name="accent">#FFC400</color>
+    <color name="accentDark">#FFAB00</color>
 
     <color name="text_primary_on_light">#DE000000</color>
     <color name="text_secondary_on_light">#8A000000</color>

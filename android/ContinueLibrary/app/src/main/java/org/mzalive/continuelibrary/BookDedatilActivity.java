@@ -81,7 +81,7 @@ public class BookDedatilActivity extends AppCompatActivity {
         tvBookContentIndex = (TextView) findViewById(R.id.text_content_index);
         btnAdd = (Button) findViewById(R.id.button_add);
         expTv1 = (ExpandableTextView)findViewById(R.id.expand_text_view);
-        btnDaye = (Button)findViewById(R.id.button_daye);
+        btnDaye = (Button)findViewById(R.id.button_borrow);
 
         //动态设置背景的大小
 //      ivBookBlur
