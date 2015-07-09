@@ -370,7 +370,7 @@ public class ScanBarcodeActivity extends AppCompatActivity implements SensorEven
                     author+=authors.get(i);
                     author+="\n";
                 }
-                author = author.substring(0,author.length()-1);
+                if(authorAmount>0) author = author.substring(0,author.length()-1);
             }
             else{
                 mAutoFocus = true;
