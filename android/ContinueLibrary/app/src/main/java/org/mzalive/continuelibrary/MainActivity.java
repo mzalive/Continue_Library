@@ -125,11 +125,11 @@ public class MainActivity extends AppCompatActivity {
                         new PrimaryDrawerItem().withName(R.string.drawer_item_continue).withIcon(FontAwesome.Icon.faw_university),
                         new PrimaryDrawerItem().withName(R.string.drawer_item_user).withIcon(FontAwesome.Icon.faw_user),
                         new DividerDrawerItem(),
-                        new SecondaryDrawerItem().withName(R.string.drawer_item_guide).withIcon(FontAwesome.Icon.faw_info_circle),
+                        new SecondaryDrawerItem().withName(R.string.drawer_item_guide).withIcon(FontAwesome.Icon.faw_flash),
                         new SecondaryDrawerItem().withName(R.string.drawer_item_about).withIcon(FontAwesome.Icon.faw_info_circle),
                         new SecondaryDrawerItem().withName(R.string.drawer_item_contact).withIcon(FontAwesome.Icon.faw_paper_plane),
                         new DividerDrawerItem(),
-                        new SecondaryDrawerItem().withName(R.string.drawer_item_passwd),
+                        new SecondaryDrawerItem().withName(R.string.drawer_item_passwd).withIcon(FontAwesome.Icon.faw_key),
                         new SecondaryDrawerItem()
                         )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
                                 break;
 
                             default:
-                                Toast.makeText(view.getContext(), "" + position, Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(view.getContext(), "" + position, Toast.LENGTH_SHORT).show();
                         }
                         correctSelection();
                         return false;
@@ -350,8 +350,9 @@ public class MainActivity extends AppCompatActivity {
 
     protected void callForLogout() {
         sp.edit().clear().commit();
+        currentDrawerItem = 0;
         updateLoginInfo();
-        naviDrawer.setSelection(0);
+        naviDrawer.setSelection(0, true);
     }
 
     protected void callForPasswd() {
@@ -364,7 +365,7 @@ public class MainActivity extends AppCompatActivity {
         boolean isLogin = sp.getBoolean("isLogin", false);
         String username = sp.getString("username","");
         String uid = sp.getString("userId", "-1");
-        String avatarUrl = "http://eleven2014.eicp.net/Continue/server/avatar/avatar (" + uid + ").jpg";
+        String avatarUrl = "http://eleven2014.eicp.net/Continue/server/avatar/avatar%20(" + uid + ").jpg";
         String backgroundUrl = "https://m2.behance.net/rendition/pm/18526001/disp/6bc3dbcbf00ce6fa41d9349020f63d4f.png";
 
         DrawerImageLoader.init(new DrawerImageLoader.IDrawerImageLoader() {
@@ -399,8 +400,8 @@ public class MainActivity extends AppCompatActivity {
                     .withName(username)
                     .withEmail(username+"@continue.com")
                     .withIcon(Uri.parse(avatarUrl)));
-            naviDrawer.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_passwd).setEnabled(true), 7);
-            naviDrawer.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_logout), 8);
+            naviDrawer.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_passwd).withIcon(FontAwesome.Icon.faw_key).setEnabled(true), 7);
+            naviDrawer.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_logout).withIcon(FontAwesome.Icon.faw_sign_out), 8);
 
         }
         else {
@@ -408,8 +409,8 @@ public class MainActivity extends AppCompatActivity {
             headerResult.addProfiles(new ProfileDrawerItem()
                     .withName(getString(R.string.username_placeholder))
                     .withIcon(getResources().getDrawable(R.drawable.profile_avatar_default)));
-            naviDrawer.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_passwd).setEnabled(false), 7);
-            naviDrawer.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_login), 8);
+            naviDrawer.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_passwd).withIcon(FontAwesome.Icon.faw_key).setEnabled(false), 7);
+            naviDrawer.updateItem(new SecondaryDrawerItem().withName(R.string.drawer_item_login).withIcon(FontAwesome.Icon.faw_sign_in), 8);
 
         }
 
