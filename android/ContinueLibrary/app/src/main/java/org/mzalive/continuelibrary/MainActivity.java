@@ -184,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
                             default:
                                 Toast.makeText(view.getContext(), "" + position, Toast.LENGTH_SHORT).show();
                         }
-                        parent.setSelection(currentDrawerItem);
+                        correctSelection();
                         return false;
                     }
                 })
@@ -351,6 +351,7 @@ public class MainActivity extends AppCompatActivity {
     protected void callForLogout() {
         sp.edit().clear().commit();
         updateLoginInfo();
+        naviDrawer.setSelection(0);
     }
 
     protected void callForPasswd() {
@@ -363,7 +364,7 @@ public class MainActivity extends AppCompatActivity {
         boolean isLogin = sp.getBoolean("isLogin", false);
         String username = sp.getString("username","");
         String uid = sp.getString("userId", "-1");
-        String avatarUrl = "https://cdn3.mindmeister.com/images/avatars/personal_avatar.png";
+        String avatarUrl = "http://eleven2014.eicp.net/Continue/server/avatar/avatar (" + uid + ").jpg";
         String backgroundUrl = "https://m2.behance.net/rendition/pm/18526001/disp/6bc3dbcbf00ce6fa41d9349020f63d4f.png";
 
         DrawerImageLoader.init(new DrawerImageLoader.IDrawerImageLoader() {
@@ -412,6 +413,10 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+    }
+
+    private void correctSelection() {
+        naviDrawer.setSelection(currentDrawerItem, false);
     }
 
 
