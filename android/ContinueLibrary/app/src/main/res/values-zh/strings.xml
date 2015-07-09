@@ -13,7 +13,7 @@
     <string name="drawer_item_contact">反馈</string>
     <string name="drawer_item_passwd">修改密码</string>
     <string name="drawer_item_login">登录</string>
-    <string name="drawer_item_logout">登出</string>
+    <string name="drawer_item_logout">退出登录</string>
 
 
     <string name="continue_booklist_section">Continue书架</string>
@@ -26,29 +26,29 @@
     <string name="login_username">用户名</string>
     <string name="login_password">密码</string>
     <string name="login">登录</string>
-    <string name="login_status">登录中</string>
+    <string name="login_status">登录中...</string>
     <string name="copyright">Copyright © Continue.</string>
 
     <string name="old_password">当前密码</string>
     <string name="new_password">新密码</string>
     <string name="confirm_password">确认密码</string>
     <string name="modify">修改</string>
-    <string name="modify_status">修改中</string>
+    <string name="modify_status">修改中...</string>
 
     <string name="detail_book_title">标题</string>
     <string name="detail_book_publish_info">作者 出版社 出版日期</string>
     <string name="detail_book_content_index">简介</string>
     <string name="detail_button_borrow">借阅</string>
-    <string name="detail_status_in_stock_true">在书架中</string>
-    <string name="detail_status_in_stock_false">不在书架中</string>
-    <string name="detail_status_suffix_user_want_false">我也想看</string>
-    <string name="detail_status_suffix_user_want_true">这本书会尽快入库的</string>
-    <string name="detail_sub_status_stock">%1$d 总数, %2$d 可借.</string>
-    <string name="detail_sub_status_heat_wo_me">☆ %1$d 人%2$s 想%3$s 看这本书.</string>
-    <string name="detail_sub_status_heat_w_me">★ 你和 %1$d 其他%2$s 也想看这本书k.</string>
-    <string name="detail_sub_status_heat_only_me">★ 你也想看.</string>
+    <string name="detail_status_in_stock_true">: ) Continue收藏了这本书.</string>
+    <string name="detail_status_in_stock_false">: ( 尚不在书架中.</string>
+    <string name="detail_status_suffix_user_want_false">想看这本书？</string>
+    <string name="detail_status_suffix_user_want_true">我们会尽快购买这本书.</string>
+    <string name="detail_sub_status_stock">共有 %1$d 本, 可借 %2$d 本.</string>
+    <string name="detail_sub_status_heat_wo_me">☆ %1$d 人想看这本书.</string>
+    <string name="detail_sub_status_heat_w_me">★ 我和另外 %1$d 人想看这本书.</string>
+    <string name="detail_sub_status_heat_only_me">★ 我想看这本书.</string>
     <string name="detail_sub_status_heat_none"></string>
-    <string name="detail_status_heat_button">想看</string>
+    <string name="detail_status_heat_button">想看这本书</string>
     <string name="detail_status_heat_button_first_time">添加到心愿单</string>
 
 
@@ -69,13 +69,14 @@
     <string name="title_activity_passwd">修改密码</string>
     <string name="title_activity_about">关于</string>
 
-    <string name="contact_mail_subject">关于Continue 图书馆Android客户端的反馈</string>
+    <string name="contact_mail_subject">关于 Continue 图书馆 Android客户端的反馈</string>
     <string name="contact_mail_content"></string>
-    <string name="no_available_activity_error_hint">手机中没有安装邮件服务</string>
+    <string name="no_available_activity_error_hint">手机中没有可用的邮件服务</string>
 
     <string name="search_section_continue">Continue</string>
     <string name="search_section_wishlist">心愿单</string>
     <string name="search_section_internet">网络</string>
     <string name="detail_book_content">缺少介绍</string>
+    <string name="username_placeholder">未登录</string>
 
 </resources>

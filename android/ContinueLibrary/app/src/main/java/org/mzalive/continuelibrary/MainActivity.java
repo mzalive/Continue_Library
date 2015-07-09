@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -43,6 +44,8 @@ import org.mzalive.continuelibrary.communication.BaseFunctions;
 import org.mzalive.continuelibrary.communication.BookManage;
 import org.mzalive.continuelibrary.communication.Search;
 import org.mzalive.continuelibrary.communication.UserInfo;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -194,12 +197,14 @@ public class MainActivity extends AppCompatActivity {
          * Inset Search Box Configuration
          */
         search = (SearchBox) findViewById(R.id.searchbox);
+        search.enableVoiceRecognition(this);
         Drawable recentIconDrawable = getResources().getDrawable(R.mipmap.ic_restore_black_24dp);
         recentIconDrawable.mutate().setAlpha(0x42);
         for(int x = 0; x < 5; x++){
             SearchResult option = new SearchResult("历史记录 " + Integer.toString(x), recentIconDrawable);
             search.addSearchable(option);
         }
+
 
         search.setLogoText((String) getResources().getText(R.string.app_name));
         //search.setDrawerLogo(getResources().getDrawable(R.mipmap.ic_launcher));
@@ -250,6 +255,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == SearchBox.VOICE_RECOGNITION_CODE && resultCode == RESULT_OK) {
+            ArrayList<String> matches = data
+                    .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            search.populateEditText(matches);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         updateLoginInfo();
@@ -280,6 +295,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void StartScanActivity(View view) {
+        if (!sp.getBoolean("isLogin", false)) {
+            callForLogin();
+            return;
+        }
         Intent intent = new Intent(this, ScanBarcodeActivity.class);
         startActivity(intent);
 
@@ -287,7 +306,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void switchFragment(Fragment fragment) {
         String LOG_TAG = "switchFragment method";
-        Log.d(LOG_TAG, "Accessed!");
+        Log.d(LOG_TAG, "Accessed!") ;
         if (mContent == null) {
             Log.d(LOG_TAG, "mContent is NULL!");
             getSupportFragmentManager().beginTransaction().add(R.id.content, fragment).commit();

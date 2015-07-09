@@ -17,22 +17,22 @@
 
     <string name="continue_booklist_section">BookList</string>
     <string name="continue_wishlist_section">WishList</string>
-    <string name="user_booklist_section">MY BookList</string>
+    <string name="user_booklist_section">MY Borrowed</string>
     <string name="user_wishlist_section">MY WishList</string>
     <string name="dummy_section_text">Section %1$d is just a dummy section.</string>
 
     <string name="image_login_logo">Image Logo</string>
-    <string name="login_username">username</string>
-    <string name="login_password">password</string>
-    <string name="login">登录</string>
-    <string name="login_status">登录中</string>
+    <string name="login_username">Username</string>
+    <string name="login_password">Password</string>
+    <string name="login">Login</string>
+    <string name="login_status">Processing...</string>
     <string name="copyright" translatable="false">Copyright © Continue.</string>
 
-    <string name="old_password">当前密码</string>
-    <string name="new_password">新密码</string>
+    <string name="old_password">Old password</string>
+    <string name="new_password">New password</string>
     <string name="confirm_password">Confirm Password</string>
-    <string name="modify">修改</string>
-    <string name="modify_status">修改中</string>
+    <string name="modify">Change</string>
+    <string name="modify_status">Processing...</string>
 
     <string name="detail_book_title">Title</string>
     <string name="detail_book_publish_info">Author  Publisher  Date</string>
@@ -40,9 +40,9 @@
     <string name="detail_book_content">Lack of introduction</string>
     <string name="detail_button_borrow">Rent</string>
     <string name="detail_status_in_stock_true">: ) Available in Continue.</string>
-    <string name="detail_status_in_stock_false">: ( Not in stock yet. </string>
+    <string name="detail_status_in_stock_false">: ( Not in stock yet.</string>
     <string name="detail_status_suffix_user_want_false">Want to read?</string>
-    <string name="detail_status_suffix_user_want_true">We will buy it ASAP</string>
+    <string name="detail_status_suffix_user_want_true">We will buy it ASAP.</string>
     <string name="detail_sub_status_stock">%1$d Total, %2$d Available.</string>
     <string name="detail_sub_status_heat_wo_me">☆ %1$d person%2$s want%3$s to read this book.</string>
     <string name="detail_sub_status_heat_w_me">★ You and %1$d other%2$s want to read this book.</string>
@@ -53,9 +53,9 @@
 
 
 
-    <string name="scan_barcode_hint">扫描中…</string>
-    <string name="scan_barcode_title">扫码</string>
-    <string name="scan_barcode_back">返回</string>
+    <string name="scan_barcode_hint">Scanning...</string>
+    <string name="scan_barcode_title">Scan bar codes</string>
+    <string name="scan_barcode_back">Back</string>
 
     <string name="scan_result_title">刘大爷</string>
     <string name="scan_result_author">我是大爷</string>

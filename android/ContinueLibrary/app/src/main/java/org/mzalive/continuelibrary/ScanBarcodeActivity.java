@@ -614,10 +614,9 @@ public class ScanBarcodeActivity extends AppCompatActivity implements SensorEven
             try{
                 mCamera = Camera.open();//启动服务
             }catch(Exception e){
-                mCamera.stopPreview();
-                mCamera.release();
                 mCamera = null;
                 e.printStackTrace();
+                return;
             }
             Camera.Parameters parameters = mCamera.getParameters();
 

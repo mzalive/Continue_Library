@@ -110,7 +110,7 @@ public class BookDedatilActivity extends AppCompatActivity {
         btnRent = (Button)findViewById(R.id.button_borrow);
         ivBtnRentWrapper = (ImageView) findViewById(R.id.button_borrow_wrapper);
 
-        btnWantToRead.setVisibility(View.GONE);
+        btnWantToRead.setVisibility(View.INVISIBLE);
         btnWantToRead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -179,6 +179,7 @@ public class BookDedatilActivity extends AppCompatActivity {
             case  Book.LOCATION_DOUBAN:
                 String mainStatus;
                 String subString = "";
+                tvBookSubStatus.setVisibility(View.GONE);
                 btnWantToRead.setText(getString(R.string.detail_status_heat_button_first_time));
                 btnWantToRead.setVisibility(View.VISIBLE);
 
@@ -303,7 +304,7 @@ public class BookDedatilActivity extends AppCompatActivity {
             switch (result){
                 case 1000:
                     Toast.makeText(BookDedatilActivity.this, "添加成功！", Toast.LENGTH_SHORT).show();
-                    btnWantToRead.setVisibility(View.GONE);
+                    btnWantToRead.setVisibility(View.INVISIBLE);
                     isUserWanted = true;
                     heat++;
                     updateSubStatusInWishlist();
@@ -318,7 +319,7 @@ public class BookDedatilActivity extends AppCompatActivity {
                     break;
                 case 5001:
                     Toast.makeText(BookDedatilActivity.this, "您已经添加过了!", Toast.LENGTH_SHORT).show();
-                    btnWantToRead.setVisibility(View.GONE);
+                    btnWantToRead.setVisibility(View.INVISIBLE);
                     isUserWanted = true;
                     heat++;
                     updateSubStatusInWishlist();
@@ -448,6 +449,7 @@ public class BookDedatilActivity extends AppCompatActivity {
         }
         tvBookStatus.setText(mainStatus);
         tvBookSubStatus.setText(subString);
+        tvBookSubStatus.setVisibility(View.VISIBLE);
     }
 
     private void callForLogin() {
