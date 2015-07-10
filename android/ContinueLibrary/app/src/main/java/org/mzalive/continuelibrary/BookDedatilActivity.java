@@ -138,6 +138,8 @@ public class BookDedatilActivity extends AppCompatActivity {
          */
         //Location
         book_location = book.getLocation();
+        isUserWanted = book.isWanted();
+        heat = book.getHeat();
 
 
         switch (book_location){
@@ -304,7 +306,7 @@ public class BookDedatilActivity extends AppCompatActivity {
             switch (result){
                 case 1000:
                     Toast.makeText(BookDedatilActivity.this, "添加成功！", Toast.LENGTH_SHORT).show();
-                    btnWantToRead.setVisibility(View.INVISIBLE);
+//                    btnWantToRead.setVisibility(View.INVISIBLE);
                     isUserWanted = true;
                     heat++;
                     updateSubStatusInWishlist();
@@ -319,7 +321,7 @@ public class BookDedatilActivity extends AppCompatActivity {
                     break;
                 case 5001:
                     Toast.makeText(BookDedatilActivity.this, "您已经添加过了!", Toast.LENGTH_SHORT).show();
-                    btnWantToRead.setVisibility(View.INVISIBLE);
+//                    btnWantToRead.setVisibility(View.INVISIBLE);
                     isUserWanted = true;
                     heat++;
                     updateSubStatusInWishlist();
@@ -360,7 +362,7 @@ public class BookDedatilActivity extends AppCompatActivity {
             switch (result){
                 case GlobalSettings.RESULT_OK:
                     Toast.makeText(BookDedatilActivity.this, "借阅成功！", Toast.LENGTH_SHORT).show();
-                    btnRent.setVisibility(View.GONE);
+                    btnRent.setEnabled(false);
                     amount_available--;
                     updateSubStatusInContinue();
                     break;
@@ -374,7 +376,7 @@ public class BookDedatilActivity extends AppCompatActivity {
                     break;
                 case GlobalSettings.BOOK_ALL_BORROWED:
                     Toast.makeText(BookDedatilActivity.this, "您已经借过了!", Toast.LENGTH_SHORT).show();
-                    btnRent.setVisibility(View.GONE);
+                    btnRent.setEnabled(false);
                     amount_available--;
                     updateSubStatusInContinue();
                     break;
@@ -424,10 +426,10 @@ public class BookDedatilActivity extends AppCompatActivity {
     private void updateSubStatusInWishlist() {
         String mainStatus;
         String subString = "";
-        isUserWanted = book.isWanted();
+//        isUserWanted = book.isWanted();
 
         mainStatus = getResources().getString(R.string.detail_status_in_stock_false) + " ";
-        heat = book.getHeat();
+        //heat = book.getHeat();
 
         if (!isUserWanted) {
             btnWantToRead.setText(getString(R.string.detail_status_heat_button));

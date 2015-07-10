@@ -5,8 +5,9 @@ package org.mzalive.continuelibrary.communication;
  */
 public class GlobalSettings {
     //请求地址配置
-    public final static String REQUEST_URL = "http://eleven2014.eicp.net/Continue/server/index.php";
-//    public final static String REQUEST_URL = "http://continuelibrary.mzalive.org/server/index.php";
+//    public final static String REQUEST_URL = "http://eleven2014.eicp.net/Continue/server/index.php";
+//    public final static String REQUEST_URL = "http://192.168.137.1/Continue/server/index.php";
+    public final static String REQUEST_URL = "http://continuelibrary.mzalive.org/server/index.php";
     public final static String REQUEST_GET_URL = "http://api.douban.com/v2/book/search";
 
     //数据库访问接口配置
