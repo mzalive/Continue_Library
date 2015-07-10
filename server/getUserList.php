@@ -33,7 +33,7 @@ function foo(){
 			'user_id' => ($result -> user_Id),
 			'username' => ($result -> user_Name),
 			'password' => ($result -> user_Password),
-			'avatar' => ($result -> user_Avatar)
+			'avatar' => ($result -> user_Avator)
 			);
 		array_push($users, $user);
 	}

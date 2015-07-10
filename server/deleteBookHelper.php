@@ -16,15 +16,15 @@ function foo($target){
 
 	$sql = "select ".$target."_Id from ".$target." where ".$target."_isbn = '$book_isbn'";
 	$query = mysql_query($sql);
-
-	if(!$query)
+	
+	if(!$query || !mysql_num_rows($query))
 		return die_with_message($lock,DATABASE_OPERATION_ERROR);
 
 	$book_Id = -1;
 	if($is_book)
 		$book_id = mysql_fetch_object($query) -> book_Id;
 	else
-		$book_id = mysql_fetch_object($queyr) -> wish_Id;
+		$book_id = mysql_fetch_object($query) -> wish_Id;
 
 	$sql_delete_author = "delete from ".$target."_author where ".$target."_id = '$book_id'";
 	$query_delete_author = mysql_query($sql_delete_author);
@@ -54,15 +54,11 @@ function foo($target){
 		if(!$query_delete_amount)
 			return die_with_message($lock,DATABASE_OPERATION_ERROR);
 	}else{
-		$sql_delete_heat = "delete from heat where wish_id = '$book_id'";
-		$query_delete_heat = mysql_query($sql_delete_heat);
-		if(!$query_delete_heat)
-			return die_with_message($lock,DATABASE_OPERATION_ERROR);
 
 		$sql_delete_user_wish = "delete from user_wishlist where wish_id = '$book_id'";
 		$query_delete_user_wish = mysql_query($sql_delete_user_wish);
 		if(!$query_delete_user_wish)
-			return die_with_message($lock,DATABASE_OPERATION_ERROR);			
+			return die_with_message($lock,DATABASE_OPERATION_ERROR);	
 	}
 
 	$sql_delete_book = "delete from ".$target." where ".$target."_id = '$book_id'";

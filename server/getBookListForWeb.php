@@ -10,7 +10,7 @@ if(!is_null($_POST["start"]) && !is_null($_POST["count"])){
 		foreach ($books as &$book) {
 			$book_amount_available = foo($book);
 			if($book_amount_available)
-				$book['status']['book_amount_available'] = $book_amount_available;
+				$book['status']['amount_available'] = $book_amount_available;
 			else{
 				$output['error_code'] = DATABASE_OPERATION_ERROR;
 				break;
@@ -51,7 +51,7 @@ function get_book_list(){
 
         $context = stream_context_create($opts);
         
-		$url = "http://continuelibrary.mzalive.org/server/index.php";
+		$url = "http://eleven2014.eicp.net/Continue/server/index.php";
 		return file_get_contents($url,false,$context);
 }
 ?>
