@@ -24,14 +24,14 @@ function add_to_book($target){
 	
 	$book = json_decode($info);
 
-	$book_title = $book -> title;
-	$book_subtitle = $book -> subtitle;
+	$book_title = addslashes($book -> title);
+	$book_subtitle = addslashes($book -> subtitle);
 	$book_isbn = $book -> isbn13;
-	$book_publisher = $book -> publisher;
+	$book_publisher = addslashes($book -> publisher);
 	$book_publishdate = $book -> pubdate;
 	$book_images = ($book -> images);
 	$book_imageurl = $book_images -> large;
-	$book_summary = $book -> summary;
+	$book_summary = addslashes($book -> summary);
 
 	$book_tags = $book -> tags;
 
@@ -83,10 +83,15 @@ function add_to_book($target){
 
 
 	foreach ($book_tags as $tag) {
-		$tag_name = $tag -> name;
+		$tag_name = addslashes($tag -> name);
 		$sql_does_tag_exists = "select tag_id from tag_index where tag_content = '$tag_name'";
+		// echo $sql_does_tag_exists;
 		$query_does_tag_exists = mysql_query($sql_does_tag_exists);
 		$tag_id = -1;
+		// var_dump($sql_does_tag_exists);
+		if(!$query_does_tag_exists){
+			return die_with_message($lock,DATABASE_OPERATION_ERROR);
+		}
 		if(!mysql_num_rows($query_does_tag_exists)){
 			$sql_tag = "insert into tag_index(tag_Content) values('$tag_name')";
 			$query_tag = mysql_query($sql_tag);
@@ -104,6 +109,7 @@ function add_to_book($target){
 	}
 
 	foreach ($book_author as $author) {
+		$author = addslashes($author);
 		$sql_author = "insert into ".$target."_author(".$target."_id,author) values('$book_id','$author')";
 		$query_author = mysql_query($sql_author);
 		if(!$query_author)

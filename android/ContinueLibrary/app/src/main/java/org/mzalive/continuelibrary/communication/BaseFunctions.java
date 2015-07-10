@@ -19,6 +19,11 @@ import java.util.ArrayList;
 
 public class BaseFunctions {
     public static String httpConnection(ArrayList<String> keys_name, ArrayList<String> keys_value, String action){
+        try{
+            Thread.sleep(GlobalSettings.SLEEP_TIME);
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
         String      result = "";
         String value_pairs = BaseFunctions.encode_params(keys_name, keys_value, action);
         Log.d("params", value_pairs);

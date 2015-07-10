@@ -55,6 +55,11 @@ function foo()
 	if(!$query_add_to_stock)
 		return die_with_message($lock,DATABASE_OPERATION_ERROR);
 
+	$sql_add_to_user_borrowlist = "insert into user_borrowlist(user_id,book_id) values('$user_id','$book_id')";
+	$query_add_to_user_borrowlist = mysql_query($sql_add_to_user_borrowlist);
+	if(!$query_add_to_user_borrowlist)
+		return die_with_message($lock,DATABASE_OPERATION_ERROR);		
+
 	//need to add functions to check the value of 'count' here?
 	mysql_query("COMMIT");
 

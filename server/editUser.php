@@ -14,7 +14,7 @@ function foo(){
 	$password = $_POST['password'];
 	$avatar = is_null($_POST['avatar'])?null:$_POST['avatar'];
 
-	$sql = "update user set user_Name='$username', user_Password='$password', user_Avatar='$avatar' where user_id = '$user_id'";
+	$sql = "update user set user_Name='$username', user_Password='$password', user_Avator='$avatar' where user_id = '$user_id'";
 	$query = mysql_query($sql);
 	if(!$query)
 		return DATABASE_OPERATION_ERROR;

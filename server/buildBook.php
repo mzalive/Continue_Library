@@ -13,6 +13,8 @@ function build_book($result_book)
 
 	$sql_author = "select author from book_author where book_Id = '$book_id'";
 	$query_author = mysql_query($sql_author);
+	if(!$query_author)
+		return null;
 	$author = array();
 	while($result_author = mysql_fetch_object($query_author)){
 		array_push($author, $result_author -> author);
@@ -52,6 +54,8 @@ function build_wish($result_wish){
 
 	$sql_author = "select author from wish_author where wish_Id = '$wish_id'";
 	$query_author = mysql_query($sql_author);
+	if(!$query_author)
+		return null;
 	$author = array();
 
 	$sql_want = "select uwish_Id from user_wishlist where user_Id = '$user_id' and wish_Id = '$wish_id'";
