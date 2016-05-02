@@ -96,17 +96,17 @@ public class Search {
     public static BookList searchNet(String q, int start, int count){
         BookList netResult = new BookList();
         ArrayList<Book> bookArray = new ArrayList<>();
-//        ArrayList<String> keys_name = new ArrayList<>();
-//        ArrayList<String> keys_value = new ArrayList<>();
-//        keys_name.add("q");
-//        keys_name.add("start");
-//        keys_name.add("count");
-//        keys_value.add(q);
-//        keys_value.add(Integer.toString(start));
-//        keys_value.add(Integer.toString(count));
-//        String result = BaseFunctions.httpUrlConnectionGet(GlobalSettings.REQUEST_GET_URL, keys_name, keys_value);
+        ArrayList<String> keys_name = new ArrayList<>();
+        ArrayList<String> keys_value = new ArrayList<>();
+        keys_name.add("q");
+        keys_name.add("start");
+        keys_name.add("count");
+        keys_value.add(q);
+        keys_value.add(Integer.toString(start));
+        keys_value.add(Integer.toString(count));
+        String result = BaseFunctions.httpUrlConnectionGet(GlobalSettings.REQUEST_GET_URL, keys_name, keys_value);
 
-        String result = GlobalSettings.FADE_JSON;
+//        String result = GlobalSettings.FADE_JSON;
 
         try{
             JSONTokener jsonTokener = new JSONTokener(result);

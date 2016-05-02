@@ -25,7 +25,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -34,7 +33,6 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Timer;
@@ -637,7 +635,12 @@ public class ScanBarcodeActivity extends AppCompatActivity implements SensorEven
 
             Log.e("sfv width:height",width+":"+height);
 
-            parameters.setPreviewSize(height,width);//设置尺寸
+//            parameters.setPreviewSize(height,width);//设置尺寸
+
+            List<Size> sizes = parameters.getSupportedPreviewSizes();
+            Camera.Size cs = sizes.get(0);
+            parameters.setPreviewSize(cs.width, cs.height);
+
             mCamera.setDisplayOrientation(90);
             mCamera.setParameters(parameters);
             mCamera.startPreview();//开始预览
